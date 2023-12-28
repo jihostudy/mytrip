@@ -1,7 +1,10 @@
-import "./App.css";
+// import classes from "./App.module.css";
+// styles
 
-function App() {
-  return;
+// Components
+import LoginPage from "./components/LoginPage";
+const App = () => {
+  return <LoginPage />;
 }
 
 export default App;
