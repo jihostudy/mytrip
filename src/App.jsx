@@ -2,9 +2,9 @@
 // styles
 
 // Components
-import LoginPage from "./components/LoginPage";
+import LoginPage from "./pages/LoginPage";
 const App = () => {
   return <LoginPage />;
-}
+};
 
 export default App;
