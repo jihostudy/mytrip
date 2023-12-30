@@ -33,14 +33,20 @@ const LoginPage = () => {
     }
   };
   return (
-    <div className="flex justify-center items-center w-full h-screen">
+    <div className="flex h-screen w-full items-center justify-center">
       <form className="flex flex-col" onSubmit={(e) => LoginHandler(e)}>
         <label>ID</label>
-        <input type="text" ref={idRef} />
-        <labe className="text-lime-300">Password</labe>
-        <input type="password" id={passwordRef} />
+        <input
+          type="text"
+          ref={idRef}
+          className=" border-2 border-black bg-orange-300"
+        />
+        <labe>Password</labe>
+        <input type="password" id={passwordRef} className="bg-orange-300" />
         <br />
-        <button type="submit">Login</button>
+        <button type="submit" className="border-2 border-red-800">
+          Login
+        </button>
       </form>
     </div>
   );
