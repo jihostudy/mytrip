@@ -1,4 +1,5 @@
 import React from "react";
+import { Reset } from "styled-reset";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // Components
@@ -17,7 +18,12 @@ const router = createBrowserRouter([
   },
 ]);
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <Reset />
+      <RouterProvider router={router} />;
+    </>
+  );
 };
 
 export default App;
