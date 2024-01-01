@@ -33,7 +33,7 @@ const LoginPage = () => {
     }
   };
   return (
-    <div className="flex h-screen w-full items-center justify-center">
+    <div className="flex h-dvh w-full items-center justify-center">
       <form className="flex flex-col" onSubmit={(e) => LoginHandler(e)}>
         <label>ID</label>
         <input

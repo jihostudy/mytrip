@@ -21,7 +21,7 @@ const App = () => {
   return (
     <>
       <Reset />
-      <RouterProvider router={router} />;
+      <RouterProvider router={router} />
     </>
   );
 };

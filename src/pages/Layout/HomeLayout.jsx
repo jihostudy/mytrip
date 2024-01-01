@@ -6,7 +6,6 @@ const HomeLayout = () => {
   return (
     <>
       <Header />
-
       <Outlet />
     </>
   );
