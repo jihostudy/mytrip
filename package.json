@@ -13,6 +13,7 @@
     "dotenv": "^16.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-kakao-maps-sdk": "^1.1.24",
     "react-router-dom": "^6.21.1",
     "styled-components": "^6.1.6",
     "styled-reset": "^4.5.1"
