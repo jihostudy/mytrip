@@ -9,10 +9,7 @@ const Header = () => {
           <img src="" alt="Home" className="m-3" />
         </Link>
         <ul className="flex justify-center">
-          <Link to="?" className="m-3">
-            여행지{" "}
-          </Link>
-          <Link to="?" className="m-3">
+          <Link to="/planning" className="m-3">
             여행만들기{" "}
           </Link>
           <Link to="?" className="m-3">
