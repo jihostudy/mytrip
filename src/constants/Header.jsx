@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <header className="flex justify-between">
+    <header className="fixed flex w-full justify-between border-b border-solid">
       <div className="flex">
         <Link to="/">
           <img src="" alt="Home" className="m-3" />
