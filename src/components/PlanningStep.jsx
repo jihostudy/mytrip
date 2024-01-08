@@ -3,7 +3,7 @@ export default function PlanningStep({ onStep }) {
 
   return (
     <>
-      <ul className="flex h-screen w-20 flex-col justify-center gap-6">
+      <ul className="mr-4 flex h-screen w-20 flex-col justify-center gap-6">
         <li className={classes}>
           <button onClick={() => onStep(1)}>
             Step1

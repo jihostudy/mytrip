@@ -26,7 +26,7 @@ const PlanningPage = () => {
 
   console.log(step);
   return (
-    <main className="flex gap-4">
+    <main className="flex">
       <PlanningStep onStep={setStepHandler} />
       {stepBox}
     </main>
