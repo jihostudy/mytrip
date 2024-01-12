@@ -1,4 +1,6 @@
 import React, { useRef } from "react";
+// axios
+import { API } from "../lib/API";
 
 const LoginPage = () => {
   const idRef = useRef(null);
@@ -6,30 +8,22 @@ const LoginPage = () => {
 
   const LoginHandler = async (event) => {
     event.preventDefault();
-    // console.log(idRef.current.value);
     const userInput = {
       id: idRef.current.value,
       password: passwordRef.current.value,
     };
     try {
-      const response = await fetch("/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userInput), // JS 객체를 JSON 문자열로 변환
+      const response = await API.post("/auth/login", {
+        data: userInput,
       });
-      // res받고
-      if (response.ok) {
-        const result = await response.json();
 
-        localStorage.setItem("token", result.token);
-        console.log("Login Success!");
-      } else {
-        throw new Error("Login Failed");
-      }
+      const result = response.data;
+      console.log(result);
     } catch (error) {
-      alert(error.message);
+      // status에 따른 Error Handling
+      const statusCode = error.response.status; // 400
+      const statusText = error.response.statusText; // Bad Request
+      console.log(`${statusCode} - ${statusText} - ${message}`);
     }
   };
   return (
@@ -41,7 +35,7 @@ const LoginPage = () => {
           ref={idRef}
           className=" border-2 border-black bg-orange-300"
         />
-        <labe>Password</labe>
+        <label>Password</label>
         <input type="password" id={passwordRef} className="bg-orange-300" />
         <br />
         <button type="submit" className="border-2 border-red-800">
