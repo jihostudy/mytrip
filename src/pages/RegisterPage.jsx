@@ -52,9 +52,10 @@ const RegisterPage = () => {
       });
       console.log(res);
       // access token 저장
-      localStorage.setItem("accessToken", res.headers["Authorization"]);
+      localStorage.setItem("accessToken", res.headers.get("Authorization"));
       // refresh token 저장
-      cookie.set("refreshToken", res.cookies["refreshToken"], {
+      // console.log(res.cookies.get("refreshToken"));
+      cookie.set("refreshToken", res.cookies.get("refreshToken"), {
         path: "/",
         secure: true,
         sameSite: "none",
