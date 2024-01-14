@@ -2,7 +2,7 @@ import axios from "axios";
 // cookies
 import { Cookies } from "react-cookie";
 export const API = axios.create({
-  baseURL: import.meta.env.VITE_URL,
+  baseURL: import.meta.env.VITE_BASE_URL,
   headers: {
     // access_token 자리
     Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

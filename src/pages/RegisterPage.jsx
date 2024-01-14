@@ -3,12 +3,16 @@ import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 // axios
 import { API } from "../lib/API";
+// cookies
+import { Cookies } from "react-cookie";
 
 const RegisterPage = () => {
   const userNameRef = useRef(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
+
+  const cookie = new Cookies();
 
   const navigate = useNavigate();
 
@@ -41,12 +45,20 @@ const RegisterPage = () => {
 
     // 서버로 전송 + 에러 핸들링
     try {
-      const { data } = await API.post("/auth/signup", {
+      const res = await API.post("/auth/signup", {
         username,
         email,
         password,
       });
-      console.log(data);
+      console.log(res);
+      // access token 저장
+      localStorage.setItem("accessToken", res.headers["Authorization"]);
+      // refresh token 저장
+      cookie.set("refreshToken", res.cookies["refreshToken"], {
+        path: "/",
+        secure: true,
+        sameSite: "none",
+      });
 
       // 성공 시 메인창으로 리다이렉트
       navigate("/");

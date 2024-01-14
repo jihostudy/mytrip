@@ -25,9 +25,9 @@ const LoginPage = () => {
 
       console.log(res);
       // access token 저장
-      localStorage.setItem("accessToken", res.headers.get("Authoriztion"));
+      localStorage.setItem("accessToken", res.headers.get("Authorization"));
       // refresh token 저장
-      cookie.set("refreshToken", res.cookie.get("refreshToken"), {
+      cookie.set("refreshToken", res.cookies.get("refreshToken"), {
         path: "/",
         secure: true,
         sameSite: "none",
