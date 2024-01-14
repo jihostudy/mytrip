@@ -7,6 +7,7 @@ export const API = axios.create({
     // access_token 자리
     Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
   },
+  withCredentials: true,
 });
 
 //refresh token 재발급 api
