@@ -8,6 +8,8 @@ import HomeLayout from "./pages/Layout/HomeLayout";
 import LoginPage from "./pages/LoginPage";
 import ErrorPage from "./pages/ErrorPage";
 import PlanningPage from "./pages/PlanningPage";
+import RegisterPage from "./pages/RegisterPage";
+
 // Router
 const router = createBrowserRouter([
   {
@@ -17,6 +19,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       { path: "login", element: <LoginPage /> },
+      { path: "register", element: <RegisterPage /> },
       { path: "planning", element: <PlanningPage /> },
     ],
   },
