@@ -18,10 +18,10 @@ const Header = () => {
         </ul>
       </div>
       <div className="m-3">
-        <Link to="/login" className="m-3">
+        <Link to="/auth/login" className="m-3">
           로그인
         </Link>
-        <Link to="/register" className="m-3">
+        <Link to="/auth/signup" className="m-3">
           회원가입
         </Link>
       </div>
