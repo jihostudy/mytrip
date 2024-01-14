@@ -1,7 +1,8 @@
 import React, { useRef } from "react";
+// router
 import { useNavigate } from "react-router-dom";
-
-import axios from "axios";
+// axios
+import { API } from "../lib/API";
 
 const RegisterPage = () => {
   const userNameRef = useRef(null);
@@ -11,11 +12,11 @@ const RegisterPage = () => {
 
   const navigate = useNavigate();
 
+  // styles
   const inputClasses = "border-2 border-black bg-orange-300 ";
   const buttonClasses = " rounded bg-orange-200 text-sm";
 
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
-
+  // 회원가입
   const registerHandler = async (event) => {
     event.preventDefault();
 
@@ -40,15 +41,15 @@ const RegisterPage = () => {
 
     // 서버로 전송 + 에러 핸들링
     try {
-      const { data } = await axios.post(`${BASE_URL}+/auth/signup`, {
+      const { data } = await API.post("/auth/signup", {
         username,
         email,
         password,
       });
       console.log(data);
 
-      // 성공 시 로그인 창으로 리다이렉트
-      navigate("/login");
+      // 성공 시 메인창으로 리다이렉트
+      navigate("/");
     } catch (error) {
       console.log(error);
       alert("다시 시도해주세요");
@@ -65,7 +66,7 @@ const RegisterPage = () => {
     }
 
     try {
-      const { isSame } = axios.post(BASE_URL + postUrl, registerInput);
+      const { isSame } = API.post(postUrl, registerInput);
       console.log(isSame);
     } catch (error) {
       console.log(error);

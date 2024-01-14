@@ -18,8 +18,14 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: "login", element: <LoginPage /> },
-      { path: "register", element: <RegisterPage /> },
+      // auth(로그인) 관련
+      {
+        path: "auth",
+        children: [
+          { path: "login", element: <LoginPage /> },
+          { path: "signup", element: <RegisterPage /> },
+        ],
+      },
       { path: "planning", element: <PlanningPage /> },
     ],
   },
