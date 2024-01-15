@@ -16,12 +16,12 @@ const HomeLayout = () => {
 
 export default HomeLayout;
 
-export const loader = async () => {
-  const [cookies, setCookie, removeCookie] = useCookies();
-  const accessToken = localStorage.getItem("accessToken");
+// export const loader = async () => {
+//   const [cookies, setCookie, removeCookie] = useCookies();
+//   const accessToken = localStorage.getItem("accessToken");
 
-  console.log(cookies);
-  console.log("accessToken: " + accessToken);
-  // console.log("refreshToken: " + refreshToken);
-  // const res = await API.
-};
+//   console.log(cookies);
+//   console.log("accessToken: " + accessToken);
+//   // console.log("refreshToken: " + refreshToken);
+//   // const res = await API.
+// };

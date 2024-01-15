@@ -4,9 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // Components
 import HomePage from "./pages/HomePage";
-import HomeLayout, {
-  loader as userDetailLoader,
-} from "./pages/Layout/HomeLayout";
+import HomeLayout from "./pages/Layout/HomeLayout";
 import LoginPage from "./pages/LoginPage";
 import ErrorPage from "./pages/ErrorPage";
 import PlanningPage from "./pages/PlanningPage";
@@ -18,7 +16,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <HomeLayout />,
     errorElement: <ErrorPage />,
-    loader: userDetailLoader,
+    // loader: userDetailLoader,
     children: [
       { index: true, element: <HomePage /> },
       // auth(로그인) 관련
