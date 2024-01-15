@@ -55,11 +55,11 @@ const RegisterPage = () => {
       localStorage.setItem("accessToken", res.headers.get("Authorization"));
       // refresh token 저장
       // console.log(res.cookies.get("refreshToken"));
-      cookie.set("refreshToken", res.cookies.get("refreshToken"), {
-        path: "/",
-        secure: true,
-        sameSite: "none",
-      });
+      // cookie.set("refreshToken", res.cookies.get("refreshToken"), {
+      //   path: "/",
+      //   secure: true,
+      //   sameSite: "none",
+      // });
 
       // 성공 시 메인창으로 리다이렉트
       navigate("/");

@@ -21,17 +21,17 @@ const LoginPage = () => {
     };
 
     try {
-      const res = await API.post("/auth/signup", userInput);
+      const res = await API.post("/auth/login", userInput);
 
       console.log(res);
       // access token 저장
       localStorage.setItem("accessToken", res.headers.get("Authorization"));
       // refresh token 저장
-      cookie.set("refreshToken", res.cookies.get("refreshToken"), {
-        path: "/",
-        secure: true,
-        sameSite: "none",
-      });
+      // cookie.set("refreshToken", res.cookies.get("refreshToken"), {
+      //   path: "/",
+      //   secure: true,
+      //   sameSite: "none",
+      // });
 
       // 성공 시 메인 창으로 리다이렉트
       navigate("/");
