@@ -5,6 +5,7 @@ export const API = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
   headers: {
     // access_token 자리
+    // Authorization: localStorage.getItem("accessToken"),
     Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
   },
   withCredentials: true,
@@ -19,6 +20,7 @@ export async function postRefreshToken() {
   return response;
 }
 
+/*
 //토큰을 함께보내는 API에 interceptor를 적용합니다
 API.interceptors.response.use(
   // 200번대 응답이 올때 처리
@@ -60,3 +62,4 @@ API.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+ */

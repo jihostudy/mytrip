@@ -4,14 +4,12 @@ import { useNavigate } from "react-router-dom";
 // axios
 import { API } from "../lib/API";
 // cookies
-import { Cookies } from "react-cookie";
+// import { useCookies } from "react-cookie";
 
 const LoginPage = () => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const navigate = useNavigate();
-
-  const cookie = new Cookies();
 
   const loginHandler = async (event) => {
     event.preventDefault();
@@ -27,7 +25,8 @@ const LoginPage = () => {
       // access token 저장
       localStorage.setItem("accessToken", res.headers.get("Authorization"));
       // refresh token 저장
-      // cookie.set("refreshToken", res.cookies.get("refreshToken"), {
+
+      // setCookie("refreshToken", res.cookies.get("refreshToken"), {
       //   path: "/",
       //   secure: true,
       //   sameSite: "none",

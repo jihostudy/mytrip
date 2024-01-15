@@ -4,10 +4,10 @@ import Header from "../components/Header";
 
 const ErrorPage = () => {
   const error = useRouteError();
+
+  console.log(error);
   let message = "Routing Error Occured!";
-  if (error.status === 500) {
-    message = error.data.message;
-  }
+
   return (
     <>
       <Header />
