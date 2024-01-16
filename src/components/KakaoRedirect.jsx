@@ -5,9 +5,10 @@ const KakaoRedirect = () => {
   useEffect(() => {
     // 인가코드 추출
     let authCode = new URL(window.location.href).searchParams.get("code");
+    /*
     const sendAuthCode = async () => {
       try {
-        const res = await API.get({
+        const res = await API.POST({
           params: {
             code: authCode,
           },
@@ -18,6 +19,7 @@ const KakaoRedirect = () => {
       }
     };
     sendAuthCode();
+     */
   }, []);
   return <div>카카오 리다이렉트 페이지</div>;
 };
