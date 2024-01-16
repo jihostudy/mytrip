@@ -20,6 +20,7 @@ const TokenRender = () => {
           isLogin: true,
           username: res.data.username,
         }));
+        console.log("로그인 성공");
         if (currentURL.pathname === "/") {
           navigate("/home");
         }
@@ -45,6 +46,7 @@ const TokenRender = () => {
                 isLogin: false,
                 username: null,
               }));
+              navigate("/home");
             }
             break;
 
@@ -62,7 +64,7 @@ const TokenRender = () => {
     };
     // 재로그인
     const refreshAgain = refresher();
-    if (refreshAgain) {
+    if (refreshAgain === 0) {
       refresher();
     }
   }, []);

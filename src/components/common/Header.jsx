@@ -1,7 +1,40 @@
 import React from "react";
+// router
 import { Link } from "react-router-dom";
+// recoil
+import { user } from "../../lib/constants/userInfo";
+import { useRecoilState } from "recoil";
 
 const Header = () => {
+  const [userInfo, setUserInfo] = useRecoilState(user);
+
+  const logoutHandler = () => {
+    console.log("clicked logout");
+    localStorage.removeItem("accessToken");
+    setUserInfo(() => ({
+      isLogin: false,
+      username: null,
+      email: null,
+    }));
+  };
+  const navBar = !userInfo.isLogin ? (
+    <>
+      <Link to="/home/auth/login" className="m-3">
+        로그인
+      </Link>
+      <Link to="/home/auth/signup" className="m-3">
+        회원가입
+      </Link>
+    </>
+  ) : (
+    <>
+      <Link to="나의 여행지" className="m-3">
+        {userInfo.username}의 여행지
+      </Link>
+      <button onClick={logoutHandler}>로그아웃</button>
+    </>
+  );
+
   return (
     <header className="fixed flex w-full justify-between border-b border-solid">
       <div className="flex">
@@ -14,14 +47,12 @@ const Header = () => {
           </Link>
         </ul>
       </div>
-      <div className="m-3">
-        <Link to="/home/auth/login" className="m-3">
-          로그인중
+      <nav className="m-3">
+        {navBar}
+        <Link to="?" className="m-3">
+          커뮤니티
         </Link>
-        <Link to="/home/auth/signup" className="m-3">
-          회원가입
-        </Link>
-      </div>
+      </nav>
     </header>
   );
 };

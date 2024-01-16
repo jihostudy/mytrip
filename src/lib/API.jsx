@@ -1,6 +1,6 @@
+// axios
 import axios from "axios";
-// cookies
-import { Cookies } from "react-cookie";
+
 export const API = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
   headers: {
@@ -12,13 +12,13 @@ export const API = axios.create({
 });
 
 //refresh token 재발급 api
-export async function postRefreshToken() {
-  const cookie = new Cookies();
-  const response = await publicApi.post("refresh token 재발급 경로", {
-    refreshToken: cookie.get("refreshToken"),
-  });
-  return response;
-}
+// export async function postRefreshToken() {
+//   const cookie = new Cookies();
+//   const response = await publicApi.post("refresh token 재발급 경로", {
+//     refreshToken: cookie.get("refreshToken"),
+//   });
+//   return response;
+// }
 
 /*
 //토큰을 함께보내는 API에 interceptor를 적용합니다

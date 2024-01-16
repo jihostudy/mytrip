@@ -1,12 +1,15 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 // router
 import { useNavigate } from "react-router-dom";
 // axios
 import { API } from "../lib/API";
-// cookies
-// import { useCookies } from "react-cookie";
+// recoil
+import { user } from "../lib/constants/userInfo";
+import { useRecoilState } from "recoil";
 
 const LoginPage = () => {
+  const [userInfo, setUserInfo] = useRecoilState(user);
+
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const navigate = useNavigate();
@@ -24,24 +27,39 @@ const LoginPage = () => {
       console.log(res);
       // access token 저장
       localStorage.setItem("accessToken", res.headers.get("Authorization"));
-      // refresh token 저장
-
-      // setCookie("refreshToken", res.cookies.get("refreshToken"), {
-      //   path: "/",
-      //   secure: true,
-      //   sameSite: "none",
-      // });
+      console.log("중간-1");
+      // refresh token 저장 : 브라우저 자동
+      setUserInfo(() => ({
+        isLogin: true,
+        username: res.data.username,
+        email: userInput.email,
+      }));
+      navigate("/home");
 
       // 성공 시 메인 창으로 리다이렉트
-      navigate("/");
+      // navigate("/");
       console.log("로그인 성공");
     } catch (error) {
       // status에 따른 Error Handling
-      const statusCode = error.response.status; // 400
-      const statusText = error.response.statusText; // Bad Request
-      console.log(`${statusCode} - ${statusText} - ${message}`);
+      const errorResponse = error.response;
+      const statusCode = errorResponse.status;
+      console.log(statusCode);
+      switch (statusCode) {
+        case 404:
+          alert("해당 이메일로된 아이가 없습니다");
+          break;
+        case 401:
+          alert("비밀번호가 틀렸습니다.");
+          break;
+        case 400:
+          alert("Bad request (요청 형식이 잘못됨)");
+          break;
+      }
     }
   };
+  useEffect(() => {
+    console.log(userInfo);
+  }, [userInfo]);
 
   return (
     <div className="flex h-dvh w-full items-center justify-center">

@@ -15,28 +15,6 @@ import RegisterPage from "./pages/RegisterPage";
 import NewUserNamePage from "./pages/NewUserNamePage";
 
 // Router
-// const _router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <HomeLayout />,
-//     errorElement: <ErrorPage />,
-//     // loader: refreshLoader,
-//     children: [
-//       { index: true, element: <HomePage /> },
-//       // auth(로그인) 관련
-//       {
-//         path: "auth",
-//         children: [
-//           { path: "login", element: <LoginPage /> },
-//           { path: "signup", element: <RegisterPage /> },
-//         ],
-//       },
-//       { path: "planning", element: <PlanningPage /> },
-//     ],
-//   },
-// ]);
-
-// Router
 const router = createBrowserRouter([
   {
     path: "/",
