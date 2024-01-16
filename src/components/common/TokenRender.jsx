@@ -5,7 +5,7 @@ import { API } from "../../lib/API";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 // recoil
 import { useRecoilState } from "recoil";
-import { user } from "../../constants/userInfo";
+import { user } from "../../lib/constants/userInfo";
 const TokenRender = () => {
   const [userInfo, setUserInfo] = useRecoilState(user);
   const navigate = useNavigate();
