@@ -13,6 +13,7 @@ import ErrorPage from "./pages/ErrorPage";
 import PlanningPage from "./pages/PlanningPage";
 import RegisterPage from "./pages/RegisterPage";
 import NewUserNamePage from "./pages/NewUserNamePage";
+import GoogleRedirectPage from "./pages/GoogleRedirectPage";
 
 // Router
 // const _router = createBrowserRouter([
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
               { path: "/home/auth/login", element: <LoginPage /> },
               { path: "/home/auth/signup", element: <RegisterPage /> },
               { path: "/home/auth/new-username", element: <NewUserNamePage /> },
+              {
+                path: "/home/auth/google",
+                element: <GoogleRedirectPage />,
+              },
             ],
           },
         ],

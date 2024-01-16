@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 // axios
 import { API } from "../lib/API";
+import GoogleLoginBtn from "../components/GoogleLoginBtn";
 // cookies
 // import { useCookies } from "react-cookie";
 
@@ -58,6 +59,7 @@ const LoginPage = () => {
         <button type="submit" className="border-2 border-red-800">
           Login
         </button>
+        <GoogleLoginBtn />
       </form>
     </div>
   );
