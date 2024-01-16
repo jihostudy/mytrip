@@ -5,6 +5,7 @@ import { API } from "../lib/API";
 import { useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
+// 새로운 비밀번호 입력 후 바꾸기
 const NewPasswordPage = () => {
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
@@ -31,13 +32,12 @@ const NewPasswordPage = () => {
 
     try {
       const res = await API.post("/auth/new-password", {
-        email: "santrage02@naver.com",
         password: password,
         passwordToken: passwordToken,
       });
 
       console.log(res);
-      navigate("/");
+      navigate("/auth/login");
     } catch (error) {
       console.log(error);
     }
