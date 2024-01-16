@@ -12,28 +12,8 @@ import LoginPage from "./pages/LoginPage";
 import ErrorPage from "./pages/ErrorPage";
 import PlanningPage from "./pages/PlanningPage";
 import RegisterPage from "./pages/RegisterPage";
-
-// Router
-// const _router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <HomeLayout />,
-//     errorElement: <ErrorPage />,
-//     // loader: refreshLoader,
-//     children: [
-//       { index: true, element: <HomePage /> },
-//       // auth(로그인) 관련
-//       {
-//         path: "auth",
-//         children: [
-//           { path: "login", element: <LoginPage /> },
-//           { path: "signup", element: <RegisterPage /> },
-//         ],
-//       },
-//       { path: "planning", element: <PlanningPage /> },
-//     ],
-//   },
-// ]);
+// redirect
+import KakaoRedirect from "./components/KakaoRedirect";
 
 // Router
 const router = createBrowserRouter([
@@ -61,6 +41,10 @@ const router = createBrowserRouter([
         path: "/planning",
         element: <PlanningLayout />,
         children: [{ index: true, element: <PlanningPage /> }],
+      },
+      {
+        path: "/auth",
+        children: [{ path: "/auth/kakao", element: <KakaoRedirect /> }],
       },
     ],
   },

@@ -6,6 +6,8 @@ import { API } from "../lib/API";
 // cookies
 // import { useCookies } from "react-cookie";
 
+const restAPIKey = import.meta.env.VITE_REST_API_KEY;
+
 const LoginPage = () => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -43,8 +45,15 @@ const LoginPage = () => {
     }
   };
 
+  // 소셜 로그인
+  const kakaoLogin = () => {
+    const redirectURL = "http://localhost:5173/auth/kakao";
+    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${restAPIKey}&redirect_uri=${redirectURL}&response_type=code`;
+    window.location.href = kakaoURL;
+  };
+
   return (
-    <div className="flex h-dvh w-full items-center justify-center">
+    <div className="flex h-dvh w-full flex-col items-center justify-center">
       <form className="flex flex-col" onSubmit={(e) => loginHandler(e)}>
         <label>email</label>
         <input
@@ -59,6 +68,16 @@ const LoginPage = () => {
           Login
         </button>
       </form>
+      <div className="flex flex-row">
+        <button
+          className="m-2 border-2 border-black"
+          onClick={(e) => kakaoLogin(e)}
+        >
+          Kakao
+        </button>
+        <button className="m-2 border-2 border-black">Naver</button>
+        <button className="m-2 border-2 border-black">Google</button>
+      </div>
     </div>
   );
 };

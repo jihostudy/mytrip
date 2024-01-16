@@ -20,6 +20,7 @@ const TokenRender = () => {
           isLogin: true,
           username: res.data.username,
         }));
+        console.log("로그인 성공");
         if (currentURL.pathname === "/") {
           navigate("/home");
         }
