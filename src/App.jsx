@@ -12,6 +12,7 @@ import LoginPage from "./pages/LoginPage";
 import ErrorPage from "./pages/ErrorPage";
 import PlanningPage from "./pages/PlanningPage";
 import RegisterPage from "./pages/RegisterPage";
+import NewUserNamePage from "./pages/NewUserNamePage";
 
 // Router
 // const _router = createBrowserRouter([
@@ -53,6 +54,7 @@ const router = createBrowserRouter([
             children: [
               { path: "/home/auth/login", element: <LoginPage /> },
               { path: "/home/auth/signup", element: <RegisterPage /> },
+              { path: "/home/auth/new-username", element: <NewUserNamePage /> },
             ],
           },
         ],
