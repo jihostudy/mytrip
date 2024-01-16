@@ -9,6 +9,8 @@ import LoginPage from "./pages/LoginPage";
 import ErrorPage from "./pages/ErrorPage";
 import PlanningPage from "./pages/PlanningPage";
 import RegisterPage from "./pages/RegisterPage";
+import PasswordResetPage from "./pages/PasswordResetPage";
+import NewPasswordPage from "./pages/NewPasswordPage";
 
 // Router
 const router = createBrowserRouter([
@@ -25,6 +27,8 @@ const router = createBrowserRouter([
         children: [
           { path: "login", element: <LoginPage /> },
           { path: "signup", element: <RegisterPage /> },
+          { path: "reset", element: <PasswordResetPage /> },
+          { path: "new-password/:token", element: <NewPasswordPage /> },
         ],
       },
       { path: "planning", element: <PlanningPage /> },

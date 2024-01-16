@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 // router
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // axios
 import { API } from "../lib/API";
 // cookies
@@ -45,7 +45,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex h-dvh w-full items-center justify-center">
+    <div className="flex h-dvh w-full items-center justify-center ">
       <form className="flex flex-col" onSubmit={(e) => loginHandler(e)}>
         <label>email</label>
         <input
@@ -59,6 +59,11 @@ const LoginPage = () => {
         <button type="submit" className="border-2 border-red-800">
           Login
         </button>
+        <div>
+          <button className="mt-5 border-2 border-red-800">
+            <Link to="/auth/reset">비밀번호 찾기</Link>
+          </button>
+        </div>
       </form>
     </div>
   );
