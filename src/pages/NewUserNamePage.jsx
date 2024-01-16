@@ -27,7 +27,9 @@ const NewUserNamePage = () => {
 
     // 첫 소셜 로그인일 때, username 등록 api
     try {
-      const res = await API.post("", { username: username });
+      const res = await API.post("/auth/updateUsername", {
+        username: username,
+      });
 
       // 성공하면 전역변수 변경 후 메인으로 Redirect
       if (res.status === 200) {
