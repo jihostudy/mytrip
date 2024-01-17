@@ -1,6 +1,6 @@
 import React from "react";
 
-import { API } from "../lib/API";
+import { API } from "../api/API";
 
 import { useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";

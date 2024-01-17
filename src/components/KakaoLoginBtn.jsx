@@ -8,8 +8,8 @@ const KakaoLoginBtn = () => {
     window.location.href = kakaoURL;
   };
   return (
-    <button className="m-2 border-2 border-black" onClick={loginHandler}>
-      Kakao
+    <button className="m-2 border-2 border-red-800" onClick={loginHandler}>
+      카카오로그인
     </button>
   );
 };

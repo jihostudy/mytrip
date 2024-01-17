@@ -1,7 +1,7 @@
 import React from "react";
 import { useRef } from "react";
 
-import { API } from "../lib/API";
+import { API } from "../api/API";
 
 // 비밀번호 바꾸는 메일 받기
 const PasswordResetPage = () => {

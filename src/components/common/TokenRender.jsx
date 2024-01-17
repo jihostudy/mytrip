@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 // axios
-import { API } from "../../lib/API";
+import { API } from "../../api/API";
 // router
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 // recoil

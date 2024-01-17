@@ -16,8 +16,9 @@ import RegisterPage from "./pages/RegisterPage";
 import NewPasswordPage from "./pages/NewPasswordPage";
 import PasswordResetPage from "./pages/PasswordResetPage";
 // social-login
-import KakaoRedirectPage from "./pages/Redirect/KakaoRedirectPage";
-import GoogleRedirectPage from "./pages/Redirect/GoogleRedirectPage";
+import KakaoRedirect from "./components/Redirect/KakaoRedirect";
+import GoogleRedirect from "./components/Redirect/GoogleRedirect";
+import NaverRedirect from "./components/Redirect/NaverRedirect";
 import NewUserNamePage from "./pages/NewUserNamePage";
 
 // Router
@@ -40,10 +41,6 @@ const router = createBrowserRouter([
               { path: "/home/auth/signup", element: <RegisterPage /> },
               { path: "/home/auth/new-username", element: <NewUserNamePage /> },
               { path: "/home/auth/reset", element: <PasswordResetPage /> },
-              // {
-              //   path: "/home/auth/new-password/:token",
-              //   element: <NewPasswordPage />,
-              // },
             ],
           },
         ],
@@ -56,16 +53,17 @@ const router = createBrowserRouter([
       {
         path: "/auth",
         children: [
-          { path: "/auth/kakao", element: <KakaoRedirectPage /> },
-          { path: "/auth/google", element: <GoogleRedirectPage /> },
+          { path: "/auth/kakao", element: <KakaoRedirect /> },
+          { path: "/auth/google", element: <GoogleRedirect /> },
+          { path: "/auth/naver", element: <NaverRedirect /> },
+          {
+            path: "/auth/new-password/:token",
+            element: <NewPasswordPage />,
+            errorElement: <ErrorPage />,
+          },
         ],
       },
     ],
-  },
-  {
-    path: "/auth/new-password/:token",
-    element: <NewPasswordPage />,
-    errorElement: <ErrorPage />,
   },
 ]);
 const App = () => {

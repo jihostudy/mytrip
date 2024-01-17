@@ -11,7 +11,7 @@ const GoogleLoginBtn = () => {
   }
 
   return (
-    <button onClick={loginHandler} className="border-2 border-red-800">
+    <button onClick={loginHandler} className="m-2 border-2 border-red-800">
       구글로그인
     </button>
   );

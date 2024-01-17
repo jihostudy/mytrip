@@ -1,22 +1,24 @@
 import React, { useEffect } from "react";
-// router
 import { useNavigate } from "react-router-dom";
-// axios
 import { API } from "../../api/API";
-// recoil
+
 import { useRecoilState } from "recoil";
 import { user } from "../../lib/constants/userInfo";
 
-const GoogleRedirect = () => {
+const NaverRedirect = () => {
   const [userInfo, setUserInfo] = useRecoilState(user);
   const navigate = useNavigate();
 
   const code = new URL(window.location.href).searchParams.get("code");
+  const state = new URL(window.location.href).searchParams.get("state");
 
   useEffect(() => {
     async function getToken() {
       try {
-        const res = await API.post("/auth/google", { code: code });
+        const res = await API.post("/Oauth/naver", {
+          code: code,
+          state: state,
+        });
         console.log(res);
         if (res.status === 200) {
           // 로그인 성공
@@ -49,10 +51,11 @@ const GoogleRedirect = () => {
   }, []);
 
   return (
-    <div className="flex h-dvh w-full items-center justify-center">
-      로그인 중
+    <div>
+      <p>{code}</p>
+      <p>{state}</p>
     </div>
   );
 };
 
-export default GoogleRedirect;
+export default NaverRedirect;

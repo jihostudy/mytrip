@@ -1,10 +1,9 @@
-import React from "react";
-
-import { useRef } from "react";
-import { API } from "../lib/API";
-
+import React, { useRef } from "react";
+// axios
+import { API } from "../api/API";
+// router
 import { useLocation, useNavigate } from "react-router-dom";
-
+// recoil
 import { useRecoilState } from "recoil";
 import { user } from "../lib/constants/userInfo";
 

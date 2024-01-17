@@ -2,13 +2,16 @@ import React, { useEffect, useRef } from "react";
 // router
 import { Link, useNavigate } from "react-router-dom";
 // axios
-import { API } from "../lib/API";
+import { API } from "../api/API";
 // recoil
 import { user } from "../lib/constants/userInfo";
 import { useRecoilState } from "recoil";
 import GoogleLoginBtn from "../components/GoogleLoginBtn";
 // Components
 import KakaoLoginBtn from "../components/KakaoLoginBtn";
+import NaverLoginBtn from "../components/NaverLoginBtn";
+// cookies
+// import { useCookies } from "react-cookie";
 
 const LoginPage = () => {
   const [userInfo, setUserInfo] = useRecoilState(user);
@@ -88,6 +91,7 @@ const LoginPage = () => {
       <div className="flex flex-row">
         <KakaoLoginBtn />
         <GoogleLoginBtn />
+        <NaverLoginBtn />
       </div>
     </div>
   );

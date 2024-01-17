@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 // router
 import { useNavigate } from "react-router-dom";
 // axios
-import { API } from "../lib/API";
+import { API } from "../api/API";
 // cookies
 import { Cookies } from "react-cookie";
 
