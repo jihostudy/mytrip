@@ -47,6 +47,10 @@ const NewUserNamePage = () => {
             username: username,
           }));
 
+          console.log(res.headers.get("Authorization"));
+          localStorage.removeItem("accessToken");
+          localStorage.setItem("accessToken", res.headers.get("Authorization"));
+
           navigate("/home");
         } else {
           localStorage.removeItem("accessToken");
