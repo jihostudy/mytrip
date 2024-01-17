@@ -6,6 +6,9 @@ import { API } from "../lib/API";
 // recoil
 import { user } from "../lib/constants/userInfo";
 import { useRecoilState } from "recoil";
+import GoogleLoginBtn from "../components/GoogleLoginBtn";
+// cookies
+// import { useCookies } from "react-cookie";
 
 const LoginPage = () => {
   const [userInfo, setUserInfo] = useRecoilState(user);
@@ -81,6 +84,7 @@ const LoginPage = () => {
             <Link to="/home/auth/reset">비밀번호 찾기</Link>
           </button>
         </div>
+        <GoogleLoginBtn />
       </form>
     </div>
   );

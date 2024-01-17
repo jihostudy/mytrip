@@ -15,6 +15,7 @@ import RegisterPage from "./pages/RegisterPage";
 import NewUserNamePage from "./pages/NewUserNamePage";
 import PasswordResetPage from "./pages/PasswordResetPage";
 import NewPasswordPage from "./pages/NewPasswordPage";
+import GoogleRedirectPage from "./pages/GoogleRedirectPage";
 
 // Router
 const router = createBrowserRouter([
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
         path: "/planning",
         element: <PlanningLayout />,
         children: [{ index: true, element: <PlanningPage /> }],
+      },
+      {
+        path: "/auth",
+        children: [{ path: "/auth/google", element: <GoogleRedirectPage /> }],
       },
     ],
   },
