@@ -7,8 +7,8 @@ import { API } from "../lib/API";
 import { user } from "../lib/constants/userInfo";
 import { useRecoilState } from "recoil";
 import GoogleLoginBtn from "../components/GoogleLoginBtn";
-// cookies
-// import { useCookies } from "react-cookie";
+// Components
+import KakaoLoginBtn from "../components/KakaoLoginBtn";
 
 const LoginPage = () => {
   const [userInfo, setUserInfo] = useRecoilState(user);
@@ -65,7 +65,7 @@ const LoginPage = () => {
   }, [userInfo]);
 
   return (
-    <div className="flex h-dvh w-full items-center justify-center ">
+    <div className="flex h-dvh w-full flex-col items-center justify-center">
       <form className="flex flex-col" onSubmit={(e) => loginHandler(e)}>
         <label>email</label>
         <input
@@ -86,6 +86,9 @@ const LoginPage = () => {
         </div>
         <GoogleLoginBtn />
       </form>
+      <div className="flex flex-row">
+        <KakaoLoginBtn />
+      </div>
     </div>
   );
 };
