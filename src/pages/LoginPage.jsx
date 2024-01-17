@@ -84,10 +84,10 @@ const LoginPage = () => {
             <Link to="/home/auth/reset">비밀번호 찾기</Link>
           </button>
         </div>
-        <GoogleLoginBtn />
       </form>
       <div className="flex flex-row">
         <KakaoLoginBtn />
+        <GoogleLoginBtn />
       </div>
     </div>
   );

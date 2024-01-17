@@ -1,5 +1,6 @@
 import React from "react";
 import { Reset } from "styled-reset";
+// router
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // Common
@@ -12,12 +13,12 @@ import LoginPage from "./pages/LoginPage";
 import ErrorPage from "./pages/ErrorPage";
 import PlanningPage from "./pages/PlanningPage";
 import RegisterPage from "./pages/RegisterPage";
-// redirect
-import KakaoRedirectPage from "./pages/KakaoRedirectPage";
-import NewUserNamePage from "./pages/NewUserNamePage";
-import PasswordResetPage from "./pages/PasswordResetPage";
 import NewPasswordPage from "./pages/NewPasswordPage";
-import GoogleRedirectPage from "./pages/GoogleRedirectPage";
+import PasswordResetPage from "./pages/PasswordResetPage";
+// social-login
+import KakaoRedirectPage from "./pages/Redirect/KakaoRedirectPage";
+import GoogleRedirectPage from "./pages/Redirect/GoogleRedirectPage";
+import NewUserNamePage from "./pages/NewUserNamePage";
 
 // Router
 const router = createBrowserRouter([
@@ -54,11 +55,10 @@ const router = createBrowserRouter([
       },
       {
         path: "/auth",
-        children: [{ path: "/auth/google", element: <GoogleRedirectPage /> }],
-      },
-      {
-        path: "/auth",
-        children: [{ path: "/auth/kakao", element: <KakaoRedirectPage /> }],
+        children: [
+          { path: "/auth/kakao", element: <KakaoRedirectPage /> },
+          { path: "/auth/google", element: <GoogleRedirectPage /> },
+        ],
       },
     ],
   },

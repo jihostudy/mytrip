@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { API } from "../lib/API";
+import { API } from "../../lib/API";
 
 import { useRecoilState } from "recoil";
-import { user } from "../lib/constants/userInfo";
+import { user } from "../../lib/constants/userInfo";
 
-const GoogleRedirectPage = () => {
+const GoogleRedirect = () => {
   const [userInfo, setUserInfo] = useRecoilState(user);
   const navigate = useNavigate();
 
@@ -53,4 +53,4 @@ const GoogleRedirectPage = () => {
   );
 };
 
-export default GoogleRedirectPage;
+export default GoogleRedirect;
