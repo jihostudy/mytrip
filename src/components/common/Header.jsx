@@ -1,12 +1,13 @@
 import React from "react";
 // router
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // recoil
 import { user } from "../../lib/constants/userInfo";
 import { useRecoilState } from "recoil";
 
 const Header = () => {
   const [userInfo, setUserInfo] = useRecoilState(user);
+  const navigate = useNavigate();
 
   const logoutHandler = () => {
     console.log("clicked logout");
@@ -16,6 +17,7 @@ const Header = () => {
       username: null,
       email: null,
     }));
+    navigate("/home");
   };
   const navBar = !userInfo.isLogin ? (
     <>
