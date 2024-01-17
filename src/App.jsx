@@ -13,7 +13,7 @@ import ErrorPage from "./pages/ErrorPage";
 import PlanningPage from "./pages/PlanningPage";
 import RegisterPage from "./pages/RegisterPage";
 // redirect
-import KakaoRedirect from "./components/KakaoRedirect";
+import KakaoRedirectPage from "./pages/KakaoRedirectPage";
 
 // Router
 const router = createBrowserRouter([
@@ -44,7 +44,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/auth",
-        children: [{ path: "/auth/kakao", element: <KakaoRedirect /> }],
+        children: [{ path: "/auth/kakao", element: <KakaoRedirectPage /> }],
       },
     ],
   },
