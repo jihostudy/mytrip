@@ -78,7 +78,7 @@ const LoginPage = () => {
         </button>
         <div>
           <button className="mt-5 border-2 border-red-800">
-            <Link to="/auth/reset">비밀번호 찾기</Link>
+            <Link to="/home/auth/reset">비밀번호 찾기</Link>
           </button>
         </div>
       </form>
