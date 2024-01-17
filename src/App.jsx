@@ -56,10 +56,6 @@ const router = createBrowserRouter([
               { path: "/home/auth/login", element: <LoginPage /> },
               { path: "/home/auth/signup", element: <RegisterPage /> },
               { path: "/home/auth/new-username", element: <NewUserNamePage /> },
-              {
-                path: "/home/auth/google",
-                element: <GoogleRedirectPage />,
-              },
             ],
           },
         ],
@@ -68,6 +64,10 @@ const router = createBrowserRouter([
         path: "/planning",
         element: <PlanningLayout />,
         children: [{ index: true, element: <PlanningPage /> }],
+      },
+      {
+        path: "/auth",
+        children: [{ path: "/auth/google", element: <GoogleRedirectPage /> }],
       },
     ],
   },
