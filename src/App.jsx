@@ -13,6 +13,9 @@ import ErrorPage from "./pages/ErrorPage";
 import PlanningPage from "./pages/PlanningPage";
 import RegisterPage from "./pages/RegisterPage";
 import NewUserNamePage from "./pages/NewUserNamePage";
+import PasswordResetPage from "./pages/PasswordResetPage";
+import NewPasswordPage from "./pages/NewPasswordPage";
+import GoogleRedirectPage from "./pages/GoogleRedirectPage";
 
 // Router
 const router = createBrowserRouter([
@@ -33,6 +36,11 @@ const router = createBrowserRouter([
               { path: "/home/auth/login", element: <LoginPage /> },
               { path: "/home/auth/signup", element: <RegisterPage /> },
               { path: "/home/auth/new-username", element: <NewUserNamePage /> },
+              { path: "/home/auth/reset", element: <PasswordResetPage /> },
+              // {
+              //   path: "/home/auth/new-password/:token",
+              //   element: <NewPasswordPage />,
+              // },
             ],
           },
         ],
@@ -42,7 +50,16 @@ const router = createBrowserRouter([
         element: <PlanningLayout />,
         children: [{ index: true, element: <PlanningPage /> }],
       },
+      {
+        path: "/auth",
+        children: [{ path: "/auth/google", element: <GoogleRedirectPage /> }],
+      },
     ],
+  },
+  {
+    path: "/auth/new-password/:token",
+    element: <NewPasswordPage />,
+    errorElement: <ErrorPage />,
   },
 ]);
 const App = () => {
