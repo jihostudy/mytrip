@@ -15,7 +15,10 @@ const NaverRedirectPage = () => {
   useEffect(() => {
     async function getToken() {
       try {
-        const res = await API.post("/auth/naver", { code: code, state: state });
+        const res = await API.post("/Oauth/naver", {
+          code: code,
+          state: state,
+        });
         console.log(res);
         if (res.status === 200) {
           // 로그인 성공
