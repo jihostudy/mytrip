@@ -9,6 +9,9 @@ import { useRecoilState } from "recoil";
 import GoogleLoginBtn from "../components/GoogleLoginBtn";
 // Components
 import KakaoLoginBtn from "../components/KakaoLoginBtn";
+import NaverLoginBtn from "../components/NaverLoginBtn";
+// cookies
+// import { useCookies } from "react-cookie";
 
 const LoginPage = () => {
   const [userInfo, setUserInfo] = useRecoilState(user);
@@ -85,6 +88,7 @@ const LoginPage = () => {
           </button>
         </div>
         <GoogleLoginBtn />
+        <NaverLoginBtn />
       </form>
       <div className="flex flex-row">
         <KakaoLoginBtn />
