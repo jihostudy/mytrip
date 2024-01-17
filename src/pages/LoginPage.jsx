@@ -46,8 +46,8 @@ const LoginPage = () => {
   };
 
   // 소셜 로그인
-  const kakaoLogin = () => {
-    const redirectURL = "http://localhost:5173/auth/kakao";
+  const kakaoLoginHandler = () => {
+    const redirectURL = import.meta.env.VITE_KAKAO_REDIRECT_URL;
     const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${restAPIKey}&redirect_uri=${redirectURL}&response_type=code`;
     window.location.href = kakaoURL;
   };
@@ -71,7 +71,7 @@ const LoginPage = () => {
       <div className="flex flex-row">
         <button
           className="m-2 border-2 border-black"
-          onClick={(e) => kakaoLogin(e)}
+          onClick={(e) => kakaoLoginHandler(e)}
         >
           Kakao
         </button>
