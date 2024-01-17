@@ -7,6 +7,7 @@ import { API } from "../lib/API";
 import { user } from "../lib/constants/userInfo";
 import { useRecoilState } from "recoil";
 import GoogleLoginBtn from "../components/GoogleLoginBtn";
+import NaverLoginBtn from "../components/NaverLoginBtn";
 // cookies
 // import { useCookies } from "react-cookie";
 
@@ -85,6 +86,7 @@ const LoginPage = () => {
           </button>
         </div>
         <GoogleLoginBtn />
+        <NaverLoginBtn />
       </form>
     </div>
   );
