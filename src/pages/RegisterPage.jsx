@@ -62,7 +62,7 @@ const RegisterPage = () => {
       // });
 
       // 성공 시 메인창으로 리다이렉트
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       console.log(error);
       alert("다시 시도해주세요");
