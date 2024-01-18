@@ -51,9 +51,8 @@ const NaverRedirect = () => {
   }, []);
 
   return (
-    <div>
-      <p>{code}</p>
-      <p>{state}</p>
+    <div className="flex h-dvh w-full items-center justify-center">
+      로그인 중
     </div>
   );
 };
