@@ -68,7 +68,7 @@ const LoginPage = () => {
   }, [userInfo]);
 
   return (
-    <div className="flex h-dvh w-full flex-col items-center justify-center">
+    <div className="flex h-4/5 w-full flex-col items-center justify-center">
       <form className="flex flex-col" onSubmit={(e) => loginHandler(e)}>
         <label>email</label>
         <input

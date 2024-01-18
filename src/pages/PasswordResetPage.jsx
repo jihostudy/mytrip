@@ -32,7 +32,7 @@ const PasswordResetPage = () => {
   };
 
   return (
-    <div className="flex h-dvh w-full items-center justify-center">
+    <div className="flex h-4/5 w-full items-center justify-center">
       <form
         className="flex flex-col justify-center gap-4"
         onSubmit={(e) => emailSendHandler(e)}

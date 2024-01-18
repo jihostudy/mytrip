@@ -73,7 +73,7 @@ const NewUserNamePage = () => {
   };
 
   return (
-    <div className="flex h-dvh w-full items-center justify-center">
+    <div className="flex h-4/5 w-full items-center justify-center">
       <form
         onSubmit={(e) => onSubmitHandler(e)}
         className="flex flex-col gap-4"
