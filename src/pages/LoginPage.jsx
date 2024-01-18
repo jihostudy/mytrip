@@ -52,7 +52,7 @@ const LoginPage = () => {
       console.log(statusCode);
       switch (statusCode) {
         case 404:
-          alert("해당 이메일로된 아이가 없습니다");
+          alert("해당 이메일로된 아이디가 없습니다");
           break;
         case 401:
           alert("비밀번호가 틀렸습니다.");

@@ -38,7 +38,7 @@ const Header = () => {
   );
   // background: linear-gradient(180deg, #38C3FF 0%, #c9e7f4c9 60%, #cde3ed94 70.5%, #d9d9d900 100%);
   return (
-    <header className="fixed flex h-1/5 w-full justify-between bg-gradient-to-b from-[#38C3FF] from-0% via-[#cde3ed94] via-60% to-[#d9d9d900] to-100%">
+    <header className="sticky flex h-1/5 w-full justify-between bg-gradient-to-b from-[#38C3FF] from-0% via-[#cde3ed94] via-60% to-[#d9d9d900] to-100%">
       <div className="flex">
         <Link to="/home">
           <img src="" alt="Home" className="m-3" />
