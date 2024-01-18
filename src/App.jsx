@@ -56,14 +56,14 @@ const router = createBrowserRouter([
           { path: "/auth/kakao", element: <KakaoRedirect /> },
           { path: "/auth/google", element: <GoogleRedirect /> },
           { path: "/auth/naver", element: <NaverRedirect /> },
-          {
-            path: "/auth/new-password/:token",
-            element: <NewPasswordPage />,
-            errorElement: <ErrorPage />,
-          },
         ],
       },
     ],
+  },
+  {
+    path: "/auth/new-password/:token",
+    element: <NewPasswordPage />,
+    errorElement: <ErrorPage />,
   },
 ]);
 const App = () => {
