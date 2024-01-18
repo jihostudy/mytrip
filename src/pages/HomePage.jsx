@@ -11,7 +11,7 @@ const HomePage = () => {
   ));
   return (
     <main className="flex h-dvh w-full flex-col items-center justify-center">
-      <form>
+      <form className="mb-52">
         <input
           type="text"
           placeholder="여행지를 입력해주세요"
@@ -25,6 +25,7 @@ const HomePage = () => {
           <option value="서울" />
         </datalist>
       </form>
+      <div>여행자들의 픽</div>
       <div>
         <ul className="flex justify-evenly">{imgContanier}</ul>
       </div>

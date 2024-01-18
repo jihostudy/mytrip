@@ -38,7 +38,7 @@ const LoginPage = () => {
       setUserInfo(() => ({
         isLogin: true,
         username: res.data.username,
-        email: userInput.email,
+        // email: userInput.email,
       }));
       navigate("/home");
 

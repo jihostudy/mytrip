@@ -38,7 +38,7 @@ const NewPasswordPage = () => {
 
       console.log(res);
       alert("비밀번호 변경에 성공했습니다. 다시 로그인 해주세요");
-      navigate("/home");
+      // navigate("/home");
     } catch (error) {
       console.log(error);
     }

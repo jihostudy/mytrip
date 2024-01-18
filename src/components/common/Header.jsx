@@ -15,7 +15,7 @@ const Header = () => {
     setUserInfo(() => ({
       isLogin: false,
       username: null,
-      email: null,
+      // email: null,
     }));
     navigate("/home");
   };
@@ -43,11 +43,6 @@ const Header = () => {
         <Link to="/home">
           <img src="" alt="Home" className="m-3" />
         </Link>
-        <ul className="flex justify-center">
-          <Link to="/planning" className="m-3">
-            여행만들기{" "}
-          </Link>
-        </ul>
       </div>
       <nav className="m-3">
         {navBar}
