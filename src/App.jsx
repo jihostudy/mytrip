@@ -7,6 +7,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import TokenRender from "./components/common/TokenRender";
 import HomeLayout from "./pages/Layout/HomeLayout";
 import PlanningLayout from "./pages/Layout/PlanningLayout";
+import RegisterLayout from "./pages/Layout/RegisterLayout";
 // pages
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
@@ -36,6 +37,7 @@ const router = createBrowserRouter([
           { index: true, element: <HomePage /> },
           {
             path: "/home/auth",
+            element: <RegisterLayout />,
             children: [
               { path: "/home/auth/login", element: <LoginPage /> },
               { path: "/home/auth/signup", element: <RegisterPage /> },

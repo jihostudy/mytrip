@@ -110,7 +110,8 @@ const HomePage = () => {
       <div className="h-1/3 w-full">
         <ul className="flex h-full justify-evenly">{displayImg}</ul>
       </div>
-      <div className="h-1/6 w-full">Footer</div>
+      {/* Footer */}
+      <div className="h-1/6 w-full"></div>
     </main>
   );
 };
