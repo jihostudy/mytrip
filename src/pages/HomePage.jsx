@@ -1,18 +1,69 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 // Icons + Images
 import searchIcon from "../assets/icons/searchIcon.svg";
-// Dummy areas
-const dummy_images = ["img1", "img2", "img3", "img4"];
+import DummyImage1 from "../assets/images/1.jpeg";
+import DummyImage2 from "../assets/images/8.jpeg";
+import DummyImage3 from "../assets/images/2.jpeg";
+import DummyImage4 from "../assets/images/4.jpeg";
+import DummyImage5 from "../assets/images/3.jpeg";
+import DummyImage6 from "../assets/images/6.jpeg";
+import DummyImage7 from "../assets/images/5.jpeg";
+import DummyImage8 from "../assets/images/7.jpeg";
+
+// Dummy images
+const dummy_images = [
+  DummyImage1,
+  DummyImage2,
+  DummyImage3,
+  DummyImage4,
+  DummyImage5,
+  DummyImage6,
+  DummyImage7,
+  DummyImage8,
+];
 // Input list
 const input_list = ["강원도", "울산", "부산", "서울", "경기도", "수원", "강남"];
-const HomePage = () => {
-  const imgContanier = dummy_images.map((img) => (
-    <li key={img} className="m-2">
-      {img}
-    </li>
-  ));
+// Components
+import HomeImage from "../components/HomeImage";
+//custom hook
+const useInterval = (callback, delay) => {
+  const savedCallback = useRef();
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
 
-  // 드롭다운 만들기
+  useEffect(() => {
+    function tick() {
+      savedCallback.current();
+    }
+    if (delay !== null) {
+      let id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
+  }, [delay]);
+};
+
+const HomePage = () => {
+  // ---------------------------------인기 계획-----------------------------------------
+  const numDisplayImg = 4;
+  const numFetchImages = dummy_images.length; // 백엔드에서 가져온 인기 계획 개수
+  const [imgIdx, setImgIdx] = useState(0);
+  const [displayImg, setDisplayImg] = useState([]);
+  useInterval(() => {
+    setImgIdx((prev) => (prev + 1) % 10);
+  }, 3000);
+  useEffect(() => {
+    let imgList = [];
+    for (let i = 0; i < numDisplayImg; i++) {
+      imgList.push(dummy_images[(i + imgIdx) % numFetchImages]);
+    }
+    const updatedDisplayImg = imgList.map((img) => (
+      <HomeImage img={img} key={img} />
+    ));
+
+    setDisplayImg(updatedDisplayImg);
+  }, [imgIdx]);
+  //-----------------------------------검색창---------------------------------------------
   const [filteredList, setFilteredList] = useState(input_list);
   const displayList = filteredList.map((list) => (
     <div key={list} className="my-1.5 w-4/5 pl-4 text-[#3C3C43]/40">
@@ -30,10 +81,6 @@ const HomePage = () => {
     setFilteredList(findMatches(input));
   };
 
-  useEffect(() => {
-    console.log(filteredList);
-    console.log(displayList);
-  }, [filteredList]);
   return (
     <main className="flex h-4/5 w-full flex-col items-center justify-center">
       {/* 검색 구역 */}
@@ -61,9 +108,7 @@ const HomePage = () => {
         여행자들의 픽
       </div>
       <div className="h-1/3 w-full">
-        <ul className="flex justify-evenly">          
-          {imgContanier}
-        </ul>
+        <ul className="flex h-full justify-evenly">{displayImg}</ul>
       </div>
       <div className="h-1/6 w-full">Footer</div>
     </main>
