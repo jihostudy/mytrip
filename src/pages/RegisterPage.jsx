@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 // router
 import { useNavigate } from "react-router-dom";
 // axios
@@ -7,6 +7,9 @@ import { API } from "../api/API";
 import { Cookies } from "react-cookie";
 
 const RegisterPage = () => {
+  const [usernameCheck, setUsernameCheck] = useState(false);
+  const [emailCheck, setEmailCheck] = useState(false);
+
   const userNameRef = useRef(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -24,6 +27,15 @@ const RegisterPage = () => {
   const registerHandler = async (event) => {
     event.preventDefault();
 
+    if (!usernameCheck) {
+      alert("닉네임 중복 체크를 해주세요.");
+      return;
+    }
+    if (!emailCheck) {
+      alert("이메일 중복 체크를 해주세요.");
+      return;
+    }
+
     const username = userNameRef.current.value;
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
@@ -32,14 +44,15 @@ const RegisterPage = () => {
     // 이메일 validation
     const email_pattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
     if (email_pattern.test(email) === false) {
-      alert("이메일 형식이 아님");
+      alert("이메일 형식이 아닙니다.");
+      setEmailCheck(false);
       return;
     }
 
     // 비번 같은지 확인 후
     if (password !== confirmPassword) {
       // 모달 창으로 경고??
-      alert("비번 같지 않음");
+      alert("비밀번호가 다릅니다.");
       return;
     }
 
@@ -70,18 +83,32 @@ const RegisterPage = () => {
   };
 
   // username, email 중복 검사
-  const checkHandler = (item) => {
+  const checkHandler = async (item) => {
     let postUrl;
+    let registerInput;
     if (item === "username") {
+      if (userNameRef.current.value.trim().length === 0) {
+        alert("닉네임을 입력해주세요");
+        return;
+      }
+
       postUrl = "/auth/verify/username";
+      registerInput = userNameRef.current.value;
     } else {
       postUrl = "/auth/verify/email";
+      registerInput = emailRef.current.value;
     }
 
     try {
-      const { isSame } = API.post(postUrl, registerInput);
-      console.log(isSame);
+      const res = await API.post(postUrl, registerInput);
+      console.log(res);
+      if (res.data.message === "Valid username") {
+        setUsernameCheck(true);
+      } else if (res.data.message === "Valid email") {
+        setEmailCheck(true);
+      }
     } catch (error) {
+      alert("다시 시도해주세요");
       console.log(error);
     }
   };

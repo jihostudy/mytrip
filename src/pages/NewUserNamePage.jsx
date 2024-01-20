@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 // axios
 import { API } from "../api/API";
 // router
@@ -8,6 +8,8 @@ import { useRecoilState } from "recoil";
 import { user } from "../lib/constants/userInfo";
 
 const NewUserNamePage = () => {
+  const [usernameCheck, setUsernameCheck] = useState(false);
+
   const userNameRef = useRef();
   const navigate = useNavigate();
 
@@ -72,18 +74,46 @@ const NewUserNamePage = () => {
     // /home으로 이동
   };
 
+  const checkHandler = async () => {
+    const value = userNameRef.current.value;
+    if (value.trim().length === 0) {
+      alert("닉네임을 입력해주세요");
+      return;
+    }
+
+    try {
+      const res = await API.post("/auth/verify/username", { username: value });
+      console.log(res);
+      if (res.data.message === "Valid username") {
+        setUsernameCheck(true);
+      }
+    } catch (error) {
+      alert("다시 시도해주세요");
+      console.log(error);
+    }
+  };
+
   return (
     <div className="flex h-dvh w-full items-center justify-center">
       <form
         onSubmit={(e) => onSubmitHandler(e)}
         className="flex flex-col gap-4"
       >
-        <input
-          ref={userNameRef}
-          type="text"
-          className="bg-orange-300"
-          placeholder="username"
-        />
+        <div>
+          <input
+            ref={userNameRef}
+            type="text"
+            className="bg-orange-300"
+            placeholder="username"
+          />
+          <button
+            type="button"
+            className="rounded bg-orange-200 text-sm"
+            onClick={checkHandler}
+          >
+            중복 검사
+          </button>
+        </div>
         <button type="submit" className="border-2 border-red-800">
           제출
         </button>
