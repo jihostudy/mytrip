@@ -93,10 +93,10 @@ const RegisterPage = () => {
       }
 
       postUrl = "/auth/verify/username";
-      registerInput = userNameRef.current.value;
+      registerInput = { username: userNameRef.current.value };
     } else {
       postUrl = "/auth/verify/email";
-      registerInput = emailRef.current.value;
+      registerInput = { email: emailRef.current.value };
     }
 
     try {
@@ -104,10 +104,17 @@ const RegisterPage = () => {
       console.log(res);
       if (res.data.message === "Valid username") {
         setUsernameCheck(true);
+        alert("사용할 수 있습니다.");
       } else if (res.data.message === "Valid email") {
         setEmailCheck(true);
+        alert("사용할 수 있습니다.");
       }
     } catch (error) {
+      if (error.response.status === 409) {
+        alert("사용할 수 없습니다.");
+        return;
+      }
+
       alert("다시 시도해주세요");
       console.log(error);
     }

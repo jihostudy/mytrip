@@ -30,6 +30,11 @@ const NewUserNamePage = () => {
 
     // 첫 소셜 로그인일 때, username 등록 api
     async function updateUsername(username) {
+      if (!usernameCheck) {
+        alert("닉네임 중복 체크를 해주세요.");
+        return;
+      }
+
       try {
         const res = await API.post(
           "/auth/updateUsername",
@@ -86,8 +91,14 @@ const NewUserNamePage = () => {
       console.log(res);
       if (res.data.message === "Valid username") {
         setUsernameCheck(true);
+        alert("사용할 수 있습니다.");
       }
     } catch (error) {
+      if (error.response.status === 409) {
+        alert("사용할 수 없습니다.");
+        return;
+      }
+
       alert("다시 시도해주세요");
       console.log(error);
     }
