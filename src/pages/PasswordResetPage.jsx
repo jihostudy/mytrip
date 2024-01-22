@@ -32,19 +32,29 @@ const PasswordResetPage = () => {
   };
 
   return (
-    <div className="flex h-4/5 w-full items-center justify-center">
+    <div className="relative top-[15%] flex h-4/5 w-full flex-col items-center">
       <form
-        className="flex flex-col justify-center gap-4"
+        className="flex w-1/3 min-w-[485px] justify-between"
         onSubmit={(e) => emailSendHandler(e)}
       >
-        <input
-          className="border-2 border-black bg-orange-300"
-          placeholder="email"
-          ref={emailRef}
-        />
-        <button type="submit" className='text-sm" rounded bg-orange-200'>
-          보내기
-        </button>
+        <div className="grid-rows- grid w-3/5 grid-cols-[2fr_5fr] grid-rows-3">
+          <label className="col flex items-center justify-start font-bold">
+            이메일
+          </label>
+          <input placeholder="입력해주세요" ref={emailRef} />
+          <p className="col-span-2 flex items-center text-sm text-gray-500">
+            가입했던 메일을 입력해주세요
+          </p>
+        </div>
+        {/* 오른쪽 */}
+        <div className="relative h-full w-1/5">
+          <button
+            type="submit"
+            className="aspect-square w-full rounded-[50%] border-[1px] border-solid border-black bg-[#FFCB16] shadow-[0_0_40px_0px_#FFCB16]"
+          >
+            메일 전송
+          </button>
+        </div>
       </form>
     </div>
   );
