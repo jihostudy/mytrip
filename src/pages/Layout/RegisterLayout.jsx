@@ -5,7 +5,7 @@ const RegisterLayout = () => {
   return (
     <>
       <Outlet />
-      <div className="bg-gradient-radial absolute bottom-0 h-1/5 w-full rounded-[50%] from-[#CD8B3E] to-[#E8B57900]" />
+      <div className="absolute bottom-0 h-1/5 w-full rounded-[50%] bg-gradient-radial from-[#CD8B3E] via-[#E8B57900] via-70% to-[#E8B57900]" />
     </>
   );
 };

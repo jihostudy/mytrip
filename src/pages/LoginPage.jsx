@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // router
 import { Link, useNavigate } from "react-router-dom";
 // axios
@@ -10,12 +10,10 @@ import GoogleLoginBtn from "../components/GoogleLoginBtn";
 // Components
 import KakaoLoginBtn from "../components/KakaoLoginBtn";
 import NaverLoginBtn from "../components/NaverLoginBtn";
-// cookies
-// import { useCookies } from "react-cookie";
 
 const LoginPage = () => {
   const [userInfo, setUserInfo] = useRecoilState(user);
-
+  const [loginMessage, setLoginMessage] = useState("");
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const navigate = useNavigate();
@@ -52,10 +50,8 @@ const LoginPage = () => {
       console.log(statusCode);
       switch (statusCode) {
         case 404:
-          alert("해당 이메일로된 아이디가 없습니다");
-          break;
         case 401:
-          alert("비밀번호가 틀렸습니다.");
+          setLoginMessage("아이디 혹은 비밀번호가 맞지 않습니다.");
           break;
         case 400:
           alert("Bad request (요청 형식이 잘못됨)");
@@ -63,35 +59,57 @@ const LoginPage = () => {
       }
     }
   };
-  useEffect(() => {
-    console.log(userInfo);
-  }, [userInfo]);
 
   return (
-    <div className="flex h-4/5 w-full flex-col items-center justify-center">
-      <form className="flex flex-col" onSubmit={(e) => loginHandler(e)}>
-        <label>email</label>
-        <input
-          type="text"
-          ref={emailRef}
-          className=" border-2 border-black bg-orange-300"
-        />
-        <label>Password</label>
-        <input type="password" ref={passwordRef} className="bg-orange-300" />
-        <br />
-        <button type="submit" className="border-2 border-red-800">
-          Login
-        </button>
-        <div>
-          <button className="mt-5 border-2 border-red-800">
-            <Link to="/home/auth/reset">비밀번호 찾기</Link>
+    <div className="relative top-[15%] flex h-4/5 w-full flex-col items-center">
+      <form
+        className="flex w-1/3 min-w-[485px] justify-between"
+        onSubmit={(e) => loginHandler(e)}
+      >
+        {/* 왼쪽 */}
+        <div className="grid w-3/5 grid-cols-[2fr_5fr] grid-rows-4">
+          <label className="col flex items-center justify-start font-bold">
+            이메일
+          </label>
+          <input type="text" ref={emailRef} placeholder="입력해주세요" />
+          <label className="col flex items-center justify-start font-bold">
+            비밀번호
+          </label>
+          <input type="password" ref={passwordRef} placeholder="입력해주세요" />
+          <p className="col-span-2 flex items-center text-xs text-[#EB4315]">
+            {loginMessage}
+          </p>
+
+          <Link
+            to="/home/auth/reset"
+            className="mt-5 border-2 border-red-800 underline underline-offset-2"
+          >
+            회원가입
+          </Link>
+          <Link
+            to="/home/auth/reset"
+            className="mt-5 border-2 border-red-800 underline underline-offset-2"
+          >
+            비밀번호 찾기
+          </Link>
+        </div>
+        {/* 오른쪽 */}
+        <div className="relative h-full w-1/5">
+          <button
+            type="submit"
+            className="aspect-square w-full rounded-[50%] bg-[#FFCB16] shadow-[0_0_40px_0px_#FFCB16]"
+          >
+            로그인
           </button>
         </div>
       </form>
-      <div className="flex flex-row">
-        <KakaoLoginBtn />
-        <GoogleLoginBtn />
-        <NaverLoginBtn />
+      <div className="mt-6 flex w-1/3 min-w-[485px] items-center justify-between">
+        소셜 계정으로 로그인
+        <div className="flex w-2/5 justify-between">
+          <NaverLoginBtn />
+          <KakaoLoginBtn />
+          <GoogleLoginBtn />
+        </div>
       </div>
     </div>
   );

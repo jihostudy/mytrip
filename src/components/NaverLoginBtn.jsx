@@ -1,4 +1,6 @@
 import React from "react";
+// images & icon
+import naverBtn from "../assets/icons/naverBtn.png";
 
 const NaverLoginBtn = () => {
   const clientId = import.meta.env.VITE_NAVER_CLIENTID;
@@ -12,8 +14,8 @@ const NaverLoginBtn = () => {
   }
 
   return (
-    <button onClick={loginHandler} className="m-2 border-2 border-red-800">
-      네이버로그인
+    <button onClick={loginHandler} className="m-2">
+      <img src={naverBtn} alt="네이버로그인" className="w-11" />
     </button>
   );
 };

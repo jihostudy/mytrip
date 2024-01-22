@@ -1,4 +1,6 @@
 import React from "react";
+// images & icon
+import googleBtn from "../assets/icons/googleBtn.svg";
 
 const GoogleLoginBtn = () => {
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENTID;
@@ -11,8 +13,8 @@ const GoogleLoginBtn = () => {
   }
 
   return (
-    <button onClick={loginHandler} className="m-2 border-2 border-red-800">
-      구글로그인
+    <button onClick={loginHandler} className="m-2">
+      <img src={googleBtn} alt="구글로그인" className="w-11" />
     </button>
   );
 };
