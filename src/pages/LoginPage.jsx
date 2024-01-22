@@ -81,7 +81,7 @@ const LoginPage = () => {
           </p>
 
           <Link
-            to="/home/auth/reset"
+            to="/home/auth/signup"
             className="mt-5 border-2 border-red-800 underline underline-offset-2"
           >
             회원가입
@@ -97,7 +97,7 @@ const LoginPage = () => {
         <div className="relative h-full w-1/5">
           <button
             type="submit"
-            className="aspect-square w-full rounded-[50%] bg-[#FFCB16] shadow-[0_0_40px_0px_#FFCB16]"
+            className="aspect-square w-full rounded-[50%] border-[1px] border-solid border-black bg-[#FFCB16] shadow-[0_0_40px_0px_#FFCB16]"
           >
             로그인
           </button>

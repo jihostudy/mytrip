@@ -3,8 +3,6 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // axios
 import { API } from "../api/API";
-// cookies
-import { Cookies } from "react-cookie";
 
 const RegisterPage = () => {
   const [usernameCheck, setUsernameCheck] = useState(false);
@@ -15,24 +13,22 @@ const RegisterPage = () => {
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
 
-  const cookie = new Cookies();
-
   const navigate = useNavigate();
 
   // styles
-  const inputClasses = "border-2 border-black bg-orange-300 ";
-  const buttonClasses = " rounded bg-orange-200 text-sm";
+  const buttonClasses =
+    "relative right-3 h-[140%] rounded-lg border-[1px] border-solid border-black";
 
   // 회원가입
   const registerHandler = async (event) => {
     event.preventDefault();
 
     if (!usernameCheck) {
-      alert("닉네임 중복 체크를 해주세요.");
+      alert("닉네임 중복 확인을 해주세요.");
       return;
     }
     if (!emailCheck) {
-      alert("이메일 중복 체크를 해주세요.");
+      alert("이메일 중복 확인을 해주세요.");
       return;
     }
 
@@ -67,12 +63,6 @@ const RegisterPage = () => {
       // access token 저장
       localStorage.setItem("accessToken", res.headers.get("Authorization"));
       // refresh token 저장
-      // console.log(res.cookies.get("refreshToken"));
-      // cookie.set("refreshToken", res.cookies.get("refreshToken"), {
-      //   path: "/",
-      //   secure: true,
-      //   sameSite: "none",
-      // });
 
       // 성공 시 메인창으로 리다이렉트
       navigate("/home");
@@ -104,10 +94,8 @@ const RegisterPage = () => {
       console.log(res);
       if (res.data.message === "Valid username") {
         setUsernameCheck(true);
-        alert("사용할 수 있습니다.");
       } else if (res.data.message === "Valid email") {
         setEmailCheck(true);
-        alert("사용할 수 있습니다.");
       }
     } catch (error) {
       if (error.response.status === 409) {
@@ -121,56 +109,78 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="flex h-4/5 w-full items-center justify-center">
+    <div className="relative top-[15%] flex h-4/5 w-full flex-col items-center">
       <form
-        className="flex flex-col gap-4"
+        className="flex w-[45%] min-w-[485px] justify-between"
         onSubmit={(e) => registerHandler(e)}
       >
-        <div className="flex gap-2">
-          <input
-            type="text"
-            ref={userNameRef}
-            className={inputClasses}
-            placeholder="username"
-          />
+        {/* 왼쪽 */}
+        <div className="grid w-5/6 grid-cols-[30fr_55fr_13fr] grid-rows-8 gap-y-2">
+          <label className="col flex items-center justify-start font-bold">
+            닉네임
+          </label>
+          <input type="text" ref={userNameRef} placeholder="입력해주세요" />
+
           <button
             type="button"
             className={buttonClasses}
             onClick={() => checkHandler("username")}
           >
-            중복 검사
+            중복 확인
           </button>
-        </div>
-        <div className="flex gap-2">
-          <input
-            type="text"
-            ref={emailRef}
-            className={inputClasses}
-            placeholder="email"
-          />
+          <p className="col-span-3 flex items-center text-xs text-[#38C3FF]">
+            사용가능한 닉네임입니다.
+          </p>
+          <label className="col flex items-center justify-start font-bold">
+            이메일
+          </label>
+          <input type="text" ref={emailRef} placeholder="입력해주세요" />
           <button
             type="button"
             className={buttonClasses}
             onClick={() => checkHandler("email")}
           >
-            중복 검사
+            중복 확인
+          </button>
+          <p className="col-span-3 flex items-center text-xs text-[#EB4315]">
+            이메일 형식이 올바르지 않습니다.
+          </p>
+
+          <label className="col flex items-center justify-start font-bold">
+            비밀번호
+          </label>
+          <input
+            type="password"
+            ref={passwordRef}
+            placeholder="입력해주세요"
+            className="col-span-2"
+          />
+          <label className="col flex items-center justify-start font-bold">
+            비밀번호 확인
+          </label>
+          <input
+            type="password"
+            ref={passwordRef}
+            placeholder="입력해주세요"
+            className="col-span-2"
+          />
+          <p className="col-span-3 text-[14px] text-[#00000040]">
+            ※최소 8자 이상 ※최소 1개의 대문자 & 특수문자 & 숫자 사용
+          </p>
+        </div>
+        {/* 오른쪽 */}
+        <div className="relative h-full w-[13%]">
+          <button className="aspect-square w-full rounded-[50%] border-[1px] border-solid border-black bg-[#FFCB16] shadow-[0_0_40px_0px_#FFCB16]">
+            회원가입
           </button>
         </div>
-
-        <input
-          type="password"
-          ref={passwordRef}
-          className={inputClasses}
-          placeholder="password"
-        />
-        <input
-          type="password"
-          ref={confirmPasswordRef}
-          className={inputClasses}
-          placeholder="confirm password"
-        />
-        <button className={buttonClasses}>회원가입</button>
       </form>
+      <div className="flex w-[45%] min-w-[485px] justify-between">
+        <div className="aspect-square w-[20px] rounded-md border-4 border-solid border-[#EB4315]" />
+        <p className="flex w-11/12 items-center">
+          이용약관 및 개인정보 수집 및 이용에 모두 동의합니다.
+        </p>
+      </div>
     </div>
   );
 };
