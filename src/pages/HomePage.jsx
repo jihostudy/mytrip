@@ -11,6 +11,10 @@ import DummyImage7 from "../assets/images/5.jpeg";
 import DummyImage8 from "../assets/images/7.jpeg";
 // data
 import data from "../lib/data.json";
+// hooks
+import { useConfirmModal } from "../hook/useConfirmModal";
+// router
+import { useNavigate } from "react-router";
 // Dummy images
 const dummy_images = [
   DummyImage1,
@@ -45,6 +49,39 @@ const useInterval = (callback, delay) => {
 };
 
 const HomePage = () => {
+  const navigate = useNavigate();
+  const userInput = useRef(null);
+  const { openModal } = useConfirmModal();
+  function openModalHandler(region) {
+    console.log(region);
+    openModal({
+      content: `${region}로 떠나시나요?`,
+      callback: () => {
+        navigate("/planning");
+      },
+    });
+  }
+  //-----------------------------------검색창---------------------------------------------
+  const [filteredList, setFilteredList] = useState(input_list);
+  const displayList = filteredList.map((list) => (
+    <div
+      key={list}
+      className="my-1.5 w-4/5 cursor-pointer pl-4 text-[#3C3C43]/40 hover:text-black"
+      onClick={(e) => openModalHandler(e.target.innerText)}
+    >
+      {list}
+    </div>
+  ));
+  const findMatches = (wordToMatch) => {
+    // 배열 반환
+    return input_list.filter((input) => {
+      const regex = new RegExp(wordToMatch, "giu");
+      return input.match(regex);
+    });
+  };
+  const inputHandler = (input) => {
+    setFilteredList(findMatches(input));
+  };
   // ---------------------------------인기 계획-----------------------------------------
   const numDisplayImg = 4;
   const numFetchImages = dummy_images.length; // 백엔드에서 가져온 인기 계획 개수
@@ -64,28 +101,11 @@ const HomePage = () => {
 
     setDisplayImg(updatedDisplayImg);
   }, [imgIdx]);
-  //-----------------------------------검색창---------------------------------------------
-  const [filteredList, setFilteredList] = useState(input_list);
-  const displayList = filteredList.map((list) => (
-    <div key={list} className="my-1.5 w-4/5 pl-4 text-[#3C3C43]/40">
-      {list}
-    </div>
-  ));
-  const findMatches = (wordToMatch) => {
-    // 배열 반환
-    return input_list.filter((input) => {
-      const regex = new RegExp(wordToMatch, "gi");
-      return input.match(regex);
-    });
-  };
-  const inputHandler = (input) => {
-    setFilteredList(findMatches(input));
-  };
 
   return (
     <main className="flex h-4/5 w-full flex-col items-center justify-center">
       {/* 검색 구역 */}
-      <div className="relative flex h-1/3 w-full flex-col items-center justify-center">
+      <div className="relative flex h-1/3 w-full flex-col items-center justify-start">
         <div className="mb-3 text-xl">어디로 여행을 떠나시나요?</div>
         <div className="flex h-1/5 w-[28%] border-[1px] border-solid border-black">
           <img src={searchIcon} alt="검색 아이콘" className="mx-2 w-[10%]" />
@@ -99,7 +119,7 @@ const HomePage = () => {
         </div>
         <div
           id="region-list"
-          className="flex h-2/5 w-[28%] flex-col items-center overflow-hidden overflow-y-auto border-[1px] border-t-0 border-solid border-black bg-[#F5F5F5] text-sm"
+          className="flex max-h-[40%] w-[28%] flex-col items-center overflow-hidden overflow-y-auto border-[1px] border-t-0 border-solid border-black bg-[#F5F5F5] text-sm"
         >
           {displayList}
         </div>
