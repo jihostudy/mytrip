@@ -1,70 +1,107 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // router
 import { useNavigate } from "react-router-dom";
 // axios
 import { API } from "../api/API";
 
 const RegisterPage = () => {
-  const [usernameCheck, setUsernameCheck] = useState(false);
-  const [emailCheck, setEmailCheck] = useState(false);
+  // styles
+  const buttonClasses =
+    "relative right-3 h-[140%] rounded-lg border-[1px] border-solid border-black";
+  const labelClasses = "col flex items-center justify-start font-bold";
+  const [trueGuideStyle, setTrueGuideStyle] = useState(
+    "col-span-3 flex items-center text-xs text-[#38C3FF]",
+  );
+  const [falseGuideStyle, setFalseGuideStyle] = useState(
+    "col-span-3 flex items-center text-xs text-[#EB4315]",
+  );
 
+  const [usernameValidate, setUsernameValidate] = useState({
+    confirmed: false,
+    confirmed_username: null,
+    message: null,
+  });
+  const [emailValidate, setEmailValidate] = useState({
+    confirmed: false,
+    confirmed_email: null,
+    message: null,
+  });
+  const [passwordValidate, setPasswordValidate] = useState({
+    confirmed: false,
+    message: null,
+  });
+  // 가이드
+  const usernameGuide = usernameValidate.confirmed ? (
+    <p className={trueGuideStyle}>{usernameValidate.message}</p>
+  ) : (
+    <p className={falseGuideStyle}>{usernameValidate.message}</p>
+  );
+
+  const emailGuide = emailValidate.confirmed ? (
+    <p className={trueGuideStyle}>{emailValidate.message}</p>
+  ) : (
+    <p className={falseGuideStyle}>{emailValidate.message}</p>
+  );
+  const passwordGuide = passwordValidate.confirmed ? (
+    <p className={trueGuideStyle}>{passwordValidate.message}</p>
+  ) : (
+    <p className={falseGuideStyle}>{passwordValidate.message}</p>
+  );
+  const [email, setEmail] = useState(null);
   const userNameRef = useRef(null);
-  const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
 
   const navigate = useNavigate();
 
-  // styles
-  const buttonClasses =
-    "relative right-3 h-[140%] rounded-lg border-[1px] border-solid border-black";
-
   // 회원가입
   const registerHandler = async (event) => {
     event.preventDefault();
 
-    if (!usernameCheck) {
-      alert("닉네임 중복 확인을 해주세요.");
-      return;
-    }
-    if (!emailCheck) {
-      alert("이메일 중복 확인을 해주세요.");
+    if (!usernameValidate.confirmed || !emailValidate.confirmed) {
+      // 애니메이션 필요 자리
+      alert("이메일과 닉네임 확인하세요");
       return;
     }
 
     const username = userNameRef.current.value;
-    const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    const confirmPassword = confirmPasswordRef.current.value;
 
-    // 이메일 validation
-    const email_pattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
-    if (email_pattern.test(email) === false) {
-      alert("이메일 형식이 아닙니다.");
-      setEmailCheck(false);
+    // 0. 닉네임 & 이메일 중복 검사 후 바꿨는지 검사
+    if (
+      usernameValidate.confirmed_username != username ||
+      emailValidate.confirmed_email != email
+    ) {
+      if (usernameValidate.confirmed_username != username) {
+        setUsernameValidate({
+          confirmed: false,
+          confirmed_username: null,
+          message: "닉네임 중복검사를 다시해주세요.",
+        });
+      }
+      if (emailValidate.confirmed_email != email) {
+        setEmailValidate({
+          confirmed: false,
+          confirmed_email: null,
+          message: "이메일 중복검사를 다시해주세요.",
+        });
+      }
       return;
     }
 
-    // 비번 같은지 확인 후
-    if (password !== confirmPassword) {
-      // 모달 창으로 경고??
-      alert("비밀번호가 다릅니다.");
+    // 1. 비번 형식 확인됬는지
+    if (!passwordValidate.confirmed) {
       return;
     }
 
-    // 서버로 전송 + 에러 핸들링
+    // 2. 서버로 전송
     try {
       const res = await API.post("/auth/signup", {
         username,
         email,
         password,
       });
-      console.log(res);
-      // access token 저장
       localStorage.setItem("accessToken", res.headers.get("Authorization"));
-      // refresh token 저장
-
-      // 성공 시 메인창으로 리다이렉트
       navigate("/home");
     } catch (error) {
       console.log(error);
@@ -72,42 +109,105 @@ const RegisterPage = () => {
     }
   };
 
-  // username, email 중복 검사
+  // 중복 검사
   const checkHandler = async (item) => {
     let postUrl;
     let registerInput;
+    const username = userNameRef.current.value;
     if (item === "username") {
-      if (userNameRef.current.value.trim().length === 0) {
-        alert("닉네임을 입력해주세요");
+      if (username.trim().length === 0) {
+        setUsernameValidate({
+          confirmed: false,
+          confirmed_username: null,
+          message: "닉네임을 입력해주세요.",
+        });
         return;
       }
 
       postUrl = "/auth/verify/username";
-      registerInput = { username: userNameRef.current.value };
+      registerInput = { username: username };
     } else {
+      if (!emailValidate.confirmed) {
+        // 애니메이션 필요 자리
+        return;
+      }
       postUrl = "/auth/verify/email";
-      registerInput = { email: emailRef.current.value };
+      registerInput = { email: email };
     }
 
     try {
       const res = await API.post(postUrl, registerInput);
       console.log(res);
       if (res.data.message === "Valid username") {
-        setUsernameCheck(true);
+        setUsernameValidate({
+          confirmed: true,
+          confirmed_username: username,
+          message: "사용가능한 닉네임입니다.",
+        });
       } else if (res.data.message === "Valid email") {
-        setEmailCheck(true);
+        setEmailValidate({
+          confirmed: true,
+          confirmed_email: email,
+          message: "사용가능한 이메일입니다.",
+        });
       }
     } catch (error) {
-      if (error.response.status === 409) {
-        alert("사용할 수 없습니다.");
-        return;
+      const errorStatus = error.response.status;
+      const errorMessage = error.response.data.message;
+      if (errorStatus === 409) {
+        if (errorMessage === "Username already exists") {
+          setUsernameValidate({
+            confirmed: false,
+            confirmed_username: null,
+            message: "이미 사용중인 닉네임입니다.",
+          });
+        } else if (errorMessage === "Email already exists") {
+          setEmailValidate({
+            confirmed: false,
+            confirmed_email: null,
+            message: "이미 사용중인 이메일입니다.",
+          });
+        }
+      } else if (errorStatus === 500) {
+        alert("Internal Server Error!");
+        navigate("/home");
       }
-
-      alert("다시 시도해주세요");
-      console.log(error);
     }
   };
-
+  // 이메일 형식 검사
+  const emailRegex = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
+  function validateEmail(email) {
+    setEmail(email);
+    if (emailRegex.test(email) === false) {
+      setEmailValidate({
+        confirmed: false,
+        confirmed_email: null,
+        message: "이메일 형식이 올바르지 않습니다.",
+      });
+      return;
+    }
+    setEmailValidate((prev) => ({
+      ...prev,
+      confirmed: true,
+      message: null,
+    }));
+  }
+  // 비밀번호 형식 검사
+  const passwordRegex =
+    /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-])(?=.*\d).{8,}$/;
+  function validatePassword(password) {
+    if (!passwordRegex.test(password)) {
+      setPasswordValidate({
+        confirmed: false,
+        message: "비밀번호 기준에 맞게 다시 입력해주세요.",
+      });
+    } else {
+      setPasswordValidate({
+        confirmed: true,
+        message: null,
+      });
+    }
+  }
   return (
     <div className="relative top-[15%] flex h-4/5 w-full flex-col items-center">
       <form
@@ -115,12 +215,15 @@ const RegisterPage = () => {
         onSubmit={(e) => registerHandler(e)}
       >
         {/* 왼쪽 */}
-        <div className="grid w-5/6 grid-cols-[30fr_55fr_13fr] grid-rows-8 gap-y-2">
-          <label className="col flex items-center justify-start font-bold">
-            닉네임
-          </label>
-          <input type="text" ref={userNameRef} placeholder="입력해주세요" />
-
+        <div className="relative grid w-5/6 grid-cols-[30fr_55fr_13fr] grid-rows-8 gap-y-2">
+          {/* 닉네임 */}
+          <label className={labelClasses}>닉네임</label>
+          <input
+            type="text"
+            ref={userNameRef}
+            placeholder="입력해주세요"
+            className="w-3/4"
+          />
           <button
             type="button"
             className={buttonClasses}
@@ -128,13 +231,15 @@ const RegisterPage = () => {
           >
             중복 확인
           </button>
-          <p className="col-span-3 flex items-center text-xs text-[#38C3FF]">
-            사용가능한 닉네임입니다.
-          </p>
-          <label className="col flex items-center justify-start font-bold">
-            이메일
-          </label>
-          <input type="text" ref={emailRef} placeholder="입력해주세요" />
+          {usernameGuide}
+          {/* 이메일 */}
+          <label className={labelClasses}>이메일</label>
+          <input
+            type="text"
+            placeholder="입력해주세요"
+            onChange={(e) => validateEmail(e.target.value)}
+            className="w-3/4"
+          />
           <button
             type="button"
             className={buttonClasses}
@@ -142,28 +247,25 @@ const RegisterPage = () => {
           >
             중복 확인
           </button>
-          <p className="col-span-3 flex items-center text-xs text-[#EB4315]">
-            이메일 형식이 올바르지 않습니다.
-          </p>
-
-          <label className="col flex items-center justify-start font-bold">
-            비밀번호
-          </label>
+          {emailGuide}
+          {/* 비밀번호 */}
+          <label className={labelClasses}>비밀번호</label>
           <input
             type="password"
             ref={passwordRef}
             placeholder="입력해주세요"
-            className="col-span-2"
+            className="col-span-2 w-3/5"
+            onBlur={(e) => validatePassword(e.target.value)}
           />
-          <label className="col flex items-center justify-start font-bold">
-            비밀번호 확인
-          </label>
+          {/* 비밀번호 확인 */}
+          <label className={labelClasses}>비밀번호 확인</label>
           <input
             type="password"
-            ref={passwordRef}
+            ref={confirmPasswordRef}
             placeholder="입력해주세요"
-            className="col-span-2"
+            className="col-span-2 w-3/5"
           />
+          {passwordGuide}
           <p className="col-span-3 text-[14px] text-[#00000040]">
             ※최소 8자 이상 ※최소 1개의 대문자 & 특수문자 & 숫자 사용
           </p>
@@ -175,7 +277,8 @@ const RegisterPage = () => {
           </button>
         </div>
       </form>
-      <div className="flex w-[45%] min-w-[485px] justify-between">
+      {/* 아래 */}
+      <div className="mt-2 flex w-[45%] min-w-[485px] justify-between">
         <div className="aspect-square w-[20px] rounded-md border-4 border-solid border-[#EB4315]" />
         <p className="flex w-11/12 items-center">
           이용약관 및 개인정보 수집 및 이용에 모두 동의합니다.
