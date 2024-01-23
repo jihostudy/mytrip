@@ -111,7 +111,7 @@ body,
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.2);
-  height: 65%;
+  height: 40%;
   border-radius: 7px;
 }
 

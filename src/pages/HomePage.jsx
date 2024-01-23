@@ -9,7 +9,8 @@ import DummyImage5 from "../assets/images/3.jpeg";
 import DummyImage6 from "../assets/images/6.jpeg";
 import DummyImage7 from "../assets/images/5.jpeg";
 import DummyImage8 from "../assets/images/7.jpeg";
-
+// data
+import data from "../lib/data.json";
 // Dummy images
 const dummy_images = [
   DummyImage1,
@@ -22,7 +23,7 @@ const dummy_images = [
   DummyImage8,
 ];
 // Input list
-const input_list = ["강원도", "울산", "부산", "서울", "경기도", "수원", "강남"];
+const input_list = data.regions;
 // Components
 import HomeImage from "../components/HomeImage";
 //custom hook
