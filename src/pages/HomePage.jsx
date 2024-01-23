@@ -47,13 +47,12 @@ const useInterval = (callback, delay) => {
     }
   }, [delay]);
 };
-
+// 컴포넌트
 const HomePage = () => {
   const navigate = useNavigate();
-  const userInput = useRef(null);
+  const userInput = useRef();
   const { openModal } = useConfirmModal();
   function openModalHandler(region) {
-    console.log(region);
     openModal({
       content: `${region}로 떠나시나요?`,
       callback: () => {
@@ -105,7 +104,14 @@ const HomePage = () => {
   return (
     <main className="flex h-4/5 w-full flex-col items-center justify-center">
       {/* 검색 구역 */}
-      <div className="relative flex h-1/3 w-full flex-col items-center justify-start">
+      <form
+        className="relative flex h-1/3 w-full flex-col items-center justify-start"
+        // onSubmit={(e) => openModalHandler(findMatches(e.target.value)[0])}
+        onSubmit={(e) => {
+          e.preventDefault();
+          openModalHandler(filteredList[0]);
+        }}
+      >
         <div className="mb-3 text-xl">어디로 여행을 떠나시나요?</div>
         <div className="flex h-1/5 w-[28%] border-[1px] border-solid border-black">
           <img src={searchIcon} alt="검색 아이콘" className="mx-2 w-[10%]" />
@@ -114,6 +120,7 @@ const HomePage = () => {
             placeholder="여행지를 입력해주세요"
             id="region-list"
             className="h-full w-full text-sm"
+            ref={userInput}
             onInput={(event) => inputHandler(event.target.value)}
           />
         </div>
@@ -123,7 +130,7 @@ const HomePage = () => {
         >
           {displayList}
         </div>
-      </div>
+      </form>
       {/* 보여주기 구역 */}
       <div className="flex h-1/6 w-full items-center justify-center">
         여행자들의 픽

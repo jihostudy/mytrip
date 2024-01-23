@@ -6,9 +6,6 @@ const HomeImage = (props) => {
   const hoverHandler = () => {
     setHover((prev) => !prev);
   };
-  useEffect(() => {
-    console.log(hover);
-  }, [hover]);
   return (
     <li className="flex w-1/6 items-center overflow-hidden">
       <img
