@@ -30,23 +30,8 @@ const dummy_images = [
 const input_list = data.regions;
 // Components
 import HomeImage from "../components/HomeImage";
-//custom hook
-const useInterval = (callback, delay) => {
-  const savedCallback = useRef();
-  useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
-
-  useEffect(() => {
-    function tick() {
-      savedCallback.current();
-    }
-    if (delay !== null) {
-      let id = setInterval(tick, delay);
-      return () => clearInterval(id);
-    }
-  }, [delay]);
-};
+// custom cooks
+import { useInterval } from "../hook/useInterval";
 // 컴포넌트
 const HomePage = () => {
   const navigate = useNavigate();
@@ -86,27 +71,33 @@ const HomePage = () => {
   const numFetchImages = dummy_images.length; // 백엔드에서 가져온 인기 계획 개수
   const [imgIdx, setImgIdx] = useState(0);
   const [displayImg, setDisplayImg] = useState([]);
-  useInterval(() => {
-    setImgIdx((prev) => (prev + 1) % 10);
-  }, 3000);
+  const [isHovered, setIsHovered] = useState(false);
+  useInterval(
+    () => {
+      setImgIdx((prev) => (prev + 1) % 10);
+    },
+    3000,
+    isHovered,
+  );
+  function hoverHandler() {
+    setIsHovered((prev) => !prev);
+  }
   useEffect(() => {
     let imgList = [];
     for (let i = 0; i < numDisplayImg; i++) {
       imgList.push(dummy_images[(i + imgIdx) % numFetchImages]);
     }
     const updatedDisplayImg = imgList.map((img) => (
-      <HomeImage img={img} key={img} />
+      <HomeImage img={img} key={img} onHover={hoverHandler} />
     ));
 
     setDisplayImg(updatedDisplayImg);
   }, [imgIdx]);
-
   return (
     <main className="flex h-4/5 w-full flex-col items-center justify-center">
       {/* 검색 구역 */}
       <form
         className="relative flex h-1/3 w-full flex-col items-center justify-start"
-        // onSubmit={(e) => openModalHandler(findMatches(e.target.value)[0])}
         onSubmit={(e) => {
           e.preventDefault();
           openModalHandler(filteredList[0]);
