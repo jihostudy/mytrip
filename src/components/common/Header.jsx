@@ -3,11 +3,17 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 // recoil
 import { user } from "../../lib/constants/userInfo";
-import { useRecoilState } from "recoil";
+import { confirmModalState } from "../../lib/constants/confirmModal";
+import { useRecoilState, useRecoilValue } from "recoil";
+// modal hook
+import { useConfirmModal } from "../../hook/useConfirmModal";
 
 const Header = () => {
   const [userInfo, setUserInfo] = useRecoilState(user);
   const navigate = useNavigate();
+
+  const { openModal } = useConfirmModal();
+  const modalData = useRecoilValue(confirmModalState);
 
   const logoutHandler = () => {
     console.log("clicked logout");
@@ -19,6 +25,14 @@ const Header = () => {
     }));
     navigate("/home");
   };
+
+  const logoutModalHandler = () => {
+    openModal({
+      content: "로그아웃 하시겠습니까?",
+      callback: logoutHandler,
+    });
+  };
+
   const navBar = !userInfo.isLogin ? (
     <>
       <Link to="/home/auth/login" className="m-3">
@@ -33,7 +47,7 @@ const Header = () => {
       <Link to="나의 여행지" className="m-3">
         {userInfo.username}의 여행지
       </Link>
-      <button onClick={logoutHandler}>로그아웃</button>
+      <button onClick={logoutModalHandler}>로그아웃</button>
     </>
   );
   // background: linear-gradient(180deg, #38C3FF 0%, #c9e7f4c9 60%, #cde3ed94 70.5%, #d9d9d900 100%);
