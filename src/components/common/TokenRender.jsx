@@ -46,7 +46,8 @@ const TokenRender = () => {
                 isLogin: false,
                 username: null,
               }));
-              navigate("/home");
+              // navigate("/home");
+              navigate("/start");
             }
             break;
 
