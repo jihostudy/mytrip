@@ -3,7 +3,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // axios
 import { API } from "../api/API";
-
+// icons & images
+import visibleIcon from "../assets/icons/visible.svg";
+import invisibleIcon from "../assets/icons/invisible.svg";
 const RegisterPage = () => {
   // styles
   const buttonClasses =
@@ -30,6 +32,11 @@ const RegisterPage = () => {
     confirmed: false,
     message: null,
   });
+  const [showPassword, setShowPassword] = useState({
+    origin: false,
+    confirm: false,
+  });
+
   // 가이드
   const usernameGuide = usernameValidate.confirmed ? (
     <p className={trueGuideStyle}>{usernameValidate.message}</p>
@@ -208,6 +215,16 @@ const RegisterPage = () => {
       });
     }
   }
+  // 비밀번호 보이기
+  function showPasswordHandler(value) {
+    setShowPassword((prev) => ({
+      ...prev,
+      [value]: !prev[value],
+    }));
+  }
+  useEffect(() => {
+    console.log(showPassword);
+  }, [showPassword]);
   return (
     <div className="relative top-[15%] flex h-4/5 w-full flex-col items-center">
       <form
@@ -224,6 +241,7 @@ const RegisterPage = () => {
             placeholder="입력해주세요"
             className="w-3/4"
           />
+
           <button
             type="button"
             className={buttonClasses}
@@ -251,20 +269,32 @@ const RegisterPage = () => {
           {/* 비밀번호 */}
           <label className={labelClasses}>비밀번호</label>
           <input
-            type="password"
+            type={showPassword.origin ? "text" : "password"}
             ref={passwordRef}
             placeholder="입력해주세요"
-            className="col-span-2 w-3/5"
+            className="w-3/5"
             onBlur={(e) => validatePassword(e.target.value)}
           />
+          <button onClick={() => showPasswordHandler("origin")} type="button">
+            <img
+              src={showPassword.origin ? visibleIcon : invisibleIcon}
+              alt="보기"
+            />
+          </button>
           {/* 비밀번호 확인 */}
           <label className={labelClasses}>비밀번호 확인</label>
           <input
-            type="password"
+            type={showPassword.confirm ? "text" : "password"}
             ref={confirmPasswordRef}
             placeholder="입력해주세요"
-            className="col-span-2 w-3/5"
+            className="w-3/5"
           />
+          <button onClick={() => showPasswordHandler("confirm")} type="button">
+            <img
+              src={showPassword.confirm ? visibleIcon : invisibleIcon}
+              alt="보기"
+            />
+          </button>
           {passwordGuide}
           <p className="col-span-3 text-[14px] text-[#00000040]">
             ※최소 8자 이상 ※최소 1개의 대문자 & 특수문자 & 숫자 사용

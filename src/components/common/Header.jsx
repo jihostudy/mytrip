@@ -67,7 +67,7 @@ const Header = () => {
       ? setDropDownMenu(
           <div
             className="absolute right-[-100%] top-[40%] flex w-[300%] flex-col"
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={toggleDropdown}
           >
             <Link to="회원정보" className={firstDropdown}>
               회원정보
@@ -86,7 +86,7 @@ const Header = () => {
       : setDropDownMenu(
           <div
             className="absolute right-[-50%] top-[40%] flex w-[200%] flex-col"
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={toggleDropdown}
           >
             <Link to="/home/auth/login" className={firstDropdown}>
               로그인
