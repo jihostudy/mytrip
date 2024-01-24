@@ -94,7 +94,7 @@ const HomePage = () => {
     setDisplayImg(updatedDisplayImg);
   }, [imgIdx]);
   return (
-    <main className="flex h-4/5 w-full flex-col items-center justify-center">
+    <main className="flex h-4/5 w-full flex-col items-center justify-start">
       {/* 검색 구역 */}
       <form
         className="relative flex h-1/3 w-full flex-col items-center justify-start"
@@ -123,14 +123,14 @@ const HomePage = () => {
         </div>
       </form>
       {/* 보여주기 구역 */}
-      <div className="flex h-1/6 w-full items-center justify-center">
+      <div className="flex h-1/6 w-full items-center justify-center text-xl">
         여행자들의 픽
       </div>
-      <div className="h-1/3 w-full">
+      <div className="h-2/5 w-full">
         <ul className="flex h-full justify-evenly">{displayImg}</ul>
       </div>
       {/* Footer */}
-      <div className="h-1/6 w-full"></div>
+      {/* <div className="h-1/6 w-full"></div> */}
     </main>
   );
 };
