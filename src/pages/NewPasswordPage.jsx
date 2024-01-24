@@ -50,10 +50,10 @@ const NewPasswordPage = () => {
       navigate("/home");
     } catch (error) {
       // 404 : invalid token, 로그인 페이지로 리다이렉트
-      if (error.status === 404) {
+      if (error.response.status === 404) {
         alert("잘못된 접근입니다");
         navigate("/home");
-      } else if (error.status === 400) {
+      } else if (error.response.status === 400) {
         // 400 : bad request, 다시 시도
         alert("다시 시도해주세요");
       } else {

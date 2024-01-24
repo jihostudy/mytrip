@@ -105,27 +105,28 @@ const NewUserNamePage = () => {
   };
 
   return (
-    <div className="flex h-4/5 w-full items-center justify-center">
+    <div className="relative top-[15%] flex h-4/5 w-full flex-col items-center">
       <form
         onSubmit={(e) => onSubmitHandler(e)}
-        className="flex flex-col gap-4"
+        className="flex w-1/3 min-w-[485px] justify-between"
       >
-        <div>
-          <input
-            ref={userNameRef}
-            type="text"
-            className="bg-orange-300"
-            placeholder="username"
-          />
+        <div className="grid-rows- grid w-2/3 grid-cols-[2fr_5fr_2fr] grid-rows-3">
+          <label className="col flex items-center justify-center font-bold">
+            닉네임
+          </label>
+          <input ref={userNameRef} type="text" placeholder="입력해주세요" />
           <button
             type="button"
-            className="rounded bg-orange-200 text-sm"
             onClick={checkHandler}
+            className="relative left-1 h-[100%] rounded-lg border-[1px] border-solid border-black"
           >
             중복 검사
           </button>
         </div>
-        <button type="submit" className="border-2 border-red-800">
+        <button
+          type="submit"
+          className="aspect-square w-1/5 rounded-[50%] border-[1px] border-solid border-black bg-[#FFCB16] shadow-[0_0_40px_0px_#FFCB16]"
+        >
           제출
         </button>
       </form>
