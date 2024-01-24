@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 // recoil
 import { useRecoilState } from "recoil";
 import { user } from "../../lib/constants/userInfo";
+// components
+import Loading from "../UI/Loading";
 const KakaoRedirect = () => {
   const [userInfo, setUserInfo] = useRecoilState(user);
   const navigate = useNavigate();
