@@ -9,13 +9,17 @@ import character from "../assets/images/character.png";
 const StartPage = () => {
   const navigate = useNavigate();
 
+  // 시작 버튼 클릭 시 home으로 이동
   function onClickHandler() {
     navigate("/home");
   }
 
   return (
     <>
+      {/* header color */}
       <div className="absolute top-0 h-1/5 w-full bg-gradient-to-b from-[#38C3FF] from-0% via-[#cde3ed94] via-60% to-[#d9d9d900] to-100%"></div>
+
+      {/* 버튼, 문구 */}
       <div className="flex h-screen w-full flex-col items-center ">
         <div className="flex h-1/3 w-full items-end justify-center">
           <button
@@ -33,11 +37,15 @@ const StartPage = () => {
           <p className="text-lg">- 류시화, 지구별 여행자 -</p>
         </div>
       </div>
+
+      {/* 캐릭터 이미지 */}
       <img
         className="absolute bottom-[10%] right-[46%] z-20 h-1/4"
         src={character}
         alt="이방인"
       />
+
+      {/* footer color */}
       <div className="absolute bottom-0 flex h-1/5 w-full justify-center rounded-[50%] bg-gradient-radial from-[#CD8B3E] via-[#E8B57900] via-70% to-[#E8B57900]"></div>
     </>
   );
