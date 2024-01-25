@@ -53,8 +53,8 @@ const Header = () => {
     </Link>
   ) : (
     <>
-      <Link to="나의 여행지" className="m-3">
-        {userInfo.username}의 여행지
+      <Link to="/planning" className="m-3">
+        여행 계획
       </Link>
       <Link to="?" className="m-3 mr-5">
         커뮤니티

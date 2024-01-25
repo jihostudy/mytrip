@@ -16,6 +16,7 @@ import PlanningPage from "./pages/PlanningPage";
 import RegisterPage from "./pages/RegisterPage";
 import NewPasswordPage from "./pages/NewPasswordPage";
 import PasswordResetPage from "./pages/PasswordResetPage";
+import StartPage from "./pages/StartPage";
 // social-login
 import KakaoRedirect from "./components/Redirect/KakaoRedirect";
 import GoogleRedirect from "./components/Redirect/GoogleRedirect";
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
     element: <TokenRender />,
     errorElement: <ErrorPage />,
     children: [
+      {
+        path: "/start",
+        element: <StartPage />,
+      },
       {
         path: "/home",
         element: <HomeLayout />,

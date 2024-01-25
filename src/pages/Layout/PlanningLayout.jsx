@@ -1,12 +1,20 @@
 import React from "react";
 // router
 import { Outlet } from "react-router-dom";
+
+// Header
+import Header from "../../components/common/Header";
+
+//Modal
+import ConfirmModal from "../../components/UI/ConfirmModal";
+
 const PlanningLayout = () => {
   return (
-    <div>
-      여행계획 보면 왼쪽에 사이드바 같이 겹치는곳 놓을 자리
+    <>
+      <ConfirmModal />
+      <Header />
       <Outlet />
-    </div>
+    </>
   );
 };
 
