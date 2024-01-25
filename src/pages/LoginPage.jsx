@@ -61,7 +61,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="relative top-[15%] flex h-4/5 w-full flex-col items-center">
+    <div className="relative top-[20%] flex h-[88%] w-full flex-col items-center">
       <form
         className="flex w-1/3 min-w-[485px] justify-between"
         onSubmit={(e) => loginHandler(e)}

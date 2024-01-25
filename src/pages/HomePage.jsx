@@ -94,10 +94,10 @@ const HomePage = () => {
     setDisplayImg(updatedDisplayImg);
   }, [imgIdx]);
   return (
-    <main className="flex h-4/5 w-full flex-col items-center justify-start">
+    <main className="flex h-[88%] w-full flex-col items-center justify-start">
       {/* 검색 구역 */}
       <form
-        className="relative flex h-1/3 w-full flex-col items-center justify-start"
+        className="relative flex h-1/3 w-full flex-col items-center justify-center"
         onSubmit={(e) => {
           e.preventDefault();
           openModalHandler(filteredList[0]);

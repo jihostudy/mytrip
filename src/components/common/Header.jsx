@@ -85,7 +85,7 @@ const Header = () => {
         )
       : setDropDownMenu(
           <div
-            className="absolute right-[-50%] top-[40%] flex w-[200%] flex-col"
+            className="absolute right-[-50%] top-[60%] flex w-[200%] flex-col"
             onClick={toggleDropdown}
           >
             <Link to="/home/auth/login" className={firstDropdown}>
@@ -98,13 +98,14 @@ const Header = () => {
         );
   }, [userInfo.isLogin]);
   return (
-    <header className="sticky z-10 flex h-1/5 w-full justify-between bg-gradient-to-b from-[#38C3FF] from-0% via-[#cde3ed94] via-60% to-[#d9d9d900] to-100%">
-      <Link to="/home" className="relative left-[2%] top-[13%] ml-3">
+    // <header className="bg-gradient-header animate-header sticky z-10 flex h-1/5 w-full justify-between overflow-hidden bg-[length:400%_400%]">
+    <header className="sticky z-10 flex h-[12%] w-full justify-between bg-gradient-to-b from-[#38C3FF] from-0% via-[#38c3ff80] via-30% to-[#c6c6c600] to-100%">
+      <Link to="/home" className="relative left-[2%] top-[30%] ml-3">
         {/* <img src="" alt="Home" className="m-3" /> */}
         이방인
       </Link>
 
-      <nav className="relative right-[4%] top-[13%] mr-3 flex w-1/4 justify-end">
+      <nav className="relative right-[4%] top-[30%] mr-3 flex w-1/4 justify-end">
         {navBar}
         <div className="relative cursor-pointer" ref={dropDownRef}>
           <img src={myPageBtn} alt="설정" onClick={toggleDropdown} />
