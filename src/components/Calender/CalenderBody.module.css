@@ -1,0 +1,29 @@
+.t_bold {
+  font-weight: 600;
+}
+
+/* 동적 */
+.disable {
+  /* color: #e0e0e0; */
+}
+.start {
+  background-color: #38c3ff;
+  /* background-color: red; */
+  border-radius: 0.5rem 0 0 0.5rem;
+  cursor: pointer;
+}
+.middle {
+  background-color: #38c3ff;
+  border-radius: none;
+  cursor: pointer;
+}
+.end {
+  background-color: #38c3ff;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+.day_trip {
+  background-color: #38c3ff;
+  /* background-color: red; */
+  border-radius: 0.5rem 0.5rem 0.5rem 0.5rem;
+  cursor: pointer;
+}

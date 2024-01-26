@@ -5,9 +5,8 @@ import { addMonths, subMonths } from "date-fns";
 // components
 import CalenderHeader from "./CalenderHeader";
 import CalenderBody from "./CalenderBody";
-const Calender = ({ date }) => {
-  const [currentDate, setCurrentDate] = useState(date);
-  const [selectedDate, setSelectedDate] = useState(date);
+const Calender = (props) => {
+  const [currentDate, setCurrentDate] = useState(props.date);
 
   function onSelectMonth(value) {
     if (value === "prev") {
@@ -16,15 +15,15 @@ const Calender = ({ date }) => {
       setCurrentDate(addMonths(currentDate, 1));
     }
   }
-  function onDateClick(day) {
-    setSelectedDate(day);
+  function onDateClick(isAble, day) {
+    if (isAble != "disable") props.onDateClick(day);
   }
   return (
     <div className="flex h-full w-[45%] flex-col items-center">
       <CalenderHeader currentDate={currentDate} onSelectMonth={onSelectMonth} />
       <CalenderBody
         currentDate={currentDate}
-        selectedDate={selectedDate}
+        schedule={props.schedule}
         onDateClick={onDateClick}
       />
     </div>

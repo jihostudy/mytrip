@@ -6,19 +6,23 @@ import Button from "../UI/Button";
 import CalenderContainer from "../Calender/CalenderContainer";
 // Icons
 // import { BsCalendarDate } from "react-icons/bs";
-const PlanHeader = () => {
+const PlanHeader = (props) => {
   const location = useLocation();
 
   const region = location.state.region.slice(0, 2);
+  const { date, period } = props.data;
 
   return (
     <div className="flex h-[15%] w-[93%] items-start justify-between">
       <div className="flex h-3/5 w-1/2 items-end justify-start">
         <p className="mr-4 flex h-full items-end text-4xl">{region}</p>
         {/* <BsCalendarDate /> */}
-        <p className="relative z-10 flex h-full items-end">
-          날짜를 입력해주세요 <CalenderContainer />
-        </p>
+        <div className="relative z-30 flex h-full items-end">
+          날짜를 입력해주세요{" "}
+          <CalenderContainer
+            dateHandler={(schedule) => props.dateHandler(schedule)}
+          />
+        </div>
       </div>
 
       <div className="relative flex h-3/5 w-[14%] items-end justify-around">

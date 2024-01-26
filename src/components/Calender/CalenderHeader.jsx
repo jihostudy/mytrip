@@ -10,14 +10,17 @@ const CalenderHeader = ({ currentDate, onSelectMonth }) => {
   const dates = ["일", "월", "화", "수", "목", "금", "토"];
   dates.map((date) => {
     days.push(
-      <div className="flex h-full w-[14.28%] items-center justify-center">
+      <div
+        key={date}
+        className="flex h-full w-[14.28%] items-center justify-center"
+      >
         {date}
       </div>,
     );
   });
   return (
     <>
-      <div className="flex h-[30%] w-full items-center justify-between">
+      <div className="flex h-[30%] w-full items-center justify-between font-bold">
         <FaAngleLeft
           onClick={() => onSelectMonth("prev")}
           style={{ marginLeft: "3%" }}

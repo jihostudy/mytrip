@@ -7,10 +7,20 @@ import {
   endOfWeek,
   addDays,
   format,
-  getDate,
+  subDays,
+  isWithinInterval,
 } from "date-fns";
-import { isSameMonth, isSameDay } from "date-fns";
-const CalenderBody = ({ currentDate, selectedDate, onDateClick }) => {
+import {
+  isSameMonth,
+  isSameDay,
+  isAfter,
+  isBefore,
+  isSaturday,
+  isSunday,
+} from "date-fns";
+// CSS
+import classes from "./CalenderBody.module.css";
+const CalenderBody = ({ currentDate, schedule, onDateClick }) => {
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
@@ -22,34 +32,68 @@ const CalenderBody = ({ currentDate, selectedDate, onDateClick }) => {
   const today = new Date();
 
   let formattedDate;
+  // Styles
+  let isAble = null;
+  let t_bold = null;
 
-  // styles
-  const disabled = "flex w-[14.28%] items-center justify-center text-[#E0E0E0]";
-  const selected = "flex w-[14.28%] items-center justify-center text-blue-600";
-  const regular = "flex w-[14.28%] items-center justify-center";
+  const past = "flex justify-center items-center w-full h-full invisible";
+  const saturday =
+    "flex justify-center items-center w-full h-full text-[#006f80] hover:bg-[#38c3ff] hover:rounded-lg";
+  const sunday =
+    "flex justify-center items-center w-full h-full text-[#e53e30] hover:bg-[#38c3ff] hover:rounded-lg";
+  const regular =
+    "flex justify-center items-center w-full h-full hover:bg-[#38c3ff] hover:rounded-lg";
   while (day <= endDate) {
     for (let i = 0; i < 7; i++) {
       formattedDate = format(day, "d");
+      isAble = null;
+
+      if (!isSameMonth(day, monthStart) || isBefore(day, subDays(today, 1))) {
+        isAble = "disable";
+      }
+      //able
+      //start
+      else if (schedule.start && isSameDay(day, schedule.start)) {
+        if (!schedule.end) isAble = "day_trip";
+        else isAble = "start";
+      }
+      //end
+      else if (schedule.end) {
+        if (
+          isAfter(day, schedule.start) &&
+          isBefore(day, schedule.end) &&
+          isSameMonth(day, monthStart)
+        )
+          isAble = "middle";
+        else if (isSameDay(day, schedule.end) && isSameMonth(day, monthStart))
+          isAble = "end";
+      }
+
+      // 오늘?
+      isSameDay(day, today) ? (t_bold = "t_bold") : (t_bold = null);
+      // 이렇게 하지 않으면 마지막 isAble이 모두 할당됨
       const cloneDay = day;
+      const cloneIsAble = isAble;
       days.push(
         <div
-          className={
-            !isSameMonth(day, monthStart)
-              ? disabled
-              : isSameDay(day, selectedDate) &&
-                  isSameMonth(new Date(), selectedDate)
-                ? selected
-                : regular
-          }
+          className={[
+            "relative flex w-[14.28%] items-center justify-center",
+            classes[isAble],
+            classes[t_bold],
+          ].join(" ")}
           key={day}
-          onClick={() => onDateClick(parse(cloneDay))}
+          onClick={() => onDateClick(cloneIsAble, cloneDay)}
         >
           <span
-          // className={
-          //   format(currentDate, "M") !== format(day, "M")
-          //     ? "text not-valid"
-          //     : ""
-          // }
+            className={
+              !isSameMonth(day, monthStart) || isBefore(day, subDays(today, 1))
+                ? past
+                : isSaturday(day)
+                  ? saturday
+                  : isSunday(day)
+                    ? sunday
+                    : regular
+            }
           >
             {formattedDate}
           </span>
@@ -58,7 +102,7 @@ const CalenderBody = ({ currentDate, selectedDate, onDateClick }) => {
       day = addDays(day, 1);
     }
     rows.push(
-      <div className="flex h-1/5 justify-evenly" key={day}>
+      <div className="flex h-1/5 justify-evenly rounded-md" key={day}>
         {days}
       </div>,
     );
