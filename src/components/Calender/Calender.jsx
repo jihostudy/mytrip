@@ -1,0 +1,34 @@
+import React, { useEffect, useState } from "react";
+
+// date-fns
+import { addMonths, subMonths } from "date-fns";
+// components
+import CalenderHeader from "./CalenderHeader";
+import CalenderBody from "./CalenderBody";
+const Calender = ({ date }) => {
+  const [currentDate, setCurrentDate] = useState(date);
+  const [selectedDate, setSelectedDate] = useState(date);
+
+  function onSelectMonth(value) {
+    if (value === "prev") {
+      setCurrentDate(subMonths(currentDate, 1));
+    } else if (value === "next") {
+      setCurrentDate(addMonths(currentDate, 1));
+    }
+  }
+  function onDateClick(day) {
+    setSelectedDate(day);
+  }
+  return (
+    <div className="flex h-full w-[45%] flex-col items-center">
+      <CalenderHeader currentDate={currentDate} onSelectMonth={onSelectMonth} />
+      <CalenderBody
+        currentDate={currentDate}
+        selectedDate={selectedDate}
+        onDateClick={onDateClick}
+      />
+    </div>
+  );
+};
+
+export default Calender;
