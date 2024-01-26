@@ -1,33 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // components
 import PlaceCard from "../UI/PlaceCard";
 
 // 테스트용 장소 데이터
-const dummyPlace = {
+const dummyPlace1 = {
   image: null,
-  name: "성균관대학교",
+  name: "성",
   address: "경기도 수원시 장안구 서부로 2066",
-  isSave: false,
 
   // rating??
 };
-const dummyPlaceList = [
-  dummyPlace,
-  dummyPlace,
-  dummyPlace,
-  dummyPlace,
-  dummyPlace,
-  dummyPlace,
-  dummyPlace,
-  dummyPlace,
-  dummyPlace,
-];
+const dummyPlace2 = {
+  image: null,
+  name: "균",
+  address: "경기도 수원시 장안구 서부로 2066",
+
+  // rating??
+};
+const dummyPlace3 = {
+  image: null,
+  name: "관",
+  address: "경기도 수원시 장안구 서부로 2066",
+
+  // rating??
+};
+const dummyPlace4 = {
+  image: null,
+  name: "대",
+  address: "경기도 수원시 장안구 서부로 2066",
+
+  // rating??
+};
+const dummyPlace5 = {
+  image: null,
+  name: "학",
+  address: "경기도 수원시 장안구 서부로 2066",
+
+  // rating??
+};
+const dummyPlace6 = {
+  image: null,
+  name: "교",
+  address: "경기도 수원시 장안구 서부로 2066",
+
+  // rating??
+};
 
 const PlanPlace = () => {
   // 메뉴바 선택
   // 0 : 장소선택, 1: 여행지 불러오기, 2: 보관함
   const [menu, setMenu] = useState(0);
+  const [placeList, setPlaceList] = useState([]);
+  const [savedList, setSavedList] = useState([]);
 
   // css
   const menuBtnStyle = "text-xl";
@@ -36,6 +61,47 @@ const PlanPlace = () => {
   function menuClickHandler(num) {
     setMenu(num);
   }
+  function saveClickHandler(place) {
+    // 보관 버튼 클릭 시 isSave 값 변경
+    setPlaceList((prev) => {
+      const newList = prev.map((item) => {
+        if (place === item) {
+          item.isSave = !item.isSave;
+        }
+        return item;
+      });
+
+      // console.log(newList);
+      return newList;
+    });
+  }
+
+  // 백엔드에서 가져온 데이터
+  const dummyList = [
+    dummyPlace1,
+    dummyPlace2,
+    dummyPlace3,
+    dummyPlace4,
+    dummyPlace5,
+    dummyPlace6,
+  ];
+  useEffect(() => {
+    // 보관 여부 value 추가
+    dummyList.forEach((place) => (place.isSave = false));
+    setPlaceList(dummyList);
+  }, []);
+  // 보관함 state 설정
+  useEffect(() => {
+    setSavedList((prev) => {
+      const saved = [];
+      placeList.forEach((place) => {
+        if (place.isSave === true) {
+          saved.push(place);
+        }
+      });
+      return saved;
+    });
+  }, [placeList]);
 
   // menu에 따른 content (메뉴 이동 간에 지워지면 안되니까 state에 저장??, 보관함은 무조건)
   let content;
@@ -51,9 +117,14 @@ const PlanPlace = () => {
           <button>숙소</button>
         </div>
         {/* 장소 리스트 */}
-        <div className="flex h-[90%] flex-col gap-2 overflow-scroll">
-          {dummyPlaceList.map((place) => (
-            <PlaceCard key={place} data={dummyPlace} />
+        <div className="flex h-[90%] flex-col gap-2 overflow-y-scroll">
+          {placeList.map((place, index) => (
+            <PlaceCard
+              key={place.name}
+              place={place}
+              // index={index}
+              saveClickHandler={saveClickHandler}
+            />
           ))}
         </div>
 
@@ -66,7 +137,18 @@ const PlanPlace = () => {
     content = <div>여행지 불러오기</div>;
   } else if (menu === 2) {
     // 보관함
-    content = <div>보관함</div>;
+    console.log(savedList);
+    content = (
+      <div className="flex h-[90%] flex-col gap-2 overflow-y-scroll">
+        {savedList.map((place) => (
+          <PlaceCard
+            key={place.name}
+            place={place}
+            saveClickHandler={saveClickHandler}
+          />
+        ))}
+      </div>
+    );
   }
 
   return (
