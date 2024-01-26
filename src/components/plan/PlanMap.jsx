@@ -1,9 +1,12 @@
 import React from "react";
 
-const PlanMap = () => {
+// components
+import KakaoMap from "./KakaoMap";
+
+const PlanMap = ({ userInput }) => {
   return (
     <div className="h-full w-[32%] border border-solid border-black">
-      PlanMap
+      <KakaoMap userInput={userInput} />
     </div>
   );
 };

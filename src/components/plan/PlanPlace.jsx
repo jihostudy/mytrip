@@ -47,7 +47,7 @@ const dummyPlace6 = {
   // rating??
 };
 
-const PlanPlace = () => {
+const PlanPlace = ({ setUserInput }) => {
   // 메뉴바 선택
   // 0 : 장소선택, 1: 여행지 불러오기, 2: 보관함
   const [menu, setMenu] = useState(0);
@@ -74,6 +74,11 @@ const PlanPlace = () => {
       // console.log(newList);
       return newList;
     });
+  }
+  function onSubmitHandler(e) {
+    e.preventDefault();
+    console.log("장소 검색!");
+    setUserInput((prev) => e.target.userInput.value);
   }
 
   // 백엔드에서 가져온 데이터
@@ -168,8 +173,11 @@ const PlanPlace = () => {
           </button>
         </div>
         {/* 검색 */}
-        <input placeholder="검색창" />
+        <form className="w-full" onSubmit={(e) => onSubmitHandler(e)}>
+          <input className="w-full" name="userInput" placeholder="검색창" />
+        </form>
       </div>
+      {/* contents */}
       <div className="h-[88%] pt-4">{content}</div>
     </div>
   );
