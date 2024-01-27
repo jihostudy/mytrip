@@ -19,9 +19,6 @@ const PlanHeader = (props) => {
     if (!date.end) planPeriod = date.start;
     else planPeriod = date.start + " ~ " + date.end;
   }
-  useEffect(() => {
-    console.log("date.start" + date.start);
-  }, [date]);
   return (
     <div className="flex h-[15%] w-[93%] items-start justify-between">
       <div className="flex h-3/5 w-1/2 items-end justify-start">
