@@ -1,17 +1,58 @@
 import React, { useState, useEffect } from "react";
-// Components
+
+// 백엔드 데이터에 맞춰서 바꾸기
+// 타이틀 표시 안됨
+// 일자별로 배열 조작 필요
+// 마커간의 거리 표시?? 시간??
+const dummy = [
+  {
+    title: "카카오",
+    latlng: { lat: 33.450705, lng: 126.570677 },
+  },
+  {
+    title: "생태연못",
+    latlng: { lat: 33.450936, lng: 126.569477 },
+  },
+  {
+    title: "텃밭",
+    latlng: { lat: 33.450879, lng: 126.56994 },
+  },
+  {
+    title: "근린공원",
+    latlng: { lat: 33.451393, lng: 126.570738 },
+  },
+];
 
 // Map
-import { Map } from "react-kakao-maps-sdk";
+import { Map, MapMarker, useMap } from "react-kakao-maps-sdk";
 
 const initialOption = {
-  center: { lat: 36, lng: 127.67914362121796 },
+  center: { lat: 33.450701, lng: 126.570667 },
   level: 13,
   isPanto: false,
 };
 
 const KakaoMap = ({ userInput }) => {
   const [mapOption, setMapOption] = useState(initialOption);
+
+  // 마커 이벤트 컨테이너
+  const EventMarkerContainer = ({ position, content }) => {
+    const map = useMap();
+    const [isVisible, setIsVisible] = useState(false);
+
+    return (
+      <MapMarker
+        position={position} // 마커를 표시할 위치
+        // @ts-ignore
+        onClick={(marker) => map.panTo(marker.getPosition())}
+        onMouseOver={() => setIsVisible(true)}
+        onMouseOut={() => setIsVisible(false)}
+      >
+        {/* {isVisible && content} */}
+        {isVisible && <div className="w-full">{content}</div>}
+      </MapMarker>
+    );
+  };
 
   useEffect(() => {
     let timer1, timer2;
@@ -67,7 +108,30 @@ const KakaoMap = ({ userInput }) => {
       }}
       level={mapOption.level} // 지도의 확대 레벨
       isPanto={mapOption.isPanto} // 지도 이동 부드럽게?
-    />
+    >
+      {dummy.map((value) => (
+        <EventMarkerContainer
+          key={`EventMarkerContainer-${value.latlng.lat}-${value.latlng.lng}`}
+          position={value.latlng}
+          content={value.title}
+        />
+      ))}
+      {/* {dummy.map((position, index) => (
+        <MapMarker
+          key={`${position.title}-${position.latlng}`}
+          position={position.latlng} // 마커를 표시할 위치
+          image={{
+            src: "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png", // 마커이미지의 주소입니다
+            size: {
+              width: 24,
+              height: 35,
+            }, // 마커이미지의 크기입니다
+          }}
+          // title={position.title} // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+          content={<div style={{ color: "#000" }}>{position.value}</div>}
+        />
+      ))} */}
+    </Map>
   );
 };
 

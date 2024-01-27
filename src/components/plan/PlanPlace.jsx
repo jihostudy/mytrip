@@ -81,7 +81,7 @@ const PlanPlace = ({ setUserInput }) => {
     setUserInput((prev) => e.target.userInput.value);
   }
 
-  // 백엔드에서 가져온 데이터
+  // 백엔드에서 가져온 데이터 => dummyList 변경 후 데스트 할 것.
   const dummyList = [
     dummyPlace1,
     dummyPlace2,
