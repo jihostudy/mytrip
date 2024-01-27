@@ -85,27 +85,60 @@ const CalenderContainer = (props) => {
     period = " (" + getDateDiff(startDate, endDate) + "박)";
     startDate += " - ";
   }
+  // Button
+  const ableBtn = "absolute right-0 h-1/2 w-[15%] rounded-md bg-[#38C3FF]";
+  const disableBtn = "absolute right-0 h-1/2 w-[15%] rounded-md bg-[#6668692d]";
+  //------------------------------------hover-------------------------------------
+
+  const [hoverDate, setHoverDate] = useState(null);
+  let tempDate = { tempStart: null, tempEnd: null };
+  if (hoverDate) {
+    if (isAfter(hoverDate, schedule.start)) {
+      tempDate = {
+        tempStart: schedule.start,
+        tempEnd: hoverDate,
+      };
+    } else {
+      tempDate = {
+        tempStart: hoverDate,
+        tempEnd: schedule.start,
+      };
+    }
+  }
+  function hoverHandler(value) {
+    setHoverDate(value);
+  }
 
   return (
-    <div className="absolute top-[120%] flex h-[550%] w-[502%] flex-col items-center justify-around rounded-xl border-[1px] border-solid border-black bg-white">
-      <div className="flex h-[70%] w-[90%] justify-between text-sm">
-        <Calender date={today} schedule={schedule} onDateClick={onDateClick} />
+    <div className="absolute top-[120%] flex h-[550%] w-[502%] flex-col items-center justify-between rounded-xl border-[1px] border-solid border-black bg-white">
+      <div className="flex h-[65%] w-[90%] justify-between text-sm">
+        <Calender
+          date={today}
+          schedule={schedule}
+          onDateClick={onDateClick}
+          tempDate={tempDate}
+          onHoverHandler={hoverHandler}
+        />
         <Calender
           date={addMonth(today)}
           schedule={schedule}
           onDateClick={onDateClick}
+          tempDate={tempDate}
+          onHoverHandler={hoverHandler}
         />
       </div>
       <div className="relative flex h-[25%] w-[90%] items-center justify-center border-t-2 border-solid border-black">
         <p className="flex h-[50%] w-[82%] items-center justify-center text-lg font-semibold">
-          {startDate} {endDate}
+          {startDate}
+          {endDate}
           {period}
         </p>
         <button
-          className="absolute right-0 h-1/2 w-[15%] rounded-md bg-[#38C3FF]"
+          className={schedule.start ? ableBtn : disableBtn}
           onClick={() => {
             props.dateHandler(schedule);
           }}
+          disabled={schedule.start ? false : true}
         >
           완료
         </button>

@@ -36,7 +36,17 @@ const PlanningPage = () => {
 
   // 시간 입력
   function dateHandler(schedule) {
-    console.log(schedule);
+    if (schedule === "reset") {
+      setData((prev) => ({
+        ...prev,
+        date: {
+          start: null,
+          end: null,
+        },
+        period: null,
+      }));
+      return;
+    }
     let start = format(schedule.start, "yyyy.MM.dd");
     let end;
     let period;
@@ -57,10 +67,9 @@ const PlanningPage = () => {
       period: period,
     }));
   }
+
   return (
     <div className="relative flex h-full w-full flex-col items-center justify-start">
-      {/* Backdrop */}
-      <div className="fixed inset-0 z-20 h-full w-screen bg-black/75" />
       <PlanHeader data={data} dateHandler={dateHandler} />
       <PlanBody data={data} />
     </div>

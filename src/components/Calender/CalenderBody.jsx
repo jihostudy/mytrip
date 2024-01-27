@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // date-fns
 import {
   startOfMonth,
@@ -20,12 +20,18 @@ import {
 } from "date-fns";
 // CSS
 import classes from "./CalenderBody.module.css";
-const CalenderBody = ({ currentDate, schedule, onDateClick }) => {
+const CalenderBody = ({
+  currentDate,
+  schedule,
+  onDateClick,
+  tempDate,
+  onHoverHandler,
+}) => {
+  // -----------------------------------CalenDer----------------------------
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
-
   const rows = [];
   let days = [];
   let day = startDate;
@@ -35,6 +41,7 @@ const CalenderBody = ({ currentDate, schedule, onDateClick }) => {
   // Styles
   let isAble = null;
   let t_bold = null;
+  let hover = null;
 
   const past = "flex justify-center items-center w-full h-full invisible";
   const saturday =
@@ -47,14 +54,17 @@ const CalenderBody = ({ currentDate, schedule, onDateClick }) => {
     for (let i = 0; i < 7; i++) {
       formattedDate = format(day, "d");
       isAble = null;
+      hover = null;
 
       if (!isSameMonth(day, monthStart) || isBefore(day, subDays(today, 1))) {
         isAble = "disable";
       }
+
+      //클릭했을때 바뀌는 Styles
       //able
       //start
       else if (schedule.start && isSameDay(day, schedule.start)) {
-        if (!schedule.end) isAble = "day_trip";
+        if (!schedule.end) isAble = "day_trip"; // 당일치기
         else isAble = "start";
       }
       //end
@@ -68,7 +78,16 @@ const CalenderBody = ({ currentDate, schedule, onDateClick }) => {
         else if (isSameDay(day, schedule.end) && isSameMonth(day, monthStart))
           isAble = "end";
       }
-
+      //hover했을때 바뀌는 Styles
+      if (
+        isSameMonth(day, monthStart) &&
+        isWithinInterval(day, {
+          start: tempDate.tempStart,
+          end: tempDate.tempEnd,
+        })
+      ) {
+        hover = "hover";
+      }
       // 오늘?
       isSameDay(day, today) ? (t_bold = "t_bold") : (t_bold = null);
       // 이렇게 하지 않으면 마지막 isAble이 모두 할당됨
@@ -80,9 +99,13 @@ const CalenderBody = ({ currentDate, schedule, onDateClick }) => {
             "relative flex w-[14.28%] items-center justify-center",
             classes[isAble],
             classes[t_bold],
+            classes[hover],
           ].join(" ")}
           key={day}
-          onClick={() => onDateClick(cloneIsAble, cloneDay)}
+          onClick={() => {
+            onDateClick(cloneIsAble, cloneDay);
+            onHoverHandler(null);
+          }}
         >
           <span
             className={
@@ -94,6 +117,8 @@ const CalenderBody = ({ currentDate, schedule, onDateClick }) => {
                     ? sunday
                     : regular
             }
+            onMouseEnter={() => !schedule.end && onHoverHandler(cloneDay)}
+            onMouseLeave={() => onHoverHandler(null)}
           >
             {formattedDate}
           </span>

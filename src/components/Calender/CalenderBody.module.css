@@ -27,3 +27,7 @@
   border-radius: 0.5rem 0.5rem 0.5rem 0.5rem;
   cursor: pointer;
 }
+.hover {
+  background-color: #38c3ff;
+  border-radius: 0.5rem 0.5rem 0.5rem 0.5rem;
+}

@@ -10,18 +10,35 @@ const PlanHeader = (props) => {
   const location = useLocation();
 
   const region = location.state.region.slice(0, 2);
-  const { date, period } = props.data;
-
+  const { date } = props.data;
+  let planPeriod;
+  if (!date.start) {
+    planPeriod = "날짜를 입력해주세요";
+  } else {
+    // 당일치기
+    if (!date.end) planPeriod = date.start;
+    else planPeriod = date.start + " ~ " + date.end;
+  }
+  useEffect(() => {
+    console.log("date.start" + date.start);
+  }, [date]);
   return (
     <div className="flex h-[15%] w-[93%] items-start justify-between">
       <div className="flex h-3/5 w-1/2 items-end justify-start">
-        <p className="mr-4 flex h-full items-end text-4xl">{region}</p>
+        <p className="mr-4 flex h-full w-[15%] items-end text-4xl">{region}</p>
         {/* <BsCalendarDate /> */}
         <div className="relative z-30 flex h-full items-end">
-          날짜를 입력해주세요{" "}
-          <CalenderContainer
-            dateHandler={(schedule) => props.dateHandler(schedule)}
-          />
+          <button onClick={() => props.dateHandler("reset")}>
+            {planPeriod}
+          </button>
+          {!date.start && (
+            <>
+              <div className="fixed inset-0 h-full w-screen bg-black/70" />
+              <CalenderContainer
+                dateHandler={(schedule) => props.dateHandler(schedule)}
+              />
+            </>
+          )}
         </div>
       </div>
 
