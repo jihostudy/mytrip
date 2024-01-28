@@ -9,6 +9,17 @@ export default {
       colors: {
         modalBackground: "#00000066",
       },
+      borderWidth: {
+        1: "1px",
+      },
+      width: {
+        "1/10": "10%",
+        "1/8": "12.5%",
+      },
+      height: {
+        "1/10": "10%",
+        "1/8": "12.5%",
+      },
       keyframes: {
         wiggle: {
           "0%, 100%": { transform: "rotate(-3deg)" },

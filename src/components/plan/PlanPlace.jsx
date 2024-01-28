@@ -51,11 +51,11 @@ const PlanPlace = () => {
           <button>숙소</button>
         </div>
         {/* 장소 리스트 */}
-        <div className="flex h-[90%] flex-col gap-2 overflow-scroll">
+        <ul className="flex h-[90%] flex-col gap-2 overflow-hidden overflow-y-auto">
           {dummyPlaceList.map((place, index) => (
             <PlaceCard key={index} data={dummyPlace} />
           ))}
-        </div>
+        </ul>
 
         {/* <PlaceCard data={dummyPlace} /> */}
       </>

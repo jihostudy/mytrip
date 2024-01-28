@@ -24,6 +24,7 @@ const PlanningPage = () => {
     period: null, //몇일?
     season: null,
     totalCost: null,
+    numPeople: null,
     likes: null,
     scraps: null,
     image: null,
