@@ -11,6 +11,7 @@ import PlanMap from "../components/plan/PlanMap";
 
 // axios
 import { API } from "../api/API";
+import PlanBody from "../components/plan/PlanBody";
 
 const PlanningPage = () => {
   // 처음 설정한 지역으로 초기화
@@ -42,11 +43,7 @@ const PlanningPage = () => {
         <PlanHeader />
       </div>
 
-      <div className="flex h-[65%] w-full items-center justify-center">
-        <PlanPlace setUserInput={setUserInput} />
-        <PlanTimeTable />
-        <PlanMap userInput={userInput} />
-      </div>
+      <PlanBody setUserInput={setUserInput} userInput={userInput} />
     </div>
   );
 };
