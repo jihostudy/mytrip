@@ -41,7 +41,7 @@ const HomePage = () => {
     openModal({
       content: `${region}로 떠나시나요?`,
       callback: () => {
-        navigate("/planning", { state: { region } });
+        navigate("/planning", { state: { region: region } });
       },
     });
   }

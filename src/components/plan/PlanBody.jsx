@@ -3,12 +3,12 @@ import React from "react";
 import PlanPlace from "./PlanPlace";
 import PlanTimeTable from "./PlanTimeTable";
 import PlanMap from "./PlanMap";
-const PlanBody = () => {
+const PlanBody = ({ setUserInput, userInput }) => {
   return (
     <div className="flex h-[65%] w-[93%] items-center justify-center">
-      <PlanPlace />
+      <PlanPlace setUserInput={setUserInput} />
       <PlanTimeTable />
-      <PlanMap />
+      <PlanMap userInput={userInput} />
     </div>
   );
 };
