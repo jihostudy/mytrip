@@ -189,18 +189,13 @@ const PlanPlace = ({ setUserInput }) => {
             />
           ))}
         </div>
-
-        {/* <PlaceCard data={dummyPlace} /> */}
       </>
     );
-    // content = <PlaceCard data={dummyPlace} />;
   } else if (menu === 1) {
     // 여행지 불러오기
     content = <div>여행지 불러오기</div>;
   } else if (menu === 2) {
     // 보관함
-    // console.log(savedList);
-    // console.log(filteredList);
     content = (
       <div className="flex h-[90%] flex-col gap-2 overflow-y-scroll">
         {filteredList.map((place) => (
