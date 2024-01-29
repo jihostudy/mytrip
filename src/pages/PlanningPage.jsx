@@ -35,7 +35,7 @@ const PlanningPage = () => {
     schedule: [], // 방문 장소들
   });
 
-  // 시간 입력
+  // -----------------------------------날짜 선택----------------------------
   function dateHandler(schedule) {
     if (schedule === "reset") {
       setData((prev) => ({
@@ -68,11 +68,12 @@ const PlanningPage = () => {
       period: period,
     }));
   }
-
+  // -----------------------------------계획 생성----------------------------
+  function timeLineHandler() {}
   return (
     <div className="relative flex h-full w-full flex-col items-center justify-start">
       <PlanHeader data={data} dateHandler={dateHandler} />
-      <PlanBody data={data} />
+      <PlanBody data={data} timeLineHandler={timeLineHandler} />
     </div>
   );
 };

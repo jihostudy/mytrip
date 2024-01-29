@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // components
 import PlaceCard from "../UI/PlaceCard";
@@ -24,7 +24,7 @@ const dummyPlaceList = [
   dummyPlace,
 ];
 
-const PlanPlace = () => {
+const PlanPlace = ({ planHandler }) => {
   // 메뉴바 선택
   // 0 : 장소선택, 1: 여행지 불러오기, 2: 보관함
   const [menu, setMenu] = useState(0);
@@ -53,7 +53,7 @@ const PlanPlace = () => {
         {/* 장소 리스트 */}
         <ul className="flex h-[90%] flex-col gap-2 overflow-hidden overflow-y-auto">
           {dummyPlaceList.map((place, index) => (
-            <PlaceCard key={index} data={dummyPlace} />
+            <PlaceCard key={index} data={place} planHandler={planHandler} />
           ))}
         </ul>
 
