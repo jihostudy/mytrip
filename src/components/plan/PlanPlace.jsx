@@ -6,6 +6,9 @@ import PlaceCard from "../UI/PlaceCard";
 // icon
 import searchIcon from "../../assets/icons/searchIcon.png";
 
+// API
+import { API } from "../../api/API";
+
 // 테스트용 장소 데이터
 const dummyPlace1 = {
   image: null,
@@ -51,7 +54,7 @@ const dummyPlace6 = {
   // rating??
 };
 
-const PlanPlace = ({ setUserInput }) => {
+const PlanPlace = ({ setUserInput, userInput }) => {
   // 메뉴바 선택
   // 0 : 장소선택, 1: 여행지 불러오기, 2: 보관함
   const [menu, setMenu] = useState(0);
@@ -147,11 +150,56 @@ const PlanPlace = ({ setUserInput }) => {
     dummyPlace6,
   ];
   useEffect(() => {
-    // 보관 여부 value 추가
-    dummyList.forEach((place) => (place.isSave = false));
-    setPlaceList(dummyList);
-    setFilteredList(dummyList);
-  }, []);
+    console.log(userInput);
+    async function getPlace() {
+      try {
+        const res = await API(`/planning/data/${userInput}`);
+
+        const list = [];
+        console.log(userInput);
+        console.log(typeof []);
+        // 검색어에 따라 백엔드 응답 양식이 달라서 케이스 나눠서 리스트 저장..
+        if (Array.isArray(res.data.destinationList)) {
+          const region = res.data.destinationList;
+          region.map((items) => {
+            items["지역"]["여행지"].map((item) => {
+              list.push({
+                name: item["이름"],
+                address: items["도시"],
+                latlag: item["좌표"],
+                id: item.id,
+              });
+            });
+          });
+        } else {
+          const region = res.data.destinationList["지역"];
+          region.map((items) => {
+            items["여행지"].map((item) => {
+              list.push({
+                name: item["이름"],
+                address: items["도시"],
+                latlag: item["좌표"],
+                id: item.id,
+              });
+            });
+          });
+        }
+
+        list.forEach((place) => (place.isSave = false));
+        setPlaceList(list);
+        setFilteredList(list);
+        console.log(list);
+
+        // dummyList.forEach((place) => (place.isSave = false));
+        // setPlaceList(dummyList);
+        // setFilteredList(dummyList);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    getPlace();
+  }, [userInput]);
   // 보관함 state 설정
   useEffect(() => {
     setSavedList((prev) => {
