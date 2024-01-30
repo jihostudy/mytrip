@@ -2,13 +2,27 @@ import React, { useEffect, useState } from "react";
 // recoil
 import { useRecoilState } from "recoil";
 import { planState } from "../../lib/constants/plandata";
-import { dndHoverState } from "../../lib/constants/dnd";
 // react-dnd
 import { useDrop } from "react-dnd";
 
+const TimeLine = ({ hour }) => {
+  const minuteArr = ["00", "30"];
+
+  return (
+    <li className="relative flex min-h-[16.66%] w-full flex-col items-center justify-evenly border-b-1 border-solid border-[#CBC8C8]">
+      <div className="absolute left-0 w-[16%]">{hour}</div>
+
+      {minuteArr.map((minute) => {
+        return <TimeFraction key={minute} hour={hour} minute={minute} />;
+      })}
+    </li>
+  );
+};
+
+export default TimeLine;
+
 const TimeFraction = ({ hour, minute, showPreview }) => {
   const [data, setData] = useRecoilState(planState);
-  const [dndHoverInfo, setDndHoverInfo] = useRecoilState(dndHoverState);
 
   // preview
   const [isOver, setIsOver] = useState(false);
@@ -35,18 +49,6 @@ const TimeFraction = ({ hour, minute, showPreview }) => {
       drop: (item, monitor) => {
         console.log("item");
         console.log(item);
-        // 계획 추가
-        // const newData = {
-        //   ...item,
-        //   startTime: {
-        //     hour: hour,
-        //     minute: minute,
-        //   },
-        // };
-        // setData((prev) => ({
-        //   ...prev,
-        //   schedule: [...prev.schedule, newData],
-        // }));
         return {
           startTime: {
             hour: hour,
@@ -54,19 +56,6 @@ const TimeFraction = ({ hour, minute, showPreview }) => {
           },
         };
       },
-      // canDrop: () => false,
-      // hover({ name: username }, monitor) {
-      //   const isOver = monitor.isOver({ shallow: true });
-      //   if (isOver) {
-      //     setIsHovered(true);
-      //     // setDndHoverInfo({
-      //     //   hour,
-      //     //   minute,
-      //     // });
-      //   } else {
-      //     setIsHovered(false);
-      //   }
-      // },
     }),
     [],
   );
@@ -80,44 +69,11 @@ const TimeFraction = ({ hour, minute, showPreview }) => {
         onDragEnter={() => setIsOver(true)}
         onDragLeave={() => setIsOver(false)}
         onMouseLeave={() => setIsOver(false)}
-      >
-        {/* {showPreview && preview} */}
-      </div>
+      ></div>
       {isOver && preview}
       {dataExist && result}
     </>
   );
 };
 
-const TimeLine = ({ hour }) => {
-  const [dndHoverInfo, setDndHoverInfo] = useRecoilState(dndHoverState);
-  const minuteArr = ["00", "30"];
-
-  // function handleHover(fraction) {
-  //   onHover(time, fraction);
-  // }
-
-  return (
-    <li className="relative flex min-h-[16.66%] w-full flex-col items-center justify-evenly border-b-1 border-solid border-[#CBC8C8]">
-      <div className="absolute left-0 w-[16%]">{hour}</div>
-
-      {minuteArr.map((minute) => {
-        const showPreview =
-          dndHoverInfo.hour === hour && dndHoverInfo.minute === minute
-            ? true
-            : false;
-        return (
-          <TimeFraction
-            key={minute}
-            hour={hour}
-            minute={minute}
-            showPreview={showPreview}
-            // handleHover={handleHover}
-          />
-        );
-      })}
-    </li>
-  );
-};
-
-export default TimeLine;
+const SubPlan = () => {};

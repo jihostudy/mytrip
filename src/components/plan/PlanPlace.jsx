@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // components
 import PlaceCard from "../UI/PlaceCard";

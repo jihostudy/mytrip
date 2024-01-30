@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 // recoil
-import { dndHoverState } from "../../lib/constants/dnd";
 import {
   planState,
   currDate,
@@ -16,8 +15,6 @@ import savedBtn from "../../assets/icons/savedBtn.png";
 const PlaceCard = ({ placeData, saveClickHandler }) => {
   const [data, setData] = useRecoilState(planState);
   const date = useRecoilValue(currDate);
-  const dndHoverInfo = useRecoilValue(dndHoverState);
-  const resetDndHover = useResetRecoilState(dndHoverState);
 
   const image = placeData.image;
   const name = placeData.name;
@@ -74,7 +71,6 @@ const PlaceCard = ({ placeData, saveClickHandler }) => {
           }
 
           // 초기화
-          // resetDndHover();
         }
       },
     }),

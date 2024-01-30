@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-// atom
-import { dndHoverState } from "../../lib/constants/dnd";
+// recoil
 import { useRecoilState } from "recoil";
 // react-dnd
 import { DndProvider } from "react-dnd";
@@ -10,8 +9,6 @@ import PlanPlace from "./PlanPlace";
 import PlanTimeTable from "./PlanTimeTable";
 import PlanMap from "./PlanMap";
 const PlanBody = ({ setUserInput, userInput }) => {
-  const [dndHoverInfo, setDndHoverInfo] = useRecoilState(dndHoverState);
-
   //장소 추가
   function planHandler() {}
   return (
