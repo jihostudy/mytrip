@@ -55,13 +55,17 @@ const PlanPlace = ({ setUserInput }) => {
   // 메뉴바 선택
   // 0 : 장소선택, 1: 여행지 불러오기, 2: 보관함
   const [menu, setMenu] = useState(0);
-  const [placeList, setPlaceList] = useState([]);
-  const [savedList, setSavedList] = useState([]);
-  const [filteredList, setFilteredList] = useState([]);
+  // 장소 리스트
+  const [placeList, setPlaceList] = useState([]); // 첫 렌더링 or 검색 시 db에서 가져오는 데이터
+  const [savedList, setSavedList] = useState([]); // 보관함
+  const [filteredList, setFilteredList] = useState([]); // 가져온 리스트 내 검색
+  // 카테고리
 
   // css
   const menuBtnStyle = "text-lg text-gray-400 ";
   const menuBtnStyle_clicked = "text-lg ";
+  const categoryBtnStyle = "";
+  const categoryBtnStyle_clicked = "";
 
   // eventHandler
   function menuClickHandler(num) {
@@ -189,8 +193,6 @@ const PlanPlace = ({ setUserInput }) => {
             />
           ))}
         </ul>
-
-        {/* <PlaceCard data={dummyPlace} /> */}
       </>
     );
   } else if (menu === 1) {
