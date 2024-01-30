@@ -1,10 +1,6 @@
 import React, { useEffect } from "react";
 // recoil
-import {
-  planState,
-  currDate,
-  calculateEndTime,
-} from "../../lib/constants/plandata";
+import { planState, currDate, setEndTime } from "../../lib/constants/plandata";
 import { useRecoilState, useResetRecoilState, useRecoilValue } from "recoil";
 // react-dnd
 import { useDrag } from "react-dnd";
@@ -40,7 +36,7 @@ const PlaceCard = ({ placeData, saveClickHandler }) => {
       // drag할 요소의 type을 지정
       type: "PLACECARD",
 
-      item: { destination, activity, nDay: date.currDate },
+      item: { value: "place", destination, activity, nDay: date.currDate },
       // collect 옵션을 넣지 않으면 dragging 중일 때 opacity가 적용되지 않는다!
       collect: (monitor) => ({
         // isDragging 변수가 현재 드래깅중인지 아닌지를 true/false로 리턴한다
@@ -58,11 +54,12 @@ const PlaceCard = ({ placeData, saveClickHandler }) => {
           console.log(checkDuplicateTime);
           if (!checkDuplicateTime) {
             const newData = {
-              destination: null,
+              destination: name,
+              destinationID: null,
               activity: null,
               nDay: date,
               startTime: dropSource.startTime,
-              endTime: calculateEndTime(dropSource.startTime, 2),
+              endTime: setEndTime(dropSource.startTime, 2),
             };
             setData((prev) => ({
               ...prev,

@@ -38,7 +38,7 @@ export const getDateDiff = (d1, d2) => {
 
   return Math.abs(diffDate / (1000 * 60 * 60 * 24)) + 1; // 밀리세컨 * 초 * 분 * 시 = 일
 };
-export const calculateEndTime = (startTime, duration) => {
+export const setEndTime = (startTime, duration) => {
   const hour = startTime.hour;
   const minute = startTime.minute;
   return {

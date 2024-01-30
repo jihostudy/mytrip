@@ -32,8 +32,9 @@ const PlanTimeTable = () => {
   let time = new Date();
   for (let i = 0; i < 24; i++) {
     time.setHours(i + 5, 0, 0, 0);
-    hourArr.push(format(time, "HH"));
+    hourArr.push((i + 5) % 24);
   }
+  console.log(hourArr);
   // console.log(hourArr);
   const planComponents = hourArr.map((hour) => (
     <TimeLine key={hour} hour={hour} />
