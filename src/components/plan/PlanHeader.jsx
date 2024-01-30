@@ -1,22 +1,37 @@
 import React, { useEffect } from "react";
 // router
 import { useLocation } from "react-router-dom";
+// recoil
+import { planState } from "../../lib/constants/plandata";
+import { useRecoilState } from "recoil";
 // components
 import Button from "../UI/Button";
 import CalenderContainer from "../Calender/CalenderContainer";
 // Icons
 // import { BsCalendarDate } from "react-icons/bs";
 const PlanHeader = (props) => {
+  const [data, setData] = useRecoilState(planState);
+  // 초기화
+  function resetDate() {
+    setData((prev) => ({
+      ...prev,
+      date: {
+        start: null,
+        end: null,
+      },
+      period: null,
+    }));
+  }
   const location = useLocation();
-
   const region = location.state.region.slice(0, 2);
-  const { date } = props.data;
+
+  const { date } = data;
   let planPeriod;
   if (!date.start) {
     planPeriod = "날짜를 입력해주세요";
   } else {
     // 당일치기
-    console.log(date);
+    // console.log(date);
     if (date.start === date.end) planPeriod = date.start;
     else planPeriod = date.start + " ~ " + date.end;
   }
@@ -26,15 +41,11 @@ const PlanHeader = (props) => {
         <p className="mr-4 flex h-full w-[15%] items-end text-4xl">{region}</p>
         {/* <BsCalendarDate /> */}
         <div className="relative z-30 flex h-full items-end">
-          <button onClick={() => props.dateHandler("reset")}>
-            {planPeriod}
-          </button>
+          <button onClick={resetDate}>{planPeriod}</button>
           {!date.start && (
             <>
               <div className="fixed inset-0 h-full w-screen bg-black/70" />
-              <CalenderContainer
-                dateHandler={(schedule) => props.dateHandler(schedule)}
-              />
+              <CalenderContainer />
             </>
           )}
         </div>

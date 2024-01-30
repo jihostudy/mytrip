@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // components
 import PlaceCard from "../UI/PlaceCard";
@@ -9,7 +9,8 @@ const dummyPlace = {
   name: "성균관대학교",
   address: "경기도 수원시 장안구 서부로 2066",
   isSave: false,
-
+  destination: null,
+  activity: null,
   // rating??
 };
 const dummyPlaceList = [
@@ -52,8 +53,8 @@ const PlanPlace = () => {
         </div>
         {/* 장소 리스트 */}
         <ul className="flex h-[90%] flex-col gap-2 overflow-hidden overflow-y-auto">
-          {dummyPlaceList.map((place, index) => (
-            <PlaceCard key={index} data={dummyPlace} />
+          {dummyPlaceList.map((placeData, index) => (
+            <PlaceCard key={index} placeData={placeData} />
           ))}
         </ul>
 
