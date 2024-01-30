@@ -9,7 +9,8 @@ const dummyPlace = {
   name: "성균관대학교",
   address: "경기도 수원시 장안구 서부로 2066",
   isSave: false,
-
+  destination: null,
+  activity: null,
   // rating??
 };
 const dummyPlaceList = [
@@ -24,7 +25,7 @@ const dummyPlaceList = [
   dummyPlace,
 ];
 
-const PlanPlace = ({ planHandler }) => {
+const PlanPlace = () => {
   // 메뉴바 선택
   // 0 : 장소선택, 1: 여행지 불러오기, 2: 보관함
   const [menu, setMenu] = useState(0);
@@ -52,8 +53,8 @@ const PlanPlace = ({ planHandler }) => {
         </div>
         {/* 장소 리스트 */}
         <ul className="flex h-[90%] flex-col gap-2 overflow-hidden overflow-y-auto">
-          {dummyPlaceList.map((place, index) => (
-            <PlaceCard key={index} data={place} planHandler={planHandler} />
+          {dummyPlaceList.map((placeData, index) => (
+            <PlaceCard key={index} placeData={placeData} />
           ))}
         </ul>
 

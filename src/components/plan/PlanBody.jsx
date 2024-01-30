@@ -9,7 +9,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import PlanPlace from "./PlanPlace";
 import PlanTimeTable from "./PlanTimeTable";
 import PlanMap from "./PlanMap";
-const PlanBody = ({ data, timeLineHandler }) => {
+const PlanBody = () => {
   const [dndHoverInfo, setDndHoverInfo] = useRecoilState(dndHoverState);
 
   //장소 추가
@@ -17,8 +17,8 @@ const PlanBody = ({ data, timeLineHandler }) => {
   return (
     <div className="relative flex h-[65%] w-[93%] items-center justify-center">
       <DndProvider backend={HTML5Backend}>
-        <PlanPlace timeLineHandler={timeLineHandler} />
-        <PlanTimeTable schedule={data.schedule} />
+        <PlanPlace />
+        <PlanTimeTable />
       </DndProvider>
 
       <PlanMap />

@@ -1,19 +1,21 @@
 import React, { useEffect } from "react";
 // recoil
 import { dndHoverState } from "../../lib/constants/dnd";
-import { useResetRecoilState } from "recoil";
+import { planState } from "../../lib/constants/plandata";
+import { useRecoilState, useResetRecoilState } from "recoil";
 // react-dnd
 import { useDrag } from "react-dnd";
 // icon
 import saveBtn from "../../assets/icons/saveBtn.png";
 
-const PlaceCard = ({ data, planHandler }) => {
+const PlaceCard = ({ placeData }) => {
+  const [data, setData] = useRecoilState(planState);
   const resetDndHover = useResetRecoilState(dndHoverState);
 
-  const image = data.image;
-  const name = data.name;
-  const address = data.address;
-  const isSave = data.isSave;
+  const image = placeData.image;
+  const name = placeData.name;
+  const address = placeData.address;
+  const isSave = placeData.isSave;
 
   const [{ isDragging }, dragRef, previewRef] = useDrag(
     () => ({
@@ -32,7 +34,8 @@ const PlaceCard = ({ data, planHandler }) => {
         const didDrop = monitor.didDrop();
         if (didDrop) {
           // 계획 추가
-
+          const newData = {};
+          setData((prev) => [...prev]);
           // 초기화
           resetDndHover();
         }

@@ -4,6 +4,9 @@ import Calender from "./Calender";
 // date-fns
 import { format, isAfter, isBefore, isSameDay } from "date-fns";
 import koLocale from "date-fns/locale/ko";
+// recoil
+import { useRecoilState } from "recoil";
+import { planState, getDateDiff } from "../../lib/constants/plandata";
 // function
 function addMonth(currDate) {
   return new Date(
@@ -12,16 +15,31 @@ function addMonth(currDate) {
     currDate.getDate(),
   );
 }
-function getDateDiff(d1, d2) {
-  const date1 = new Date(d1);
-  const date2 = new Date(d2);
-
-  const diffDate = date1.getTime() - date2.getTime();
-
-  return Math.abs(diffDate / (1000 * 60 * 60 * 24)); // 밀리세컨 * 초 * 분 * 시 = 일
-}
 const initSchedule = { start: null, end: null };
-const CalenderContainer = (props) => {
+const CalenderContainer = () => {
+  const [data, setData] = useRecoilState(planState);
+  // End: 제출
+  function submitDate() {
+    let start = format(schedule.start, "yyyy.MM.dd");
+    let end;
+    let period;
+    // 당일치기
+    if (!schedule.end) {
+      end = start;
+    } else {
+      end = format(schedule.end, "yyyy.MM.dd");
+    }
+    period = getDateDiff(start, end);
+
+    setData((prev) => ({
+      ...prev,
+      date: {
+        start: start,
+        end: end,
+      },
+      period: period,
+    }));
+  }
   const today = new Date();
 
   const [schedule, setSchedule] = useState(initSchedule);
@@ -135,9 +153,7 @@ const CalenderContainer = (props) => {
         </p>
         <button
           className={schedule.start ? ableBtn : disableBtn}
-          onClick={() => {
-            props.dateHandler(schedule);
-          }}
+          onClick={submitDate}
           disabled={schedule.start ? false : true}
         >
           완료
