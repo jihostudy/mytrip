@@ -11,6 +11,7 @@ const dummyPlace = {
   isSave: false,
   destination: null,
   activity: null,
+  duration: 2,
   // rating??
 };
 const dummyPlaceList = [

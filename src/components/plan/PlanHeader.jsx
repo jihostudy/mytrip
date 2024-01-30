@@ -31,7 +31,7 @@ const PlanHeader = (props) => {
     planPeriod = "날짜를 입력해주세요";
   } else {
     // 당일치기
-    console.log(date);
+    // console.log(date);
     if (date.start === date.end) planPeriod = date.start;
     else planPeriod = date.start + " ~ " + date.end;
   }
