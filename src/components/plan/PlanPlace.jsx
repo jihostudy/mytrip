@@ -203,7 +203,7 @@ const PlanPlace = ({ setUserInput }) => {
         {filteredList.map((place) => (
           <PlaceCard
             key={place.name}
-            place={place}
+            placeData={place}
             saveClickHandler={saveClickHandler}
           />
         ))}
