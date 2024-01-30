@@ -35,7 +35,7 @@ const PlaceCard = ({ placeData, saveClickHandler }) => {
   }
   function clickHandler() {
     // 저장 여부 변경
-    saveClickHandler(place);
+    saveClickHandler(placeData);
     console.log("보관함 클릭!");
   }
   const [{ isDragging }, dragRef, previewRef] = useDrag(
@@ -87,7 +87,7 @@ const PlaceCard = ({ placeData, saveClickHandler }) => {
       ref={dragRef}
       style={{ opacity: isDragging ? "0.3" : "1" }}
     >
-      <img src="image" alt="장소 사진" />
+      <img src={image} alt="장소 사진" />
 
       <div className="grow">
         <p>{name}</p>

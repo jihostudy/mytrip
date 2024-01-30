@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 // components
 import PlaceCard from "../UI/PlaceCard";
@@ -203,7 +203,7 @@ const PlanPlace = ({ setUserInput }) => {
         {filteredList.map((place) => (
           <PlaceCard
             key={place.name}
-            place={place}
+            placeData={place}
             saveClickHandler={saveClickHandler}
           />
         ))}
