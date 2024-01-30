@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
 // recoil
 import { dndHoverState } from "../../lib/constants/dnd";
-import { planState, currDate } from "../../lib/constants/plandata";
+import {
+  planState,
+  currDate,
+  calculateEndTime,
+} from "../../lib/constants/plandata";
 import { useRecoilState, useResetRecoilState, useRecoilValue } from "recoil";
 // react-dnd
 import { useDrag } from "react-dnd";
@@ -20,8 +24,7 @@ const PlaceCard = ({ placeData }) => {
   const isSave = placeData.isSave;
   const destination = placeData.destination;
   const activity = placeData.activity;
-  const duration = placeData.duration;
-
+  // 검사 함수
   function checkDuplicate(dropSource) {
     return data.schedule.some(
       (schedule) =>
@@ -29,24 +32,23 @@ const PlaceCard = ({ placeData }) => {
         schedule.startTime.minute === dropSource.startTime.minute,
     );
   }
+
   const [{ isDragging }, dragRef, previewRef] = useDrag(
     () => ({
       // drag할 요소의 type을 지정
       type: "PLACECARD",
-      // Container에서 props로 넘겨준 요소의 id와 id를 가지고 state 내의 실제 index를
-      // Card가 사용할 수 있도록 넘겨준다.
-      item: { destination, activity, nDay: date.currDate, duration },
+
+      item: { destination, activity, nDay: date.currDate },
       // collect 옵션을 넣지 않으면 dragging 중일 때 opacity가 적용되지 않는다!
       collect: (monitor) => ({
         // isDragging 변수가 현재 드래깅중인지 아닌지를 true/false로 리턴한다
         isDragging: monitor.isDragging(),
       }),
+      // item: droppable의 drop에서 return한 객체
       end: (item, monitor) => {
-        console.log(item);
         const didDrop = monitor.didDrop();
         if (didDrop) {
           const dropSource = monitor.getDropResult();
-          console.log(data.schedule);
           console.log(dropSource);
           // 계획 추가
           const checkDuplicateTime = checkDuplicate(dropSource);
@@ -58,7 +60,7 @@ const PlaceCard = ({ placeData }) => {
               activity: null,
               nDay: date,
               startTime: dropSource.startTime,
-              duration: 2,
+              endTime: calculateEndTime(dropSource.startTime, 2),
             };
             setData((prev) => ({
               ...prev,
