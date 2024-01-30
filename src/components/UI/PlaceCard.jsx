@@ -10,9 +10,10 @@ import { useRecoilState, useResetRecoilState, useRecoilValue } from "recoil";
 // react-dnd
 import { useDrag } from "react-dnd";
 // icon
-import saveBtn from "../../assets/icons/saveBtn.png";
+import savingBtn from "../../assets/icons/savingBtn.png";
+import savedBtn from "../../assets/icons/savedBtn.png";
 
-const PlaceCard = ({ placeData }) => {
+const PlaceCard = ({ placeData, saveClickHandler }) => {
   const [data, setData] = useRecoilState(planState);
   const date = useRecoilValue(currDate);
   const dndHoverInfo = useRecoilValue(dndHoverState);
@@ -32,7 +33,11 @@ const PlaceCard = ({ placeData }) => {
         schedule.startTime.minute === dropSource.startTime.minute,
     );
   }
-
+  function clickHandler() {
+    // 저장 여부 변경
+    saveClickHandler(place);
+    console.log("보관함 클릭!");
+  }
   const [{ isDragging }, dragRef, previewRef] = useDrag(
     () => ({
       // drag할 요소의 type을 지정
@@ -87,9 +92,24 @@ const PlaceCard = ({ placeData }) => {
       <div className="grow">
         <p>{name}</p>
         <p>{address}</p>
-        <p>평점??</p>
+        <p>평점 5</p>
       </div>
-      <img src={saveBtn} alt="보관" className="h-[60%] " />
+      {/* 보관 버튼 */}
+      {!isSave ? (
+        <img
+          src={savingBtn}
+          onClick={clickHandler}
+          alt="보관"
+          className="h-[60%] hover:cursor-pointer"
+        />
+      ) : (
+        <img
+          src={savedBtn}
+          onClick={clickHandler}
+          alt="보관"
+          className="h-[60%] hover:cursor-pointer"
+        />
+      )}
     </li>
   );
 };
