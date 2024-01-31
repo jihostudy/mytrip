@@ -29,7 +29,7 @@ const PlaceCard = ({ placeData, saveClickHandler }) => {
   function clickHandler() {
     // 저장 여부 변경
     saveClickHandler(placeData);
-    console.log("보관함 클릭!");
+    // console.log("보관함 클릭!");
   }
   const [{ isDragging }, dragRef, previewRef] = useDrag(
     () => ({
@@ -47,11 +47,11 @@ const PlaceCard = ({ placeData, saveClickHandler }) => {
         const didDrop = monitor.didDrop();
         if (didDrop) {
           const dropSource = monitor.getDropResult();
-          console.log(dropSource);
+          // console.log(dropSource);
           // 계획 추가
           const checkDuplicateTime = checkDuplicate(dropSource);
 
-          console.log(checkDuplicateTime);
+          // console.log(checkDuplicateTime);
           if (!checkDuplicateTime) {
             const newData = {
               destination: name,
