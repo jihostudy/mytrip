@@ -61,7 +61,10 @@ const PlanTimeTable = () => {
           />
         )}
       </div>
-      <ul className="relative flex h-4/5 w-full flex-col items-start justify-start overflow-hidden overflow-y-auto">
+      <ul
+        id="dropContainer"
+        className="relative flex h-4/5 w-full flex-col items-start justify-start overflow-hidden overflow-y-auto"
+      >
         {planComponents}
       </ul>
     </div>

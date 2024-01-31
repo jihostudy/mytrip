@@ -6,6 +6,8 @@ import { planState, setEndTime } from "../../lib/constants/plandata";
 import { format, getMinutes, getHours } from "date-fns";
 // react-dnd
 import { useDrag, useDrop } from "react-dnd";
+// re-resize
+import { Resizable } from "re-resizable";
 const TimeFraction = ({ hour, minute }) => {
   const [data, setData] = useRecoilState(planState);
 
@@ -47,10 +49,9 @@ const TimeFraction = ({ hour, minute }) => {
             },
           };
         } else if (item.value === "plan") {
-          console.log("plan drag");
           // item.hour : 기존 몇시
           // item.minute : 기존 몇분
-          console.log(item.hour, item.minute);
+          //   console.log(item.hour, item.minute);
           // 해당 시간을 찾아서, 바꿔껴주기
           const modifiedSchedule = data.schedule.map((schedule) => {
             if (
@@ -65,7 +66,6 @@ const TimeFraction = ({ hour, minute }) => {
               };
             }
           });
-          console.log(modifiedSchedule);
           setData((prev) => ({
             ...prev,
             schedule: modifiedSchedule,
@@ -85,7 +85,7 @@ const TimeFraction = ({ hour, minute }) => {
       <div
         className="z-10 flex h-1/2 w-full justify-center"
         // style={{ top: top }}
-        id="dropFraciton"
+        id="dropFraction"
         ref={dropRef}
         onDragOver={(e) => {
           e.preventDefault();
@@ -113,6 +113,19 @@ const TimeFraction = ({ hour, minute }) => {
 export default TimeFraction;
 
 const Plan = ({ destination, hour, minute }) => {
+  // resize 제한
+  const restrictElement = document.getElementById("dropContainer");
+  // resize 높이 지정하기
+  let parentWidth;
+  let parentHeight;
+  const parentElement = document.getElementById("dropFraction");
+  if (parentElement) {
+    const { offsetWidth, offsetHeight } = parentElement;
+    parentWidth = offsetWidth;
+    parentHeight = offsetHeight;
+  }
+  console.log(parentWidth, parentHeight);
+
   const [{ isDragging }, dragRef, previewRef] = useDrag(
     () => ({
       type: "PLACECARD",
@@ -120,50 +133,45 @@ const Plan = ({ destination, hour, minute }) => {
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),
-      // item: droppable의 drop에서 return한 객체
-      //   end: (item, monitor) => {
-      //     const didDrop = monitor.didDrop();
-      //     if (didDrop) {
-      //       const dropSource = monitor.getDropResult();
-      //       console.log(dropSource);
-      //       // 계획 추가
-      //       const checkDuplicateTime = checkDuplicate(dropSource);
-
-      //       console.log(checkDuplicateTime);
-      //       if (!checkDuplicateTime) {
-      //         const newData = {
-      //           destination: name,
-      //           destinationID: null,
-      //           activity: null,
-      //           nDay: date,
-      //           startTime: dropSource.startTime,
-      //           endTime: setEndTime(dropSource.startTime, 2),
-      //         };
-      //         setData((prev) => ({
-      //           ...prev,
-      //           schedule: [...prev.schedule, newData],
-      //         }));
-      //       }
-
-      //       // 초기화
-      //     }
-      //   },
     }),
     [],
-    // [data, placeData],
   );
   //style
-  const resultStyle =
-    minute === 0
-      ? "z-20 absolute top-[5%] h-[90%] w-[70%] rounded-md bg-red-100"
-      : "z-20 absolute top-[55%] h-[90%] w-[70%] rounded-md bg-red-100";
+  const resultStyle = "relative h-full w-full rounded-md bg-red-100";
+
   return (
-    <div
-      className={resultStyle}
-      ref={dragRef}
-      style={{ opacity: isDragging ? "0.3" : "1" }}
+    <Resizable
+      defaultSize={{ width: "70%", height: "100%" }}
+      grid={[parentHeight, parentHeight]}
+      // grid={[100, 10]}
+      enable={{
+        top: false,
+        right: false,
+        left: false,
+        bottom: true,
+        topRight: false,
+        bottomRight: false,
+        bottomLeft: false,
+        topLeft: false,
+      }}
+      boundsByDirection={true}
+      maxWidth={(parentWidth * 7) / 10}
+      minHeight={parentHeight * 2}
+      style={{
+        position: "absolute",
+        top: minute === 0 ? 0 : "50%",
+        padding: "0.5% 0",
+        zIndex: 20,
+      }}
+      bounds={restrictElement}
     >
-      {destination}
-    </div>
+      <div
+        className={resultStyle}
+        ref={dragRef}
+        style={{ opacity: isDragging ? "0.3" : "1" }}
+      >
+        {destination}
+      </div>
+    </Resizable>
   );
 };
