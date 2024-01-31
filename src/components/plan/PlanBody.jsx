@@ -14,7 +14,7 @@ const PlanBody = ({ setUserInput, userInput }) => {
   return (
     <div className="relative flex h-[65%] w-[93%] items-center justify-center">
       <DndProvider backend={HTML5Backend}>
-        <PlanPlace setUserInput={setUserInput} />
+        <PlanPlace setUserInput={setUserInput} userInput={userInput} />
         <PlanTimeTable />
       </DndProvider>
 
