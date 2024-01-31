@@ -49,7 +49,7 @@ const PlanTimeTable = () => {
     <TimeLine key={hour} hour={hour} />
   ));
   return (
-    <div className="relative h-full w-[31%]">
+    <div className="relative h-full w-[30%] shadow-[0_0_4px_rgba(0,0,0,0.25)]">
       <p className="flex h-[10%] w-full items-center justify-center text-xl">
         여행 시간표
       </p>

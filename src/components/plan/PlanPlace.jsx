@@ -254,7 +254,7 @@ const PlanPlace = ({ setUserInput, userInput }) => {
   }
 
   return (
-    <div className="h-full w-[32%] border border-solid border-black p-3">
+    <div className="h-full w-[33%] p-3 shadow-[0_0_4px_rgba(0,0,0,0.25)]">
       {/* 선택 바 + 검색 (고정) */}
       <div className="flex h-[12%] flex-col">
         {/* 선택 바 */}

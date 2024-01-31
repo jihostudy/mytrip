@@ -12,7 +12,7 @@ const PlanBody = ({ setUserInput, userInput }) => {
   //장소 추가
   function planHandler() {}
   return (
-    <div className="relative flex h-[65%] w-[93%] items-center justify-center">
+    <div className="relative flex h-[65%] w-[93%] items-start justify-between">
       <DndProvider backend={HTML5Backend}>
         <PlanPlace setUserInput={setUserInput} userInput={userInput} />
         <PlanTimeTable />

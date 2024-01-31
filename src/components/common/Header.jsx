@@ -24,9 +24,9 @@ const Header = () => {
 
   //styles
   const firstDropdown =
-    "relative flex cursor-pointer justify-center border-[1px] border-solid border-black p-2 text-xs hover:bg-[#D5D7DB]";
+    "relative bg-white flex cursor-pointer justify-center border-[1px] border-solid border-black p-2 text-xs hover:bg-[#D5D7DB]";
   const Dropdown =
-    "relative flex cursor-pointer justify-center border-[1px] border-t-0 border-solid border-black p-2 text-xs hover:bg-[#D5D7DB]";
+    "relative bg-white flex cursor-pointer justify-center border-[1px] border-t-0 border-solid border-black p-2 text-xs hover:bg-[#D5D7DB]";
 
   // Modal
   const logoutHandler = () => {
