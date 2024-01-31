@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 
 // components
 import PlaceCard from "../UI/PlaceCard";
+import SelectPlace from "./SelectPlace";
+import LoadedPlans from "./LoadedPlans";
+import SavedPlace from "./SavedPlace";
 
 // icon
 import searchIcon from "../../assets/icons/searchIcon.png";
@@ -67,8 +70,6 @@ const PlanPlace = ({ setUserInput, userInput }) => {
   // css
   const menuBtnStyle = "text-lg text-gray-400 ";
   const menuBtnStyle_clicked = "text-lg ";
-  const categoryBtnStyle = "";
-  const categoryBtnStyle_clicked = "";
 
   // eventHandler
   function menuClickHandler(num) {
@@ -223,42 +224,33 @@ const PlanPlace = ({ setUserInput, userInput }) => {
   if (menu === 0) {
     // 장소선택
     content = (
-      <>
-        {/* 카테고리 */}
-        <div className="flex h-[8%] gap-3 pb-4">
-          <button>추천 장소</button>
-          <button>맛집</button>
-          <button>카페</button>
-          <button>숙소</button>
-        </div>
-        {/* 장소 리스트 */}
-        <ul className="flex h-[90%] flex-col gap-2 overflow-hidden overflow-y-auto">
-          {filteredList.map((placeData, index) => (
-            <PlaceCard
-              key={index}
-              placeData={placeData}
-              saveClickHandler={saveClickHandler}
-            />
-          ))}
-        </ul>
-      </>
+      <SelectPlace
+        saveClickHandler={saveClickHandler}
+        filteredList={filteredList}
+      />
     );
   } else if (menu === 1) {
     // 여행지 불러오기
-    content = <div>여행지 불러오기</div>;
+    content = <LoadedPlans />;
   } else if (menu === 2) {
     // 보관함
     content = (
-      <div className="flex h-[90%] flex-col gap-2 overflow-y-scroll">
-        {filteredList.map((place) => (
-          <PlaceCard
-            key={place.name}
-            placeData={place}
-            saveClickHandler={saveClickHandler}
-          />
-        ))}
-      </div>
+      <SavedPlace
+        saveClickHandler={saveClickHandler}
+        filteredList={filteredList}
+      />
     );
+    // content = (
+    //   <div className="flex h-[90%] flex-col gap-2 overflow-y-scroll">
+    //     {filteredList.map((place) => (
+    //       <PlaceCard
+    //         key={place.name}
+    //         placeData={place}
+    //         saveClickHandler={saveClickHandler}
+    //       />
+    //     ))}
+    //   </div>
+    // );
   }
 
   return (
