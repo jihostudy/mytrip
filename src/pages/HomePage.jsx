@@ -16,6 +16,9 @@ import { useConfirmModal } from "../hook/useConfirmModal";
 import { useDetectClose } from "../hook/useDetectClose";
 // router
 import { useNavigate } from "react-router";
+// recoil
+import { user } from "../lib/constants/userInfo";
+import { useRecoilValue } from "recoil";
 // Dummy images
 const dummy_images = [
   DummyImage1,
@@ -35,6 +38,8 @@ import HomeImage from "../components/HomeImage";
 import { useInterval } from "../hook/useInterval";
 // 컴포넌트
 const HomePage = () => {
+  const userInfo = useRecoilValue(user);
+
   const filteredListRef = useRef(null);
   const [isOpen, setIsOpen, toggleDropdown] = useDetectClose(
     filteredListRef,
@@ -43,6 +48,18 @@ const HomePage = () => {
   const navigate = useNavigate();
   const { openModal } = useConfirmModal();
   function openModalHandler(region) {
+    // 로그인 안한 경우
+    if (!userInfo.isLogin) {
+      openModal({
+        content:
+          "여행 계획을 짜려면 로그인이 필요합니다.\n로그인 하시겠습니까?",
+        callback: () => {
+          navigate("/home/auth/login");
+        },
+      });
+      return;
+    }
+    // 로그인 한 경우
     openModal({
       content: `${region}로 떠나시나요?`,
       callback: () => {
