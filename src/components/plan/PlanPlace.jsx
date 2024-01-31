@@ -2,9 +2,15 @@ import React, { useState, useEffect } from "react";
 
 // components
 import PlaceCard from "../UI/PlaceCard";
+import SelectPlace from "./SelectPlace";
+import LoadedPlans from "./LoadedPlans";
+import SavedPlace from "./SavedPlace";
 
 // icon
 import searchIcon from "../../assets/icons/searchIcon.png";
+
+// API
+import { API } from "../../api/API";
 
 // 테스트용 장소 데이터
 const dummyPlace1 = {
@@ -51,13 +57,15 @@ const dummyPlace6 = {
   // rating??
 };
 
-const PlanPlace = ({ setUserInput }) => {
+const PlanPlace = ({ setUserInput, userInput }) => {
   // 메뉴바 선택
   // 0 : 장소선택, 1: 여행지 불러오기, 2: 보관함
   const [menu, setMenu] = useState(0);
-  const [placeList, setPlaceList] = useState([]);
-  const [savedList, setSavedList] = useState([]);
-  const [filteredList, setFilteredList] = useState([]);
+  // 장소 리스트
+  const [placeList, setPlaceList] = useState([]); // 첫 렌더링 or 검색 시 db에서 가져오는 데이터
+  const [savedList, setSavedList] = useState([]); // 보관함
+  const [filteredList, setFilteredList] = useState([]); // 가져온 리스트 내 검색
+  // 카테고리
 
   // css
   const menuBtnStyle = "text-lg text-gray-400 ";
@@ -143,11 +151,56 @@ const PlanPlace = ({ setUserInput }) => {
     dummyPlace6,
   ];
   useEffect(() => {
-    // 보관 여부 value 추가
-    dummyList.forEach((place) => (place.isSave = false));
-    setPlaceList(dummyList);
-    setFilteredList(dummyList);
-  }, []);
+    console.log(userInput);
+    async function getPlace() {
+      try {
+        const res = await API(`/planning/data/${userInput}`);
+
+        const list = [];
+        console.log(userInput);
+        console.log(typeof []);
+        // 검색어에 따라 백엔드 응답 양식이 달라서 케이스 나눠서 리스트 저장..
+        if (Array.isArray(res.data.destinationList)) {
+          const region = res.data.destinationList;
+          region.map((items) => {
+            items["지역"]["여행지"].map((item) => {
+              list.push({
+                name: item["이름"],
+                address: items["도시"],
+                latlag: item["좌표"],
+                id: item.id,
+              });
+            });
+          });
+        } else {
+          const region = res.data.destinationList["지역"];
+          region.map((items) => {
+            items["여행지"].map((item) => {
+              list.push({
+                name: item["이름"],
+                address: items["도시"],
+                latlag: item["좌표"],
+                id: item.id,
+              });
+            });
+          });
+        }
+
+        list.forEach((place) => (place.isSave = false));
+        setPlaceList(list);
+        setFilteredList(list);
+        console.log(list);
+
+        // dummyList.forEach((place) => (place.isSave = false));
+        // setPlaceList(dummyList);
+        // setFilteredList(dummyList);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    getPlace();
+  }, [userInput]);
   // 보관함 state 설정
   useEffect(() => {
     setSavedList((prev) => {
@@ -171,44 +224,33 @@ const PlanPlace = ({ setUserInput }) => {
   if (menu === 0) {
     // 장소선택
     content = (
-      <>
-        {/* 카테고리 */}
-        <div className="flex h-[8%] gap-3 pb-4">
-          <button>추천 장소</button>
-          <button>맛집</button>
-          <button>카페</button>
-          <button>숙소</button>
-        </div>
-        {/* 장소 리스트 */}
-        <ul className="flex h-[90%] flex-col gap-2 overflow-hidden overflow-y-auto">
-          {filteredList.map((placeData, index) => (
-            <PlaceCard
-              key={index}
-              placeData={placeData}
-              saveClickHandler={saveClickHandler}
-            />
-          ))}
-        </ul>
-
-        {/* <PlaceCard data={dummyPlace} /> */}
-      </>
+      <SelectPlace
+        saveClickHandler={saveClickHandler}
+        filteredList={filteredList}
+      />
     );
   } else if (menu === 1) {
     // 여행지 불러오기
-    content = <div>여행지 불러오기</div>;
+    content = <LoadedPlans />;
   } else if (menu === 2) {
     // 보관함
     content = (
-      <div className="flex h-[90%] flex-col gap-2 overflow-y-scroll">
-        {filteredList.map((place) => (
-          <PlaceCard
-            key={place.name}
-            placeData={place}
-            saveClickHandler={saveClickHandler}
-          />
-        ))}
-      </div>
+      <SavedPlace
+        saveClickHandler={saveClickHandler}
+        filteredList={filteredList}
+      />
     );
+    // content = (
+    //   <div className="flex h-[90%] flex-col gap-2 overflow-y-scroll">
+    //     {filteredList.map((place) => (
+    //       <PlaceCard
+    //         key={place.name}
+    //         placeData={place}
+    //         saveClickHandler={saveClickHandler}
+    //       />
+    //     ))}
+    //   </div>
+    // );
   }
 
   return (
