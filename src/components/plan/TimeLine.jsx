@@ -16,11 +16,10 @@ const TimeLine = ({ hour }) => {
     time.setHours(hour, minute, 0, 0);
     return time;
   });
-
   return (
     <li className="relative flex min-h-[16.66%] w-full flex-col items-center justify-evenly border-b-1 border-solid border-[#CBC8C8]">
-      <div className="absolute left-0 w-[16%]">
-        {getHours(formattedTime[0])}
+      <div className="absolute left-[2%] w-[16%]">
+        {format(formattedTime[0], "hh:mm")}
       </div>
       {formattedTime.map((time) => {
         return (

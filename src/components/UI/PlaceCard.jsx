@@ -57,7 +57,7 @@ const PlaceCard = ({ placeData, saveClickHandler }) => {
               destination: name,
               destinationID: null,
               activity: null,
-              nDay: date,
+              nDay: date.currDate,
               startTime: dropSource.startTime,
               endTime: setEndTime(dropSource.startTime, 2),
             };

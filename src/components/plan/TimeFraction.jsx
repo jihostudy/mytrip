@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 // recoil
 import { useRecoilState } from "recoil";
-import { planState, setEndTime } from "../../lib/constants/plandata";
+import { planState, setEndTime, currDate } from "../../lib/constants/plandata";
 // date-fns
 import { format, getMinutes, getHours } from "date-fns";
 // react-dnd
@@ -10,6 +10,7 @@ import { useDrag, useDrop } from "react-dnd";
 import { Resizable } from "re-resizable";
 const TimeFraction = ({ hour, minute }) => {
   const [data, setData] = useRecoilState(planState);
+  const [date, setDate] = useRecoilState(currDate);
 
   // preview
   const [isOver, setIsOver] = useState(false);
@@ -23,7 +24,9 @@ const TimeFraction = ({ hour, minute }) => {
   let resultSchedule;
   const dataExist = data.schedule.some((schedule) => {
     const isMatching =
-      schedule.startTime.hour === hour && schedule.startTime.minute === minute;
+      schedule.startTime.hour === hour &&
+      schedule.startTime.minute === minute &&
+      schedule.nDay === date.currDate;
 
     // if (isMatching) {
     //   resultDestination = schedule.destination;
@@ -95,13 +98,11 @@ const TimeFraction = ({ hour, minute }) => {
           e.stopPropagation();
         }}
         onDragEnter={(e) => {
-          // console.log(e.target);
           e.preventDefault();
           e.stopPropagation();
           setIsOver(true);
         }}
         onDragLeave={(e) => {
-          // console.log(e.target);
           e.preventDefault();
           e.stopPropagation();
           setIsOver(false);
@@ -134,11 +135,9 @@ const Plan = ({ resultSchedule }) => {
     // d :{width:변한 width, height: 변한 height}
     // 칸수 계산하기 -> duration 변환
     const duration = 2 + parseInt(d.height / parentHeight);
-    console.log(duration);
+
     const modifiedSchedule = data.schedule.map((schedule) => {
       if (schedule.startTime === resultSchedule.startTime) {
-        console.log(resultSchedule.startTime);
-        console.log(setEndTime(resultSchedule.startTime, duration));
         return {
           ...schedule,
           endTime: setEndTime(resultSchedule.startTime, duration),
@@ -146,7 +145,6 @@ const Plan = ({ resultSchedule }) => {
       }
       return schedule;
     });
-    console.log(modifiedSchedule);
     setData((prev) => ({
       ...prev,
       schedule: modifiedSchedule,
@@ -168,11 +166,12 @@ const Plan = ({ resultSchedule }) => {
     [],
   );
   //style
-  const resultStyle = "relative h-full w-full rounded-md bg-red-100";
+  const resultStyle =
+    "relative h-full w-full rounded-lg bg-[#9BE1FF] flex items-center";
 
   return (
     <Resizable
-      defaultSize={{ width: "70%", height: "100%" }}
+      defaultSize={{ width: "80%", height: "100%" }}
       grid={[parentHeight, parentHeight]}
       // grid={[100, 10]}
       enable={{
@@ -186,12 +185,13 @@ const Plan = ({ resultSchedule }) => {
         topLeft: false,
       }}
       boundsByDirection={true}
-      maxWidth={(parentWidth * 7) / 10}
+      maxWidth={(parentWidth * 8) / 10}
       minHeight={parentHeight * 2}
       style={{
         position: "absolute",
-        top: resultSchedule.startTime.minute === 0 ? 0 : "50%",
-        padding: "0.5% 0",
+        top: resultSchedule.startTime.minute === 0 ? "-17%" : "50%",
+        margin: "2% 0 0 0",
+        right: "5%",
         zIndex: isDragging ? 0 : 20,
       }}
       bounds={restrictElement}
@@ -204,7 +204,7 @@ const Plan = ({ resultSchedule }) => {
           opacity: isDragging ? "0.3" : "1",
         }}
       >
-        {resultSchedule.destination}
+        <p className="relative">{resultSchedule.destination}</p>
       </div>
     </Resizable>
   );
