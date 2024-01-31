@@ -1,79 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 // recoil
 import { useRecoilState } from "recoil";
 import { planState } from "../../lib/constants/plandata";
+// date-fns
+import { format, getMinutes, getHours } from "date-fns";
 // react-dnd
 import { useDrop } from "react-dnd";
-
+// Components
+import TimeFraction from "./TimeFraction";
 const TimeLine = ({ hour }) => {
-  const minuteArr = ["00", "30"];
-
+  const minuteArr = [0, 30];
+  // ["04:00","04:30"] 형식으로 들어있음
+  const formattedTime = minuteArr.map((minute) => {
+    let time = new Date();
+    time.setHours(hour, minute, 0, 0);
+    return time;
+  });
   return (
     <li className="relative flex min-h-[16.66%] w-full flex-col items-center justify-evenly border-b-1 border-solid border-[#CBC8C8]">
-      <div className="absolute left-0 w-[16%]">{hour}</div>
-
-      {minuteArr.map((minute) => {
-        return <TimeFraction key={minute} hour={hour} minute={minute} />;
+      <div className="absolute left-[2%] w-[16%]">
+        {format(formattedTime[0], "hh:mm")}
+      </div>
+      {formattedTime.map((time) => {
+        return (
+          <TimeFraction
+            key={time}
+            hour={getHours(time)} // 숫자
+            minute={getMinutes(time)} // 숫자
+          />
+        );
       })}
     </li>
   );
 };
 
 export default TimeLine;
-
-const TimeFraction = ({ hour, minute, showPreview }) => {
-  const [data, setData] = useRecoilState(planState);
-
-  // preview
-  const [isOver, setIsOver] = useState(false);
-  const previeStyle =
-    minute === "00"
-      ? "absolute top-[5%] h-[90%] w-[70%] rounded-md bg-[#9BE1FF]"
-      : "absolute top-[55%] h-[90%] w-[70%] rounded-md bg-[#9BE1FF]";
-  const preview = <p className={previeStyle}>여행지</p>;
-
-  // Data 표시
-  const dataExist = data.schedule.some(
-    (schedule) =>
-      schedule.startTime.hour === hour && schedule.startTime.minute === minute,
-  );
-  const resultStyle =
-    minute === "00"
-      ? "absolute top-[5%] h-[90%] w-[70%] rounded-md bg-red-100"
-      : "absolute top-[55%] h-[90%] w-[70%] rounded-md bg-red-100";
-  const result = <p className={resultStyle}>여행지</p>;
-  const [, dropRef] = useDrop(
-    () => ({
-      accept: "PLACECARD",
-      // item : 드래그 drop한 item
-      drop: (item, monitor) => {
-        console.log("item");
-        console.log(item);
-        return {
-          startTime: {
-            hour: hour,
-            minute: minute,
-          },
-        };
-      },
-    }),
-    [],
-  );
-
-  return (
-    <>
-      <div
-        className="z-10 flex h-1/2 w-full justify-center border-1 border-solid border-black"
-        // style={{ top: top }}
-        ref={dropRef}
-        onDragEnter={() => setIsOver(true)}
-        onDragLeave={() => setIsOver(false)}
-        onMouseLeave={() => setIsOver(false)}
-      ></div>
-      {isOver && preview}
-      {dataExist && result}
-    </>
-  );
-};
-
-const SubPlan = () => {};
