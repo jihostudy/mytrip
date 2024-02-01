@@ -1,7 +1,7 @@
 import React from "react";
 
 // components
-import PlaceCard from "../UI/PlaceCard";
+import PlaceCard from "./PlaceCard";
 
 const SavedPlace = ({ saveClickHandler, filteredList }) => {
   return (

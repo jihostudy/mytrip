@@ -43,6 +43,10 @@ const PlanningPage = () => {
   useEffect(() => {
     if (state) {
       setUserInput(state.region);
+      setData((prev) => ({
+        ...prev,
+        region: state.region,
+      }));
     }
   }, []);
 

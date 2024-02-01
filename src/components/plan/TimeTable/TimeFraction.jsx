@@ -1,7 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 // recoil
 import { useRecoilState } from "recoil";
-import { planState, setEndTime, currDate } from "../../lib/constants/plandata";
+import {
+  planState,
+  setEndTime,
+  currDate,
+} from "../../../lib/constants/plandata";
 // date-fns
 import { format, getMinutes, getHours } from "date-fns";
 // react-dnd
@@ -16,8 +20,8 @@ const TimeFraction = ({ hour, minute }) => {
   const [isOver, setIsOver] = useState(false);
   const previewStyle =
     minute === 0
-      ? "absolute top-[5%] h-[90%] w-[70%] rounded-md bg-[#9BE1FF]"
-      : "absolute top-[55%] h-[90%] w-[70%] rounded-md bg-[#9BE1FF]";
+      ? "absolute top-[5%] right-[5%] h-[90%] w-[80%] rounded-md bg-[#9BE1FF] scale-105"
+      : "absolute top-[55%] right-[5%] h-[90%] w-[80%] rounded-md bg-[#9BE1FF] scale-105";
   const preview = <p className={previewStyle} />;
   // Data가 Fraction에 있는지 검사
 

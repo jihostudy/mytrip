@@ -1,12 +1,16 @@
 import React, { useEffect } from "react";
 // recoil
-import { planState, currDate, setEndTime } from "../../lib/constants/plandata";
+import {
+  planState,
+  currDate,
+  setEndTime,
+} from "../../../lib/constants/plandata";
 import { useRecoilState, useResetRecoilState, useRecoilValue } from "recoil";
 // react-dnd
 import { useDrag } from "react-dnd";
 // icon
-import savingBtn from "../../assets/icons/savingBtn.png";
-import savedBtn from "../../assets/icons/savedBtn.png";
+import savingBtn from "../../../assets/icons/savingBtn.png";
+import savedBtn from "../../../assets/icons/savedBtn.png";
 
 const PlaceCard = ({ placeData, saveClickHandler }) => {
   const [data, setData] = useRecoilState(planState);

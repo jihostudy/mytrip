@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
 
 // components
-import PlaceCard from "../UI/PlaceCard";
 import SelectPlace from "./SelectPlace";
 import LoadedPlans from "./LoadedPlans";
 import SavedPlace from "./SavedPlace";
 
 // icon
-import searchIcon from "../../assets/icons/searchIcon.png";
+import searchIcon from "../../../assets/icons/searchIcon.png";
 
 // API
-import { API } from "../../api/API";
+import { API } from "../../../api/API";
 
 const PlanPlace = ({ setUserInput, userInput }) => {
   // 메뉴바 선택

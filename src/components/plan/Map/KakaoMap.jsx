@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 // icon
-import markerIcon from "../../assets/icons/mapMarker.png";
+import markerIcon from "../../../assets/icons/mapMarker.png";
 
 // 백엔드 데이터에 맞춰서 바꾸기
 // 타이틀 표시 안됨

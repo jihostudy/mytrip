@@ -5,9 +5,9 @@ import { useRecoilState } from "recoil";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 // components
-import PlanPlace from "./PlanPlace";
-import PlanTimeTable from "./PlanTimeTable";
-import PlanMap from "./PlanMap";
+import PlanPlace from "./Place/PlanPlace";
+import PlanTimeTable from "./TimeTable/PlanTimeTable";
+import PlanMap from "./Map/PlanMap";
 const PlanBody = ({ setUserInput, userInput }) => {
   //장소 추가
   function planHandler() {}

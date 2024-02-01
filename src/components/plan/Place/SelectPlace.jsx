@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
 // components
-import PlaceCard from "../UI/PlaceCard";
+import PlaceCard from "./PlaceCard";
 
 // UI
-import Button from "../UI/Button";
+import Button from "../../UI/Button";
 
 // Cataegory
 const categoryList = ["추천 장소", "맛집", "카페", "숙소"];

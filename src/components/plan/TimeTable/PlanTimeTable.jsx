@@ -9,7 +9,7 @@ import { ko } from "date-fns/locale";
 import TimeLine from "./TimeLine";
 // recoil
 import { useRecoilState, useRecoilValue } from "recoil";
-import { planState, currDate } from "../../lib/constants/plandata";
+import { planState, currDate } from "../../../lib/constants/plandata";
 
 const PlanTimeTable = () => {
   const data = useRecoilValue(planState);

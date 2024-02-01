@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 // recoil
 import { useRecoilState } from "recoil";
-import { planState } from "../../lib/constants/plandata";
+import { planState } from "../../../lib/constants/plandata";
 // date-fns
 import { format, getMinutes, getHours } from "date-fns";
 // react-dnd
