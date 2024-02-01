@@ -17,6 +17,7 @@ import RegisterPage from "./pages/RegisterPage";
 import NewPasswordPage from "./pages/NewPasswordPage";
 import PasswordResetPage from "./pages/PasswordResetPage";
 import StartPage from "./pages/StartPage";
+import PlanResultPage from "./pages/PlanResultPage";
 // social-login
 import KakaoRedirect from "./components/Redirect/KakaoRedirect";
 import GoogleRedirect from "./components/Redirect/GoogleRedirect";
@@ -55,7 +56,10 @@ const router = createBrowserRouter([
       {
         path: "/planning",
         element: <PlanningLayout />,
-        children: [{ index: true, element: <PlanningPage /> }],
+        children: [
+          { index: true, element: <PlanningPage /> },
+          { path: "/planning/result", element: <PlanResultPage /> },
+        ],
       },
       {
         path: "/auth",

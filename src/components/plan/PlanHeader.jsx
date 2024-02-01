@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 // router
-import { useNavigation, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 // recoil
 import { planState } from "../../lib/constants/plandata";
 import { useRecoilState } from "recoil";
@@ -13,7 +13,7 @@ const PlanHeader = (props) => {
   const [data, setData] = useRecoilState(planState);
 
   const location = useLocation();
-  const naviate = useNavigation();
+  const navigate = useNavigate();
   const region = location.state.region.slice(0, 2);
 
   const { date } = data;
@@ -41,13 +41,14 @@ const PlanHeader = (props) => {
   // 저장
   function saveHandler() {}
   // 제출
-  function submitHandler() {}
+  function submitHandler() {
+    navigate("/planning/result");
+  }
   return (
-    <div className="flex h-[15%] w-[93%] items-start justify-between">
-      <div className="flex h-3/5 w-1/2 items-end justify-start">
-        <p className="mr-4 flex h-full w-[15%] items-end text-4xl">{region}</p>
-        {/* <BsCalendarDate /> */}
-        <div className="relative z-30 flex h-full items-end">
+    <div className="flex h-[15%] w-[93%] items-center justify-between">
+      <div className="flex h-3/5 w-1/4 items-end justify-start">
+        <p className="mr-4 flex h-full w-[30%] items-end text-4xl">{region}</p>
+        <div className="relative z-30 flex h-full w-[70%] items-end">
           <button onClick={resetDate}>{planPeriod}</button>
           {!date.start && (
             <>
