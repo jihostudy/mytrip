@@ -70,12 +70,12 @@ const PlanPlace = ({ setUserInput, userInput }) => {
   }
   function onSubmitHandler(e) {
     e.preventDefault();
-    console.log("지도 검색!");
+    // console.log("지도 검색!");
     setUserInput((prev) => e.target.userInput.value);
   }
   function onInputHandler(e) {
     e.preventDefault();
-    console.log("검색어 필터링!");
+    // console.log("검색어 필터링!");
 
     const userInput = e.target.value;
 
@@ -206,7 +206,7 @@ const PlanPlace = ({ setUserInput, userInput }) => {
     );
   } else if (menu === 1) {
     // 여행지 불러오기
-    content = <LoadedPlans />;
+    content = <LoadedPlans userInput={userInput} />;
   } else if (menu === 2) {
     // 보관함
     content = (
