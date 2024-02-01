@@ -80,7 +80,7 @@ const KakaoMap = ({ userInput }) => {
           // const moveLocation = new kakao.maps.LatLng(center.y, center.x);
           // #1. Zoom Out
           if (mapOption.level != 13) {
-            console.log("zoom out");
+            // console.log("zoom out");
             setMapOption((prev) => ({
               ...prev,
               level: 13,
@@ -88,7 +88,7 @@ const KakaoMap = ({ userInput }) => {
           }
           // #2. Move
           timer1 = setTimeout(() => {
-            console.log("move");
+            // console.log("move");
             setMapOption((prev) => ({
               ...prev,
               center: { lat: center.y, lng: center.x },
@@ -97,7 +97,7 @@ const KakaoMap = ({ userInput }) => {
           }, [400]);
           // #3. Zoom In
           timer2 = setTimeout(() => {
-            console.log("zoom in");
+            // console.log("zoom in");
             setMapOption((prev) => ({
               ...prev,
               level: 10,
