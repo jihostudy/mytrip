@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 
 // icon
-import filterBtn from "../../assets/icons/filterBtn.png";
+import filterBtn from "../../../assets/icons/filterBtn.png";
 
 // API
-import { API } from "../../api/API";
+import { API } from "../../../api/API";
 
 // Components
-import Button from "../UI/Button";
-import PlanCard from "../UI/PlanCard";
+import Button from "../../UI/Button";
+import PlanCard from "../../UI/PlanCard";
 
 // Cataegory
 const categoryList = ["전체", "스크랩한 여행지"];
