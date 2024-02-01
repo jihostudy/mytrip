@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 
 // icon
 import filterBtn from "../../../assets/icons/filterBtn.png";
+import MinusIcon from "../../../assets/icons/Minus.svg?react";
+import PlusIcon from "../../../assets/icons/Plus.svg?react";
 
 // API
 import { API } from "../../../api/API";
@@ -34,6 +36,47 @@ const LoadedPlans = ({ userInput }) => {
   function filterClickHandler() {
     // console.log("필터 클릭");
     setIsFilterClick((prev) => !prev);
+  }
+  function periodHandler(idx, e) {
+    setPeriod((prev) => {
+      prev[idx] = e.target.value;
+      return prev;
+    });
+  }
+  function peopleHandler(action) {
+    if (action === "plus") {
+      setPeople((prev) => prev + 1);
+    } else if (action === "minus") {
+      setPeople((prev) => prev - 1);
+    }
+  }
+  function costHandler(e) {
+    setCost(e.target.value);
+  }
+  // filtering handler
+  function submitHandler() {
+    let query = "?";
+    if (period[0] === 0 && period[1] === 0) {
+      // query += `period=${period}&`
+    }
+    if (cost !== 0) {
+      query += `cost=${cost * 10000}&`;
+    }
+    if (people !== 0) {
+      query += `num=${people}`;
+    }
+    console.log(query);
+
+    async function filtering() {
+      try {
+        const res = await API.get(`/planning/post/${userInput}`);
+        console.log(res.data);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    // filtering();
   }
 
   // 검색된 계획 state 저장
@@ -108,29 +151,67 @@ const LoadedPlans = ({ userInput }) => {
           );
         })}
       </div>
+      {/* 필터링 */}
       {isFilterClick && (
-        <div className="flex w-full justify-between px-2">
+        <div className="flex w-full justify-between">
+          {/* 기간 */}
           <div className="flex w-[25%] items-center justify-center rounded-lg border-[1px] border-solid border-black">
             <p className=" text-sm">기간</p>
-            <input className="inline w-[15%]" />
-            <p className=" text-sm">박</p>
-            <input className="inline w-[15%]" />
+            <input
+              className="inline w-[15%]"
+              onChange={(e) => periodHandler(0, e)}
+            />
+            <p className="text-sm">박</p>
+            <input
+              className="inline w-[15%]"
+              onChange={(e) => periodHandler(1, e)}
+            />
             <p className=" text-sm">일</p>
           </div>
-          <div className=" text-sm">인원</div>
+          {/* 인원 */}
+          <div className="flex w-[30%] items-center justify-around gap-1 rounded-lg border-[1px] border-solid border-black text-sm">
+            <p>인원</p>
+            <button>
+              <MinusIcon
+                stroke="#989BA7"
+                fill="none"
+                className="w-[80%] hover:fill-red-200 hover:stroke-black"
+                onClick={() => peopleHandler("minus")}
+              />
+            </button>
+            <p>{people}</p>
+            <button>
+              <PlusIcon
+                stroke="#989BA7"
+                fill="none"
+                className="w-[80%] hover:fill-blue-200 hover:stroke-black"
+                onClick={() => peopleHandler("plus")}
+              />
+            </button>
+          </div>
+          {/* 경비 */}
           <div className="flex w-[25%] items-center justify-around rounded-lg border-[1px] border-solid border-black text-sm">
             <p>경비</p>
-            <input className="inline w-[20%]" />
+            <input
+              className="inline w-[20%]"
+              onChange={(e) => costHandler(e)}
+            />
             <p>만원</p>
           </div>
-          <div className=" text-sm">적용</div>
+          <button
+            className="hover: rounded-lg bg-[#33b2e9] px-1 text-sm hover:bg-[#32a6d8]"
+            onClick={submitHandler}
+          >
+            적용
+          </button>
         </div>
       )}
       {/* 여행 플랜 리스트 */}
       <ul className="flex h-[90%] flex-col gap-2 overflow-hidden overflow-y-auto">
-        {loadedPlans.map((plan) => {
+        {loadedPlans.map((plan, index) => {
           return (
             <PlanCard
+              key={plan._id + "load"}
               image={plan.image}
               name={plan.name}
               city={plan.city}

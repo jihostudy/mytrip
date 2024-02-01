@@ -128,7 +128,7 @@ const KakaoMap = ({ userInput }) => {
         isPanto={mapOption.isPanto} // 지도 이동 부드럽게?
       >
         {dummy.map((value, index) => (
-          <React.Fragment key={value}>
+          <React.Fragment key={value + index}>
             <EventMarkerContainer
               key={`EventMarkerContainer-${value.latlng.lat}-${value.latlng.lng}`}
               position={value.latlng}
