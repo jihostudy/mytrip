@@ -28,9 +28,9 @@ const ConfirmModal = () => {
             }}
           >
             <div className="flex grow items-center">
-              <p className="flex h-3/5 flex-col items-center justify-center text-xl">
+              <div className="flex h-3/5 flex-col items-center justify-center text-xl">
                 {content}
-              </p>
+              </div>
             </div>
             <div className="flex h-2/5 w-4/5 justify-center gap-3 border-t-1 border-solid border-[#BDBDBD]">
               <input className="w-0 border-0 bg-none" type="submit" />

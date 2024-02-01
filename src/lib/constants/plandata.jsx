@@ -6,21 +6,21 @@ export const planState = atom({
   key: "planState",
   default: {
     id: null,
-    username: null,
     region: null,
+    title: null,
+    description: null,
+    image: null,
     date: { start: null, end: null }, // 시작-끝 날짜
     period: null, //몇일?
-    season: null,
     totalCost: null,
     numPeople: null,
     likes: null,
     scraps: null,
-    image: null,
     shareURI: null,
-    description: null,
     isPublic: null,
-    hashTag: [],
     schedule: [], // 방문 장소들
+    destinationCart: [], //보관함
+    //hashTag: [],
   },
 });
 

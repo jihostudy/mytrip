@@ -155,7 +155,7 @@ const PlanPlace = ({ setUserInput, userInput }) => {
         list.forEach((place, index) => {
           place.isSave = false;
           const id = place.id;
-          console.log(savedList);
+          // console.log(savedList);
           savedList.forEach((item) => {
             if (item.id === id && item.isSave === true) {
               list[index].isSave = true;
@@ -164,7 +164,7 @@ const PlanPlace = ({ setUserInput, userInput }) => {
         });
         setPlaceList(list);
         setFilteredList(list);
-        console.log(list);
+        // console.log(list);
       } catch (e) {
         console.log(e);
       }

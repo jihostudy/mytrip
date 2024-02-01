@@ -28,6 +28,7 @@ const SelectPlace = ({ saveClickHandler, filteredList }) => {
         {categoryList.map((item, index) => {
           return (
             <Button
+              key={item}
               txt={item}
               clickHandler={() => clickHandler(index)}
               custom={
