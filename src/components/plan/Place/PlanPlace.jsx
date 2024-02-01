@@ -121,14 +121,14 @@ const PlanPlace = ({ setUserInput, userInput }) => {
 
   // 백엔드에서 가져온 데이터
   useEffect(() => {
-    console.log(userInput);
+    // console.log(userInput);
     async function getPlace() {
       try {
         const res = await API(`/planning/data/${userInput}`);
 
         const list = [];
-        console.log(userInput);
-        console.log(typeof []);
+        // console.log(userInput);
+        // console.log(typeof []);
         // 검색어에 따라 백엔드 응답 양식이 달라서 케이스 나눠서 리스트 저장..
         if (Array.isArray(res.data.destinationList)) {
           const region = res.data.destinationList;
@@ -168,7 +168,7 @@ const PlanPlace = ({ setUserInput, userInput }) => {
         });
         setPlaceList(list);
         setFilteredList(list);
-        // console.log(list);
+        console.log(list);
       } catch (e) {
         console.log(e);
       }
@@ -215,7 +215,7 @@ const PlanPlace = ({ setUserInput, userInput }) => {
       destinationCart: destinationCart,
     }));
   }, [savedList]);
-  console.log(plans);
+  // console.log(plans);
 
   return (
     <div className="h-full w-[33%] p-3 shadow-[0_0_4px_rgba(0,0,0,0.25)]">
