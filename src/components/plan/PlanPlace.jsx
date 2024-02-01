@@ -12,51 +12,6 @@ import searchIcon from "../../assets/icons/searchIcon.png";
 // API
 import { API } from "../../api/API";
 
-// 테스트용 장소 데이터
-const dummyPlace1 = {
-  image: null,
-  name: "성균",
-  address: "경기도 수원시 장안구 서부로 2066",
-
-  // rating??
-};
-const dummyPlace2 = {
-  image: null,
-  name: "균관",
-  address: "경기도 수원시 장안구 서부로 2066",
-
-  // rating??
-};
-const dummyPlace3 = {
-  image: null,
-  name: "관대",
-  address: "경기도 수원시 장안구 서부로 2066",
-
-  // rating??
-};
-const dummyPlace4 = {
-  image: null,
-  name: "대학",
-  address: "경기도 수원시 장안구 서부로 2066",
-
-  // rating??
-};
-const dummyPlace5 = {
-  image: null,
-  name: "학교",
-  address: "경기도 수원시 장안구 서부로 2066",
-
-  // rating??
-};
-const dummyPlace6 = {
-  image: null,
-  name: "교",
-  address: "경기도 수원시 장안구 서부로 2066",
-  destination: null,
-  activity: null,
-  // rating??
-};
-
 const PlanPlace = ({ setUserInput, userInput }) => {
   // 메뉴바 선택
   // 0 : 장소선택, 1: 여행지 불러오기, 2: 보관함
@@ -81,11 +36,12 @@ const PlanPlace = ({ setUserInput, userInput }) => {
       setFilteredList(savedList);
     }
   }
+  // 보관 기능
   function saveClickHandler(place) {
     // 보관 버튼 클릭 시 isSave 값 변경
     setPlaceList((prev) => {
       const newList = prev.map((item) => {
-        if (place === item) {
+        if (place.id === item.id) {
           item.isSave = !item.isSave;
         }
         return item;
@@ -93,6 +49,24 @@ const PlanPlace = ({ setUserInput, userInput }) => {
 
       // console.log(newList);
       return newList;
+    });
+
+    setSavedList((prev) => {
+      let filtered = [];
+      if (prev.includes(place)) {
+        filtered = prev.filter((item) => {
+          return item !== place;
+        });
+      } else {
+        console.log(filtered);
+        filtered = [...prev, place];
+      }
+
+      if (menu === 2) {
+        setFilteredList(filtered);
+      }
+
+      return filtered;
     });
   }
   function onSubmitHandler(e) {
@@ -141,15 +115,7 @@ const PlanPlace = ({ setUserInput, userInput }) => {
     }
   }
 
-  // 백엔드에서 가져온 데이터 => dummyList 변경 후 데스트 할 것.
-  const dummyList = [
-    dummyPlace1,
-    dummyPlace2,
-    dummyPlace3,
-    dummyPlace4,
-    dummyPlace5,
-    dummyPlace6,
-  ];
+  // 백엔드에서 가져온 데이터
   useEffect(() => {
     console.log(userInput);
     async function getPlace() {
@@ -186,14 +152,19 @@ const PlanPlace = ({ setUserInput, userInput }) => {
           });
         }
 
-        list.forEach((place) => (place.isSave = false));
+        list.forEach((place, index) => {
+          place.isSave = false;
+          const id = place.id;
+          console.log(savedList);
+          savedList.forEach((item) => {
+            if (item.id === id && item.isSave === true) {
+              list[index].isSave = true;
+            }
+          });
+        });
         setPlaceList(list);
         setFilteredList(list);
         console.log(list);
-
-        // dummyList.forEach((place) => (place.isSave = false));
-        // setPlaceList(dummyList);
-        // setFilteredList(dummyList);
       } catch (e) {
         console.log(e);
       }
@@ -202,22 +173,27 @@ const PlanPlace = ({ setUserInput, userInput }) => {
     getPlace();
   }, [userInput]);
   // 보관함 state 설정
-  useEffect(() => {
-    setSavedList((prev) => {
-      const saved = [];
-      placeList.forEach((place) => {
-        if (place.isSave === true) {
-          saved.push(place);
-        }
-      });
-      // 버튼 클릭시 보관함서 바로 제거
-      if (menu === 2) {
-        setFilteredList(saved);
-      }
+  // useEffect(() => {
+  //   setSavedList((prev) => {
+  //     const saved = [];
+  //     prev.forEach((place) => {
+  //       if (place.isSave === true) {
+  //         saved.push(place);
+  //       }
+  //     });
+  //     placeList.forEach((place) => {
+  //       if (place.isSave === true && !saved.includes(place)) {
+  //         saved.push(place);
+  //       }
+  //     });
+  //     // 버튼 클릭시 보관함서 바로 제거
+  //     if (menu === 2) {
+  //       setFilteredList(saved);
+  //     }
 
-      return saved;
-    });
-  }, [placeList]);
+  //     return saved;
+  //   });
+  // }, [placeList]);
 
   // menu에 따른 content (메뉴 이동 간에 지워지면 안되니까 state에 저장??, 보관함은 무조건)
   let content;
@@ -240,17 +216,6 @@ const PlanPlace = ({ setUserInput, userInput }) => {
         filteredList={filteredList}
       />
     );
-    // content = (
-    //   <div className="flex h-[90%] flex-col gap-2 overflow-y-scroll">
-    //     {filteredList.map((place) => (
-    //       <PlaceCard
-    //         key={place.name}
-    //         placeData={place}
-    //         saveClickHandler={saveClickHandler}
-    //       />
-    //     ))}
-    //   </div>
-    // );
   }
 
   return (
