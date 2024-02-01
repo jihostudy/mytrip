@@ -38,7 +38,7 @@ const PlanningPage = () => {
   // 처음 설정한 지역으로 초기화
   const { state } = useLocation();
   const [userInput, setUserInput] = useState();
-  console.log(userInput);
+  // console.log(userInput);
 
   useEffect(() => {
     if (state) {

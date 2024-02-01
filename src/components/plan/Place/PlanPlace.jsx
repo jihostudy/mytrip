@@ -5,6 +5,10 @@ import SelectPlace from "./SelectPlace";
 import LoadedPlans from "./LoadedPlans";
 import SavedPlace from "./SavedPlace";
 
+// recoil
+import { useRecoilState } from "recoil";
+import { planState } from "../../../lib/constants/plandata";
+
 // icon
 import searchIcon from "../../../assets/icons/searchIcon.png";
 
@@ -96,6 +100,7 @@ const PlanPlace = ({ setUserInput, userInput }) => {
         break;
       // 여행지 불러오기 -> 검색 시
       case 1:
+        break;
       // 보관함 -> 검색시
       case 2:
         if (userInput === "") {
@@ -116,14 +121,14 @@ const PlanPlace = ({ setUserInput, userInput }) => {
 
   // 백엔드에서 가져온 데이터
   useEffect(() => {
-    console.log(userInput);
+    // console.log(userInput);
     async function getPlace() {
       try {
         const res = await API(`/planning/data/${userInput}`);
 
         const list = [];
-        console.log(userInput);
-        console.log(typeof []);
+        // console.log(userInput);
+        // console.log(typeof []);
         // 검색어에 따라 백엔드 응답 양식이 달라서 케이스 나눠서 리스트 저장..
         if (Array.isArray(res.data.destinationList)) {
           const region = res.data.destinationList;
@@ -163,7 +168,7 @@ const PlanPlace = ({ setUserInput, userInput }) => {
         });
         setPlaceList(list);
         setFilteredList(list);
-        // console.log(list);
+        console.log(list);
       } catch (e) {
         console.log(e);
       }
@@ -171,30 +176,8 @@ const PlanPlace = ({ setUserInput, userInput }) => {
 
     getPlace();
   }, [userInput]);
-  // 보관함 state 설정
-  // useEffect(() => {
-  //   setSavedList((prev) => {
-  //     const saved = [];
-  //     prev.forEach((place) => {
-  //       if (place.isSave === true) {
-  //         saved.push(place);
-  //       }
-  //     });
-  //     placeList.forEach((place) => {
-  //       if (place.isSave === true && !saved.includes(place)) {
-  //         saved.push(place);
-  //       }
-  //     });
-  //     // 버튼 클릭시 보관함서 바로 제거
-  //     if (menu === 2) {
-  //       setFilteredList(saved);
-  //     }
 
-  //     return saved;
-  //   });
-  // }, [placeList]);
-
-  // menu에 따른 content (메뉴 이동 간에 지워지면 안되니까 state에 저장??, 보관함은 무조건)
+  // menu에 따른 content
   let content;
   if (menu === 0) {
     // 장소선택
@@ -216,6 +199,23 @@ const PlanPlace = ({ setUserInput, userInput }) => {
       />
     );
   }
+
+  // ------------------------------------------------------------------
+  // 보관함 recoil
+  const [plans, setPlans] = useRecoilState(planState);
+
+  useEffect(() => {
+    const destinationCart = [];
+    // 리스트 내의 객체까지 깊은 복사해야됨 ...
+    savedList.forEach((item) => {
+      destinationCart.push({ ...item });
+    });
+    setPlans((prev) => ({
+      ...prev,
+      destinationCart: destinationCart,
+    }));
+  }, [savedList]);
+  // console.log(plans);
 
   return (
     <div className="h-full w-[33%] p-3 shadow-[0_0_4px_rgba(0,0,0,0.25)]">
