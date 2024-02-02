@@ -17,13 +17,13 @@ const PlanCard = ({
   return (
     <li
       onClick={() => onClick(index)}
-      className="flex h-[18%] justify-between gap-4 bg-slate-100 p-3 hover:cursor-pointer"
+      className="flex h-[18%] justify-between gap-4 rounded-lg bg-slate-100 p-3 hover:cursor-pointer"
     >
       <img src={image} alt="계획 사진" />
       <div className="grow">
-        <p>{title}</p>
-        <p>{descirption}</p>
-        <p>{like}</p>
+        <p className="mb-1 font-extrabold">{title}</p>
+        <p className="text-xs">{descirption}</p>
+        <p className="text-xs">{like}</p>
       </div>
     </li>
   );

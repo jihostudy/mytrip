@@ -11,6 +11,7 @@ import { useDrag } from "react-dnd";
 // icon
 import savingBtn from "../../../assets/icons/savingBtn.png";
 import savedBtn from "../../../assets/icons/savedBtn.png";
+import Star from "../../../assets/icons/Star.svg?react";
 
 const PlaceCard = ({ placeData, saveClickHandler }) => {
   const [data, setData] = useRecoilState(planState);
@@ -22,6 +23,7 @@ const PlaceCard = ({ placeData, saveClickHandler }) => {
   const isSave = placeData.isSave;
   const destination = placeData.destination;
   const activity = placeData.activity;
+  const latlag = placeData.latlag;
   // 검사 함수
   function checkDuplicate(dropSource) {
     return data.schedule.some(
@@ -64,6 +66,10 @@ const PlaceCard = ({ placeData, saveClickHandler }) => {
               nDay: date.currDate,
               startTime: dropSource.startTime,
               endTime: setEndTime(dropSource.startTime, 2),
+              latlng: {
+                lat: latlag.latitude,
+                lng: latlag.longitude,
+              },
             };
             setData((prev) => ({
               ...prev,
@@ -80,16 +86,19 @@ const PlaceCard = ({ placeData, saveClickHandler }) => {
 
   return (
     <li
-      className="flex h-[18%] justify-between gap-4 bg-slate-100 p-3"
+      className="flex h-[18%] justify-between gap-4 rounded-lg bg-slate-100 p-3"
       ref={dragRef}
       style={{ opacity: isDragging ? "0.3" : "1" }}
     >
       <img src={image} alt="장소 사진" />
 
       <div className="grow">
-        <p>{name}</p>
-        <p>{address}</p>
-        <p>평점 5</p>
+        <p className="mb-1 font-extrabold">{name}</p>
+        <p className=" text-xs">{address}</p>
+        <div className="flex items-center gap-2">
+          <Star />
+          <p className="text-xs">5</p>
+        </div>
       </div>
       {/* 보관 버튼 */}
       {!isSave ? (

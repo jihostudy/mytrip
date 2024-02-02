@@ -60,27 +60,27 @@ const LoadedPlans = ({ userInput }) => {
   // filtering handler
   function submitHandler() {
     let query = "?";
-    if (period[0] === 0 && period[1] === 0) {
+    if (period[0] === "0" && period[1] === "0") {
       // query += `period=${period}&`
     }
-    if (cost !== 0) {
+    if (cost !== "0") {
       query += `cost=${cost * 10000}&`;
     }
     if (people !== 0) {
       query += `num=${people}`;
     }
-    console.log(query);
+    console.log(`/planning/post/${userInput}${query}`);
 
     async function filtering() {
       try {
-        const res = await API.get(`/planning/post/${userInput}`);
+        const res = await API.get(`/planning/post/${userInput}${query}`);
         console.log(res.data);
       } catch (e) {
         console.log(e);
       }
     }
 
-    // filtering();
+    filtering();
   }
   // 여행 계획 보기 (Time Table)
   function watchPlanHandler(index) {
@@ -145,7 +145,7 @@ const LoadedPlans = ({ userInput }) => {
           >
             이전
           </button>
-          {/* ------------------ 시간표 태그 -------------------------------- */}
+          {/* ------------------- 여행 시간표 -------------------------------- */}
           <LoadTimeTable plan={planData} />
           {/* ------------------------------------------------------------- */}
         </div>

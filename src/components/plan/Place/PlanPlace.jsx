@@ -50,7 +50,6 @@ const PlanPlace = ({ setUserInput, userInput }) => {
         return item;
       });
 
-      // console.log(newList);
       return newList;
     });
 
