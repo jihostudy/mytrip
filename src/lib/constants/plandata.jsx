@@ -17,7 +17,8 @@ export const planState = atom({
     likes: null,
     scraps: null,
     shareURI: null,
-    isPublic: null,
+    isPublic: true,
+    isDone: false,
     schedule: [], // 방문 장소들
     destinationCart: [], //보관함
     //hashTag: [],

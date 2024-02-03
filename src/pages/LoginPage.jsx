@@ -27,16 +27,10 @@ const LoginPage = () => {
 
     try {
       const res = await API.post("/auth/login", userInput);
-
-      console.log(res);
-      // access token 저장
       localStorage.setItem("accessToken", res.headers.get("Authorization"));
-      console.log("중간-1");
-      // refresh token 저장 : 브라우저 자동
       setUserInfo(() => ({
         isLogin: true,
         username: res.data.username,
-        // email: userInput.email,
       }));
       navigate("/home");
 
