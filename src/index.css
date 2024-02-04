@@ -101,8 +101,10 @@ body,
   position: relative;
   height: 100dvh;
   min-height: 100dvh;
+  width: 100dvw;
   /* overflow: hidden; */
   font-family: "chosun";
+  overflow-x: hidden;
 }
 
 /* width */

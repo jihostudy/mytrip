@@ -39,7 +39,7 @@ const Header = () => {
       username: null,
     }));
 
-    navigate("/home");
+    navigate("/start");
   };
 
   const logoutModalHandler = () => {
@@ -55,7 +55,7 @@ const Header = () => {
     </Link>
   ) : (
     <>
-      <Link to="/home/my-posts" className="m-3">
+      <Link to="/home/posts" className="m-3" state={{ value: "posts" }}>
         여행 계획
       </Link>
       <Link to="?" className="m-3">
@@ -75,10 +75,18 @@ const Header = () => {
             <Link to="회원정보" className={firstDropdown}>
               회원정보
             </Link>
-            <Link to="/home/my-posts" className={Dropdown}>
+            <Link
+              to="/home/posts"
+              className={Dropdown}
+              state={{ value: "posts" }}
+            >
               나의 여행지
             </Link>
-            <Link to="스크랩한 여행지" className={Dropdown}>
+            <Link
+              to="/home/posts"
+              className={Dropdown}
+              state={{ value: "scrap-posts" }}
+            >
               스크랩한 여행지
             </Link>
             <button onClick={logoutModalHandler} className={Dropdown}>
@@ -101,7 +109,7 @@ const Header = () => {
         );
   }, [userInfo.isLogin]);
   return (
-    <header className="sticky z-10 flex h-[12.8dvh] w-full items-center justify-center bg-gradient-to-b from-[#38C3FF] from-0% via-[#38c3ff80] via-30% to-[#c6c6c600] to-100%">
+    <header className="sticky z-10 flex h-[12.8dvh] w-[100%] items-center justify-center bg-gradient-to-b from-[#38C3FF] from-0% via-[#38c3ff80] via-30% to-[#c6c6c600] to-100%">
       <div className="flex h-full w-[93%] items-center justify-between">
         <Link to="/home">
           {/* <img src="" alt="Home" className="m-3" /> */}

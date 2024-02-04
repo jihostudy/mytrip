@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+// router
+import { useLocation } from "react-router-dom";
 // axios
 import { API } from "../api/API";
 // recoil
@@ -10,6 +12,15 @@ import DefaultImage from "../assets/images/default-image-mypage.svg";
 import { IoIosHeartEmpty } from "react-icons/io";
 
 const Mypage = () => {
+  // #0. 내 여행지 OR 스크랩한 여행지?
+  const location = useLocation();
+  const classify = location.state.value;
+  console.log(classify);
+  /*
+  posts : 내 포스트 
+  scrap-posts: 스크랩한 포스트
+   */
+
   const userInfo = useRecoilValue(user);
   // #1. 데이터 불러오기
   const [planData, setPlanData] = useState();
@@ -48,45 +59,46 @@ const Mypage = () => {
     return style;
   }
   return (
-    <div className="relative flex w-full flex-col items-center">
+    <div className="relative flex w-[100%] flex-col items-center">
       <p className="flex h-[13dvh] w-[83%] items-end text-2xl font-semibold">
-        나의 여행지
+        {classify === "posts" ? "나의 여행지" : "스크랩한 여행지"}
       </p>
-      {/* 필터 */}
-      <div className="flex h-[13dvh] w-[83%] items-center justify-start text-xs">
-        <button
-          onClick={() => {
-            setFilter(1);
-          }}
-          className={setFilterStyle(1)}
-        >
-          전체
-        </button>
-        <button
-          onClick={() => {
-            setFilter(2);
-          }}
-          className={setFilterStyle(2)}
-        >
-          계획중
-        </button>
-        <button
-          onClick={() => {
-            setFilter(3);
-          }}
-          className={setFilterStyle(3)}
-        >
-          지난 여행
-        </button>
-      </div>
-      <Posts />
+      {classify === "posts" && (
+        <div className="flex h-[13dvh] w-[83%] items-center justify-start text-xs">
+          <button
+            onClick={() => {
+              setFilter(1);
+            }}
+            className={setFilterStyle(1)}
+          >
+            전체
+          </button>
+          <button
+            onClick={() => {
+              setFilter(2);
+            }}
+            className={setFilterStyle(2)}
+          >
+            계획중
+          </button>
+          <button
+            onClick={() => {
+              setFilter(3);
+            }}
+            className={setFilterStyle(3)}
+          >
+            지난 여행
+          </button>
+        </div>
+      )}
+      <Posts postData={null} />
     </div>
   );
 };
 
 export default Mypage;
 
-const Posts = () => {
+const Posts = ({ postData }) => {
   return (
     <div className="relative grid w-[83%] grid-cols-2 gap-x-5 gap-y-6">
       <PostCard />
