@@ -195,7 +195,7 @@ const HomePage = () => {
       </form>
       {/* 보여주기 구역 */}
       <div className="flex h-1/6 w-full items-center justify-center text-xl">
-        🔥핫 게시글🔥
+        여행자들의 픽
       </div>
       <div className="h-2/5 w-full">
         <ul className="flex h-full justify-evenly">{displayImg}</ul>

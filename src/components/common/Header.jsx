@@ -9,6 +9,8 @@ import { useDetectClose } from "../../hook/useDetectClose";
 import { useConfirmModal } from "../../hook/useConfirmModal";
 // images & icons
 import myPageBtn from "../../assets/icons/myPage.svg";
+import { HiOutlineUserCircle } from "react-icons/hi2";
+import { HiUserCircle } from "react-icons/hi2";
 const Header = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useRecoilState(user);
@@ -48,7 +50,7 @@ const Header = () => {
   };
   // NavBar
   const navBar = !userInfo.isLogin ? (
-    <Link to="?" className="m-3 mr-5">
+    <Link to="?" className="m-3">
       커뮤니티
     </Link>
   ) : (
@@ -56,17 +58,18 @@ const Header = () => {
       <Link to="/home/my-posts" className="m-3">
         여행 계획
       </Link>
-      <Link to="?" className="m-3 mr-5">
+      <Link to="?" className="m-3">
         커뮤니티
       </Link>
     </>
   );
   // DropDown
+  const [isHover, setIsHover] = useState(false);
   useEffect(() => {
     userInfo.isLogin
       ? setDropDownMenu(
           <div
-            className="absolute right-[-100%] top-[60%] flex w-[300%] flex-col"
+            className="absolute right-[-100%] top-[100%] flex w-[300%] flex-col"
             onClick={toggleDropdown}
           >
             <Link to="회원정보" className={firstDropdown}>
@@ -85,7 +88,7 @@ const Header = () => {
         )
       : setDropDownMenu(
           <div
-            className="absolute right-[-50%] top-[60%] flex w-[200%] flex-col"
+            className="absolute right-[-50%] top-[100%] flex w-[200%] flex-col"
             onClick={toggleDropdown}
           >
             <Link to="/home/auth/login" className={firstDropdown}>
@@ -98,20 +101,38 @@ const Header = () => {
         );
   }, [userInfo.isLogin]);
   return (
-    // <header className="bg-gradient-header animate-header sticky z-10 flex h-1/5 w-full justify-between overflow-hidden bg-[length:400%_400%]">
-    <header className="sticky z-10 flex h-[12.8dvh] w-full justify-between bg-gradient-to-b from-[#38C3FF] from-0% via-[#38c3ff80] via-30% to-[#c6c6c600] to-100%">
-      <Link to="/home" className="relative left-[2%] top-[30%] ml-3">
-        {/* <img src="" alt="Home" className="m-3" /> */}
-        이방인
-      </Link>
+    <header className="sticky z-10 flex h-[12.8dvh] w-full items-center justify-center bg-gradient-to-b from-[#38C3FF] from-0% via-[#38c3ff80] via-30% to-[#c6c6c600] to-100%">
+      <div className="flex h-full w-[93%] items-center justify-between">
+        <Link to="/home">
+          {/* <img src="" alt="Home" className="m-3" /> */}
+          이방인
+        </Link>
 
-      <nav className="relative right-[4%] top-[30%] mr-3 flex w-1/4 justify-end">
-        {navBar}
-        <div className="relative cursor-pointer" ref={dropDownRef}>
-          <img src={myPageBtn} alt="설정" onClick={toggleDropdown} />
-          {isOpen && dropDownMenu}
-        </div>
-      </nav>
+        <nav className="relative flex w-[18.1%] items-center justify-end">
+          {navBar}
+          <div
+            className="relative flex w-[26.7%] cursor-pointer justify-end"
+            ref={dropDownRef}
+          >
+            {isHover ? (
+              <HiUserCircle
+                onClick={toggleDropdown}
+                style={{ height: "80%", width: "70%", color: "#000000" }}
+                onMouseLeave={() => setIsHover(false)}
+              />
+            ) : (
+              <HiOutlineUserCircle
+                onClick={toggleDropdown}
+                style={{ height: "80%", width: "70%", color: "#000000" }}
+                onMouseEnter={() => setIsHover(true)}
+              />
+            )}
+
+            {/* <img src={myPageBtn} alt="설정" onClick={toggleDropdown} /> */}
+            {isOpen && dropDownMenu}
+          </div>
+        </nav>
+      </div>
     </header>
   );
 };
