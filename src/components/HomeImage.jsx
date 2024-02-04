@@ -7,11 +7,11 @@ const HomeImage = (props) => {
       <img
         src={img}
         alt="관광이미지"
-        className="relative h-full w-full rounded-lg object-cover"
+        className="relative aspect-square h-[82.7%] rounded-lg object-cover"
         onMouseEnter={props.onHover}
         onMouseLeave={props.onHover}
       />
-      <p className="pt-4 font-semibold">서울 여행</p>
+      <p className="pt-4 font-semibold">{props.text}</p>
     </li>
   );
 };

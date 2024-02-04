@@ -1,14 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 // Icons + Images
 import { IoSearch } from "react-icons/io5";
-import DummyImage1 from "../assets/images/1.jpeg";
-import DummyImage2 from "../assets/images/8.jpeg";
-import DummyImage3 from "../assets/images/2.jpeg";
-import DummyImage4 from "../assets/images/4.jpeg";
-import DummyImage5 from "../assets/images/3.jpeg";
-import DummyImage6 from "../assets/images/6.jpeg";
-import DummyImage7 from "../assets/images/5.jpeg";
-import DummyImage8 from "../assets/images/7.jpeg";
+import DummyImage1 from "../assets/images/1.png";
+import DummyImage2 from "../assets/images/2.png";
+import DummyImage3 from "../assets/images/3.png";
+import DummyImage4 from "../assets/images/4.png";
 // data
 import data from "../lib/data.json";
 // hooks
@@ -20,18 +16,9 @@ import { useNavigate } from "react-router";
 import { user } from "../lib/constants/userInfo";
 import { useRecoilValue } from "recoil";
 // Dummy images
-const dummy_images = [
-  DummyImage1,
-  DummyImage2,
-  DummyImage3,
-  DummyImage4,
-  DummyImage5,
-  DummyImage6,
-  DummyImage7,
-  DummyImage8,
-];
+const dummy_images = [DummyImage1, DummyImage2, DummyImage3, DummyImage4];
 // Input list
-const input_list = data.regions;
+const input_list = data[0].regions;
 // Components
 import HomeImage from "../components/HomeImage";
 // custom cooks
@@ -111,7 +98,12 @@ const HomePage = () => {
       imgList.push(dummy_images[(i + imgIdx) % numFetchImages]);
     }
     const updatedDisplayImg = imgList.map((img) => (
-      <HomeImage img={img} key={img} onHover={hoverHandler} />
+      <HomeImage
+        img={img}
+        key={img}
+        onHover={hoverHandler}
+        text={`곧 조정됩니다`}
+      />
     ));
 
     setDisplayImg(updatedDisplayImg);
@@ -156,7 +148,7 @@ const HomePage = () => {
   }
 
   return (
-    <main className="flex h-[88%] w-full flex-col items-center justify-start">
+    <main className="flex h-[87.2dvh] w-full flex-col items-center justify-start">
       {/* 검색 구역 */}
       <form
         className="relative top-[5%] flex h-1/3 w-full flex-col items-center justify-start"
@@ -194,7 +186,7 @@ const HomePage = () => {
         </div>
       </form>
       {/* 보여주기 구역 */}
-      <div className="flex h-1/6 w-full items-center justify-center text-xl">
+      <div className="flex h-1/6 w-full items-center justify-center text-base">
         여행자들의 픽
       </div>
       <div className="h-2/5 w-full">

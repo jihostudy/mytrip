@@ -102,7 +102,7 @@ const Posts = () => {
 
 const PostCard = ({ Data }) => {
   return (
-    <div className="shadow-box relative flex h-[20dvh] justify-center rounded-md">
+    <div className="relative flex h-[20dvh] justify-center rounded-md shadow-box">
       <div className="flex h-full w-[46%] items-center justify-center">
         <img
           src={DefaultImage}
@@ -113,10 +113,10 @@ const PostCard = ({ Data }) => {
       <div className="h-full w-[54%]">
         <p className="flex h-[21%] w-full items-end text-xs">평창</p>
         <p className="h-[45.5%] w-full text-base font-semibold">별똥별 모임</p>
-        <p className="relative flex h-[15.4%] w-full items-center justify-start text-xs">
+        <div className="relative flex h-[15.4%] w-full items-center justify-start text-xs">
           <IoIosHeartEmpty />
           <p className="ml-[2%]"> 100</p>
-        </p>
+        </div>
         <p className="h-[11.5%] w-full text-xs">
           24.03.23 (토) ~ 24.03.23 (일) | 공개
         </p>

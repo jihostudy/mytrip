@@ -69,7 +69,7 @@ const Header = () => {
     userInfo.isLogin
       ? setDropDownMenu(
           <div
-            className="absolute right-[-100%] top-[100%] flex w-[300%] flex-col"
+            className="absolute right-[-36%] top-[155%] flex w-[168%] flex-col"
             onClick={toggleDropdown}
           >
             <Link to="회원정보" className={firstDropdown}>
@@ -88,7 +88,7 @@ const Header = () => {
         )
       : setDropDownMenu(
           <div
-            className="absolute right-[-50%] top-[100%] flex w-[200%] flex-col"
+            className="absolute right-[-36%] top-[155%] flex w-[168%] flex-col"
             onClick={toggleDropdown}
           >
             <Link to="/home/auth/login" className={firstDropdown}>
@@ -111,7 +111,7 @@ const Header = () => {
         <nav className="relative flex w-[18.1%] items-center justify-end">
           {navBar}
           <div
-            className="relative flex w-[26.7%] cursor-pointer justify-end"
+            className="relative flex w-[26.7%] cursor-pointer justify-center"
             ref={dropDownRef}
           >
             {isHover ? (
