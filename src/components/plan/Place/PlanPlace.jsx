@@ -129,31 +129,44 @@ const PlanPlace = ({ setUserInput, userInput }) => {
         // console.log(userInput);
         // console.log(typeof []);
         // 검색어에 따라 백엔드 응답 양식이 달라서 케이스 나눠서 리스트 저장..
-        if (Array.isArray(res.data.destinationList)) {
-          const region = res.data.destinationList;
-          region.map((items) => {
-            items["지역"]["여행지"].map((item) => {
-              list.push({
-                name: item["이름"],
-                address: items["도시"],
-                latlag: item["좌표"],
-                id: item.id,
-              });
-            });
-          });
-        } else {
-          const region = res.data.destinationList["지역"];
-          region.map((items) => {
-            items["여행지"].map((item) => {
-              list.push({
-                name: item["이름"],
-                address: items["도시"],
-                latlag: item["좌표"],
-                id: item.id,
-              });
-            });
-          });
-        }
+        console.log(res.data.destinationList[1].mapx);
+
+        res.data.destinationList.map((dest) => {
+          const item = {
+            name: dest.title,
+            address: dest.addr1,
+            latlag: { latitude: dest.mapy, longitude: dest.mapx },
+            id: dest["_id"],
+          };
+          list.push(item);
+        });
+
+        //
+        // if (Array.isArray(res.data.destinationList)) {
+        //   const region = res.data.destinationList;
+        //   region.map((items) => {
+        //     items["지역"]["여행지"].map((item) => {
+        //       list.push({
+        //         name: item["이름"],
+        //         address: items["도시"],
+        //         latlag: item["좌표"],
+        //         id: item.id,
+        //       });
+        //     });
+        //   });
+        // } else {
+        //   const region = res.data.destinationList["지역"];
+        //   region.map((items) => {
+        //     items["여행지"].map((item) => {
+        //       list.push({
+        //         name: item["이름"],
+        //         address: items["도시"],
+        //         latlag: item["좌표"],
+        //         id: item.id,
+        //       });
+        //     });
+        //   });
+        // }
 
         list.forEach((place, index) => {
           place.isSave = false;
