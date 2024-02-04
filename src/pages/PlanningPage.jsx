@@ -64,7 +64,7 @@ const PlanningPage = () => {
   return (
     <div className="relative flex h-full w-full flex-col items-center justify-start">
       <PlanHeader />
-      <PlanBody setUserInput={setUserInput} userInput={userInput} />
+      <PlanBody userInput={userInput} setUserInput={setUserInput} />
     </div>
   );
 };

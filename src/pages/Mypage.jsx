@@ -1,0 +1,126 @@
+import React, { useEffect, useState } from "react";
+// axios
+import { API } from "../api/API";
+// recoil
+import { useRecoilValue } from "recoil";
+import { user } from "../lib/constants/userInfo";
+// images
+import DefaultImage from "../assets/images/default-image-mypage.svg";
+// icons
+import { IoIosHeartEmpty } from "react-icons/io";
+
+const Mypage = () => {
+  const userInfo = useRecoilValue(user);
+  // #1. 데이터 불러오기
+  const [planData, setPlanData] = useState();
+  // #1-1. Fetch 함수
+  async function fetchPlanData() {
+    try {
+      console.log(userInfo.username);
+      // const res = await API.get(`/posts/${userInfo.username}`);
+    } catch (error) {}
+  }
+  useEffect(() => {
+    fetchPlanData();
+  }, []);
+  // #2. 필터 기능 (1: 전체, 2: 계획중, 3: 지난 여행)
+  const [filter, setFilter] = useState(1);
+  function setFilterStyle(value) {
+    let style;
+    if (value === filter)
+      style =
+        "mr-3 h-[32%] rounded-md border-1 border-solid border-black bg-[#38C3FF] ";
+    else {
+      style =
+        "mr-3 h-[32%] rounded-md border-1 border-solid border-black hover:bg-[#38C3FF] ";
+    }
+    switch (value) {
+      case 1:
+        style += "aspect-[1.375/1]";
+        break;
+      case 2:
+        style += "aspect-[1.75/1]";
+        break;
+      case 3:
+        style += "aspect-[2.28/1]";
+        break;
+    }
+    return style;
+  }
+  return (
+    <div className="relative flex w-full flex-col items-center">
+      <p className="flex h-[13dvh] w-[83%] items-end text-2xl font-semibold">
+        나의 여행지
+      </p>
+      {/* 필터 */}
+      <div className="flex h-[13dvh] w-[83%] items-center justify-start text-xs">
+        <button
+          onClick={() => {
+            setFilter(1);
+          }}
+          className={setFilterStyle(1)}
+        >
+          전체
+        </button>
+        <button
+          onClick={() => {
+            setFilter(2);
+          }}
+          className={setFilterStyle(2)}
+        >
+          계획중
+        </button>
+        <button
+          onClick={() => {
+            setFilter(3);
+          }}
+          className={setFilterStyle(3)}
+        >
+          지난 여행
+        </button>
+      </div>
+      <Posts />
+    </div>
+  );
+};
+
+export default Mypage;
+
+const Posts = () => {
+  return (
+    <div className="relative grid w-[83%] grid-cols-2 gap-x-5 gap-y-6">
+      <PostCard />
+      <PostCard />
+      <PostCard />
+      <PostCard />
+      <PostCard />
+      <PostCard />
+      <PostCard />
+    </div>
+  );
+};
+
+const PostCard = ({ Data }) => {
+  return (
+    <div className="shadow-box relative flex h-[20dvh] justify-center rounded-md">
+      <div className="flex h-full w-[46%] items-center justify-center">
+        <img
+          src={DefaultImage}
+          alt="기본 이미지"
+          className="aspect-[1.96:1] h-[79.5%] rounded-md"
+        />
+      </div>
+      <div className="h-full w-[54%]">
+        <p className="flex h-[21%] w-full items-end text-xs">평창</p>
+        <p className="h-[45.5%] w-full text-base font-semibold">별똥별 모임</p>
+        <p className="relative flex h-[15.4%] w-full items-center justify-start text-xs">
+          <IoIosHeartEmpty />
+          <p className="ml-[2%]"> 100</p>
+        </p>
+        <p className="h-[11.5%] w-full text-xs">
+          24.03.23 (토) ~ 24.03.23 (일) | 공개
+        </p>
+      </div>
+    </div>
+  );
+};

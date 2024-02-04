@@ -23,6 +23,7 @@ import KakaoRedirect from "./components/Redirect/KakaoRedirect";
 import GoogleRedirect from "./components/Redirect/GoogleRedirect";
 import NaverRedirect from "./components/Redirect/NaverRedirect";
 import NewUserNamePage from "./pages/NewUserNamePage";
+import Mypage from "./pages/Mypage";
 
 // Router
 const router = createBrowserRouter([
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
               { path: "/home/auth/new-username", element: <NewUserNamePage /> },
               { path: "/home/auth/reset", element: <PasswordResetPage /> },
             ],
+          },
+          {
+            path: "/home/my-posts",
+            children: [{ index: true, element: <Mypage /> }],
           },
         ],
       },

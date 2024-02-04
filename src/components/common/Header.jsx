@@ -53,7 +53,7 @@ const Header = () => {
     </Link>
   ) : (
     <>
-      <Link to="나의 여행지" className="m-3">
+      <Link to="/home/my-posts" className="m-3">
         여행 계획
       </Link>
       <Link to="?" className="m-3 mr-5">
@@ -66,13 +66,13 @@ const Header = () => {
     userInfo.isLogin
       ? setDropDownMenu(
           <div
-            className="absolute right-[-100%] top-[40%] flex w-[300%] flex-col"
+            className="absolute right-[-100%] top-[60%] flex w-[300%] flex-col"
             onClick={toggleDropdown}
           >
             <Link to="회원정보" className={firstDropdown}>
               회원정보
             </Link>
-            <Link to="나의 여행지" className={Dropdown}>
+            <Link to="/home/my-posts" className={Dropdown}>
               나의 여행지
             </Link>
             <Link to="스크랩한 여행지" className={Dropdown}>
@@ -99,7 +99,7 @@ const Header = () => {
   }, [userInfo.isLogin]);
   return (
     // <header className="bg-gradient-header animate-header sticky z-10 flex h-1/5 w-full justify-between overflow-hidden bg-[length:400%_400%]">
-    <header className="sticky z-10 flex h-[12%] w-full justify-between bg-gradient-to-b from-[#38C3FF] from-0% via-[#38c3ff80] via-30% to-[#c6c6c600] to-100%">
+    <header className="sticky z-10 flex h-[12.8dvh] w-full justify-between bg-gradient-to-b from-[#38C3FF] from-0% via-[#38c3ff80] via-30% to-[#c6c6c600] to-100%">
       <Link to="/home" className="relative left-[2%] top-[30%] ml-3">
         {/* <img src="" alt="Home" className="m-3" /> */}
         이방인
