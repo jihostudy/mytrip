@@ -18,6 +18,7 @@ import NewPasswordPage from "./pages/NewPasswordPage";
 import PasswordResetPage from "./pages/PasswordResetPage";
 import StartPage from "./pages/StartPage";
 import PlanResultPage from "./pages/PlanResultPage";
+import UserInfoPage from "./pages/UserInfoPage";
 // social-login
 import KakaoRedirect from "./components/Redirect/KakaoRedirect";
 import GoogleRedirect from "./components/Redirect/GoogleRedirect";
@@ -50,6 +51,7 @@ const router = createBrowserRouter([
               { path: "/home/auth/signup", element: <RegisterPage /> },
               { path: "/home/auth/new-username", element: <NewUserNamePage /> },
               { path: "/home/auth/reset", element: <PasswordResetPage /> },
+              { path: "/home/auth/userInfo", element: <UserInfoPage /> },
             ],
           },
           {
