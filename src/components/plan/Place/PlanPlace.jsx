@@ -137,6 +137,7 @@ const PlanPlace = ({ setUserInput, userInput }) => {
             address: dest.addr1,
             latlag: { latitude: dest.mapy, longitude: dest.mapx },
             id: dest["_id"],
+            image: dest.firstimage,
           };
           list.push(item);
         });
