@@ -74,14 +74,18 @@ const PlanDescription = ({ closeModal }) => {
   }
 
   // #1. 썸네일 이미지 관련
-  const [uploadedImgUrl, setUploadedImgUrl] = useState(null);
+
   function ImageUploadHandler(e) {
     const uploadedFile = e.target.files[0];
     console.log(uploadedFile);
     const reader = new FileReader();
     reader.readAsDataURL(uploadedFile);
     reader.onloadend = () => {
-      setUploadedImgUrl(reader.result);
+      console.log(reader.result);
+      setData((prev) => ({
+        ...prev,
+        image: reader.result,
+      }));
     };
   }
   // #1-1. 썸네일 재제출 관련
@@ -97,11 +101,6 @@ const PlanDescription = ({ closeModal }) => {
 
   // #3. 완료 및 제출
   async function setDone() {
-    setData((prev) => ({
-      ...prev,
-      image: uploadedImgUrl,
-      isDone: true,
-    }));
     // season 계산
     const month = data.date.start.split(".")[1];
     let season;
@@ -189,10 +188,10 @@ const PlanDescription = ({ closeModal }) => {
         </div>
         <div className="flex h-[52%] w-full items-center justify-evenly">
           <div className="group relative flex h-full w-[45%] items-center justify-center rounded-md bg-[#D9D9D9]">
-            {uploadedImgUrl && (
+            {data.image && (
               <>
                 <img
-                  src={uploadedImgUrl}
+                  src={data.image}
                   alt="썸네일"
                   className="absolute aspect-[1.9/1] h-full rounded-md bg-white"
                 />
@@ -208,12 +207,12 @@ const PlanDescription = ({ closeModal }) => {
               className="z-10 flex h-full w-full flex-col items-center justify-center rounded-md text-center hover:cursor-pointer"
               // onClick={() => fileInputRef.current.click()}
             >
-              {!uploadedImgUrl && (
+              {!data.image && (
                 <BiImageAdd
                   style={{ height: "40%", width: "40%", color: "#828282" }}
                 />
               )}
-              {!uploadedImgUrl && "썸네일 업로드"}
+              {!data.image && "썸네일 업로드"}
             </label>
             <input
               id="thumbtail"
@@ -233,7 +232,8 @@ const PlanDescription = ({ closeModal }) => {
                 type="text"
                 className="h-full w-[87%] bg-[#F5F5F5] focus:outline-none"
                 placeholder="입력해주세요"
-                onBlur={(e) => setTitle(e.target.value)}
+                value={data.title && data.title}
+                onChange={(e) => setTitle(e.target.value)}
               />
             </div>
             <div className="realtive box-content flex h-[70%] w-full items-end overflow-hidden  rounded-md bg-[#F5F5F5]">
@@ -243,7 +243,8 @@ const PlanDescription = ({ closeModal }) => {
               <textarea
                 className="h-[90%] w-[87%] resize-none overflow-y-auto bg-[#F5F5F5] focus:outline-none"
                 placeholder="입력해주세요"
-                onBlur={(e) => setDescription(e.target.value)}
+                value={data.description && data.description}
+                onChange={(e) => setDescription(e.target.value)}
               />
             </div>
           </div>
@@ -252,7 +253,12 @@ const PlanDescription = ({ closeModal }) => {
           <DefaultImage
             alt="기본 선택 이미지"
             className="h-3/5 w-1/10 "
-            onClick={() => setUploadedImgUrl(DeafultImageSrc)}
+            onClick={() =>
+              setData((prev) => ({
+                ...prev,
+                image: DeafultImageSrc,
+              }))
+            }
           />
           <div className="flex h-[45%] w-[30%] justify-between">
             <button
