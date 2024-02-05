@@ -72,7 +72,7 @@ const Header = () => {
             className="absolute right-[-36%] top-[155%] flex w-[168%] flex-col"
             onClick={toggleDropdown}
           >
-            <Link to="회원정보" className={firstDropdown}>
+            <Link to="/home/auth/userInfo" className={firstDropdown}>
               회원정보
             </Link>
             <Link

@@ -18,6 +18,7 @@ import NewPasswordPage from "./pages/NewPasswordPage";
 import PasswordResetPage from "./pages/PasswordResetPage";
 import StartPage from "./pages/StartPage";
 import PlanResultPage from "./pages/PlanResultPage";
+import UserInfoPage from "./pages/UserInfoPage";
 import Mypage from "./pages/Mypage";
 import PostPage from "./pages/PostPage";
 // social-login
@@ -51,6 +52,7 @@ const router = createBrowserRouter([
               { path: "/home/auth/signup", element: <RegisterPage /> },
               { path: "/home/auth/new-username", element: <NewUserNamePage /> },
               { path: "/home/auth/reset", element: <PasswordResetPage /> },
+              { path: "/home/auth/userInfo", element: <UserInfoPage /> },
             ],
           },
           {
@@ -88,6 +90,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
 ]);
+
 const App = () => {
   return (
     <>
