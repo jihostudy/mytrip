@@ -104,8 +104,10 @@ const CalenderContainer = () => {
     startDate += " - ";
   }
   // Button
-  const ableBtn = "absolute right-0 h-1/2 w-[15%] rounded-md bg-[#38C3FF]";
-  const disableBtn = "absolute right-0 h-1/2 w-[15%] rounded-md bg-[#6668692d]";
+  const ableBtn =
+    "absolute right-0 aspect-[2/1] w-[14%] rounded-md bg-[#38C3FF]";
+  const disableBtn =
+    "absolute right-0 aspect-[2/1] w-[14%] rounded-md bg-[#6668692d]";
   //------------------------------------hover-------------------------------------
 
   const [hoverDate, setHoverDate] = useState(null);
@@ -128,7 +130,7 @@ const CalenderContainer = () => {
   }
 
   return (
-    <div className="absolute top-[120%] flex h-[550%] w-[502%] flex-col items-center justify-between rounded-xl border-[1px] border-solid border-black bg-white">
+    <div className="absolute top-[120%] flex aspect-[1.85/1] w-[343%] flex-col items-center justify-between rounded-xl border-[1px] border-solid border-black bg-white">
       <div className="flex h-[65%] w-[90%] justify-between text-sm">
         <Calender
           date={today}
@@ -145,7 +147,7 @@ const CalenderContainer = () => {
           onHoverHandler={hoverHandler}
         />
       </div>
-      <div className="relative flex h-[25%] w-[90%] items-center justify-center border-t-2 border-solid border-black">
+      <div className="relative flex h-[25%] w-[90%] items-center justify-center border-t-[0.5px] border-solid border-[#BDBDBD]">
         <p className="flex h-[50%] w-[82%] items-center justify-center text-lg font-semibold">
           {startDate}
           {endDate}
