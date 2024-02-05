@@ -24,7 +24,6 @@ export const planState = atom({
     //hashTag: [],
   },
 });
-
 export const currDate = atom({
   key: "currentDate",
   default: {

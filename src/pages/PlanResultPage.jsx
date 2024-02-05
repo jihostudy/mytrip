@@ -99,7 +99,7 @@ const PlanDescription = ({ closeModal }) => {
   async function setDone() {
     setData((prev) => ({
       ...prev,
-      image: setUploadedImgUrl,
+      image: uploadedImgUrl,
       isDone: true,
     }));
     // season 계산
@@ -133,10 +133,8 @@ const PlanDescription = ({ closeModal }) => {
 
     const planData = {
       _id: data.id,
-      city: data.region,
       name: data.title,
-      descripton: data.description,
-      image: data.image,
+      city: data.region,
       date: data.date,
       period: data.period,
       season: season,
@@ -144,15 +142,18 @@ const PlanDescription = ({ closeModal }) => {
       numPeople: data.numPeople,
       likes: data.likes,
       scraps: data.scraps,
+      image: data.image,
       shareUri: data.shareURI,
+      descripton: data.description,
       isPublic: data.isPublic,
       isDone: data.isDone,
       schedule: data.schedule,
       destinationCart: data.destinationCart,
     };
 
+    console.log("planData", planData);
     try {
-      // const res = await API.post("/planning/add-plan", planData);
+      const res = await API.post("/planning/add-plan", planData);
       console.log(res);
       // 상공시 게시글 페이지로 이동
       // navigate

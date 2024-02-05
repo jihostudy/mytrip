@@ -89,7 +89,7 @@ const CalenderContainer = () => {
   let period = null;
   // 하나만 입력
   if (schedule.start && !schedule.end) {
-    startDate = format(schedule.start, "yy.MM.dd (iii)", {
+    startDate = format(schedule.start, "yyyy.MM.dd (iii)", {
       locale: koLocale,
     });
     period = " (1박)";
