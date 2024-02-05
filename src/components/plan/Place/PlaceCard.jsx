@@ -90,7 +90,7 @@ const PlaceCard = ({ placeData, saveClickHandler }) => {
       ref={dragRef}
       style={{ opacity: isDragging ? "0.3" : "1" }}
     >
-      <img src={image} alt="장소 사진" />
+      <img src={image} alt="장소 사진" className="w-[13%] rounded-md" />
 
       <div className="grow">
         <p className="mb-1 font-extrabold">{name}</p>
