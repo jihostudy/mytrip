@@ -69,9 +69,8 @@ const router = createBrowserRouter([
           {
             path: "/planning/result",
             element: <PlanResultPage />,
-            path: "/planning/post",
-            element: <PostPage />,
           },
+          { path: "/planning/post", element: <PostPage /> },
         ],
       },
       {

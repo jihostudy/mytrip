@@ -3,8 +3,10 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import {
   planState,
-  setEndTime,
   currDate,
+  loadedPlanState,
+  loadedCurrDate,
+  setEndTime,
 } from "../../../lib/constants/plandata";
 // date-fns
 import { format, getMinutes, getHours } from "date-fns";
@@ -12,9 +14,13 @@ import { format, getMinutes, getHours } from "date-fns";
 import { useDrag, useDrop } from "react-dnd";
 // re-resize
 import { Resizable } from "re-resizable";
-const TimeFraction = ({ hour, minute }) => {
-  const [data, setData] = useRecoilState(planState);
-  const [date, setDate] = useRecoilState(currDate);
+const TimeFraction = ({ hour, minute, isMain }) => {
+  const [data, setData] = isMain
+    ? useRecoilState(planState)
+    : useRecoilState(loadedPlanState);
+  const [date, setDate] = isMain
+    ? useRecoilState(currDate)
+    : useRecoilState(loadedCurrDate);
 
   // preview
   const [isOver, setIsOver] = useState(false);
@@ -32,24 +38,25 @@ const TimeFraction = ({ hour, minute }) => {
       schedule.startTime.minute === minute &&
       schedule.nDay === date.currDate;
 
-    // if (isMatching) {
-    //   resultDestination = schedule.destination;
-    // }
     if (isMatching) {
       resultSchedule = schedule;
     }
 
     return isMatching;
   });
-  const result = dataExist ? <Plan resultSchedule={resultSchedule} /> : null;
+  const result = dataExist ? (
+    <Plan resultSchedule={resultSchedule} isMain={isMain} />
+  ) : null;
   // const result = dataExist ? (
   //   <Plan destination={resultDestination} hour={hour} minute={minute} />
   // ) : null;
+  // #1. Drop
   const [, dropRef] = useDrop(
     () => ({
       accept: "PLACECARD",
-      // item : 드래그 drop한 item
+      // item : drop한 item
       drop: (item, monitor) => {
+        // #1-1. "장소 선택"에서 장소를 drop
         if (item.value === "place") {
           setIsOver(false);
           return {
@@ -59,9 +66,8 @@ const TimeFraction = ({ hour, minute }) => {
             },
           };
         } else if (item.value === "plan") {
-          // 기존 시작시간 찾아서, 바꿔껴주기
-          // item.startTime.hour
-          // item.startTime.minute
+          // #1-2. "여행 시간표"에서 위치 이동한 경우
+          console.log(item);
           const modifiedSchedule = data.schedule.map((schedule) => {
             if (
               schedule.startTime.hour === item.startTime.hour &&
@@ -70,6 +76,7 @@ const TimeFraction = ({ hour, minute }) => {
               const newStartTime = { hour, minute }; //drop을 감지한 컴포넌트
               return {
                 ...schedule,
+                nDay: date.currDate,
                 startTime: newStartTime,
                 endTime: setEndTime(newStartTime, 2),
               };
@@ -81,9 +88,20 @@ const TimeFraction = ({ hour, minute }) => {
             schedule: modifiedSchedule,
           }));
           setIsOver(false);
-
-          // 어디에 놨는지를 리턴에 넣어서 drag에 줌 -> data.scheudle을 바꿔야함
-          return;
+        }
+        //#1-3. "여행지 불러오기" 에서 가져온 경우
+        else if (item.value === "load") {
+          // 새로운 시간 추가해주기
+          const newSchedule = {
+            ...item.schedule,
+            startTime: { hour, minute },
+            endTime: setEndTime({ hour, minute }, item.schedule.duration),
+          };
+          setData((prev) => ({
+            ...prev,
+            schedule: [...prev.schedule, newSchedule],
+          }));
+          setIsOver(false);
         }
       },
     }),
@@ -111,6 +129,7 @@ const TimeFraction = ({ hour, minute }) => {
           e.stopPropagation();
           setIsOver(false);
         }}
+        onDragEnd={() => setIsOver(false)}
         // onMouseLeave={() => setIsOver(false)}
       />
       {isOver && preview}
@@ -120,8 +139,11 @@ const TimeFraction = ({ hour, minute }) => {
 };
 export default TimeFraction;
 // ------------------------------------------Component------------------------------------------
-const Plan = ({ resultSchedule }) => {
-  const [data, setData] = useRecoilState(planState);
+const Plan = ({ resultSchedule, isMain }) => {
+  console.log(resultSchedule);
+  const [data, setData] = isMain
+    ? useRecoilState(planState)
+    : useRecoilState(loadedPlanState);
 
   // resize 제한
   const restrictElement = document.getElementById("dropContainer");
@@ -132,7 +154,7 @@ const Plan = ({ resultSchedule }) => {
   if (parentElement) {
     const { offsetWidth, offsetHeight } = parentElement;
     parentWidth = offsetWidth;
-    parentHeight = offsetHeight;
+    parentHeight = offsetHeight; // 1duration height = parentHeight
   }
   // endTime 바꿔주기
   function resizeStopHandler(e, direction, ref, d) {
@@ -145,6 +167,7 @@ const Plan = ({ resultSchedule }) => {
         return {
           ...schedule,
           endTime: setEndTime(resultSchedule.startTime, duration),
+          duration,
         };
       }
       return schedule;
@@ -159,10 +182,17 @@ const Plan = ({ resultSchedule }) => {
   const [{ isDragging }, dragRef, previewRef] = useDrag(
     () => ({
       type: "PLACECARD",
-      item: {
-        value: "plan",
-        startTime: resultSchedule.startTime,
-      },
+      item: isMain
+        ? {
+            value: "plan",
+            startTime: resultSchedule.startTime,
+          }
+        : {
+            value: "load",
+            // schedule: resultSchedule,
+            schedule: resultSchedule,
+          },
+
       collect: (monitor) => ({
         isDragging: monitor.isDragging(),
       }),
@@ -175,7 +205,10 @@ const Plan = ({ resultSchedule }) => {
 
   return (
     <Resizable
-      defaultSize={{ width: "80%", height: "100%" }}
+      defaultSize={{
+        width: "80%",
+        height: resultSchedule.duration * parentHeight,
+      }}
       grid={[parentHeight, parentHeight]}
       // grid={[100, 10]}
       enable={{
@@ -193,8 +226,8 @@ const Plan = ({ resultSchedule }) => {
       minHeight={parentHeight * 2}
       style={{
         position: "absolute",
-        top: resultSchedule.startTime.minute === 0 ? "-17%" : "50%",
-        margin: "2% 0 0 0",
+        top: resultSchedule.startTime.minute === 0 ? "0%" : "50%",
+        // margin: "2% 0 0 0",
         right: "5%",
         zIndex: isDragging ? 0 : 20,
       }}

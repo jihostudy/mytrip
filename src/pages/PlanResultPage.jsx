@@ -39,10 +39,10 @@ const PlanResultPage = () => {
   const [openModal, setOpenModal] = useState(false);
 
   return (
-    <div className="relative flex h-full w-full flex-col items-center justify-start">
+    <div className="relative flex h-[87.2dvh] w-full flex-col items-center justify-start">
       {openModal && <PlanDescription closeModal={() => setOpenModal(false)} />}
       <PlanResultHeader openModal={() => setOpenModal(true)} />
-      <div className="relative flex h-[65%] w-[93%] items-center justify-start overflow-hidden overflow-x-auto shadow-[0_0_4px_rgba(0,0,0,0.25)]">
+      <div className="relative flex h-[77.4%] w-[93%] items-center justify-start overflow-hidden overflow-x-auto shadow-[0_0_4px_rgba(0,0,0,0.25)]">
         {resultData}
       </div>
     </div>
@@ -101,6 +101,10 @@ const PlanDescription = ({ closeModal }) => {
 
   // #3. 완료 및 제출
   async function setDone() {
+    setData((prev) => ({
+      ...prev,
+      isDone: !prev.isDone,
+    }));
     // season 계산
     const month = data.date.start.split(".")[1];
     let season;
@@ -145,7 +149,7 @@ const PlanDescription = ({ closeModal }) => {
       shareUri: data.shareURI,
       descripton: data.description,
       isPublic: data.isPublic,
-      isDone: data.isDone,
+      isDone: true,
       schedule: data.schedule,
       destinationCart: data.destinationCart,
     };

@@ -65,6 +65,7 @@ const PlaceCard = ({ placeData, saveClickHandler }) => {
               activity: null,
               nDay: date.currDate,
               startTime: dropSource.startTime,
+              duration: 2,
               endTime: setEndTime(dropSource.startTime, 2),
               latlng: {
                 lat: latlag.latitude,
@@ -92,13 +93,9 @@ const PlaceCard = ({ placeData, saveClickHandler }) => {
     >
       <img src={image} alt="장소 사진" className="w-[13%] rounded-md" />
 
-      <div className="grow">
+      <div className="flex grow flex-col justify-start">
         <p className="mb-1 font-extrabold">{name}</p>
         <p className=" text-xs">{address}</p>
-        <div className="flex items-center gap-2">
-          <Star />
-          <p className="text-xs">5</p>
-        </div>
       </div>
       {/* 보관 버튼 */}
       {!isSave ? (

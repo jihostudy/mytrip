@@ -56,7 +56,7 @@ const PlanResultHeader = ({ openModal }) => {
   );
   return (
     <>
-      <div className="relative flex h-[15%] w-[93%] items-center justify-between">
+      <div className="relative flex h-[18%] w-[93%] items-center justify-between">
         {/* 정보 */}
         <div className="flex h-3/5 w-1/4 items-end justify-start">
           <p className="mr-4 flex h-full w-[30%] items-end text-4xl">

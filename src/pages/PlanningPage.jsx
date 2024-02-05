@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 // recoil
 import { useRecoilState } from "recoil";
-import { planState, currDate } from "../lib/constants/plandata";
+import {
+  planState,
+  currDate,
+  defaultPlanState,
+} from "../lib/constants/plandata";
 // date-fns
 import { differenceInDays, format, parse } from "date-fns";
 // router
@@ -35,7 +39,6 @@ const PlanningPage = () => {
   // 처음 설정한 지역으로 초기화
   const { state } = useLocation();
   const [userInput, setUserInput] = useState();
-  // console.log(userInput);
 
   useEffect(() => {
     if (state) {
@@ -59,7 +62,7 @@ const PlanningPage = () => {
     place();
   }, []);
   return (
-    <div className="relative flex h-full w-full flex-col items-center justify-start">
+    <div className="relative flex h-[87.2dvh] w-full flex-col items-center justify-start">
       <PlanHeader />
       <PlanBody userInput={userInput} setUserInput={setUserInput} />
     </div>

@@ -11,7 +11,7 @@ import { API } from "../../../api/API";
 // Components
 import Button from "../../UI/Button";
 import PlanCard from "./PlanCard";
-import LoadTimeTable from "./LoadTimeTable";
+import PlanTimeTable from "../TimeTable/PlanTimeTable";
 
 // Cataegory
 const categoryList = ["전체", "스크랩한 여행지"];
@@ -138,17 +138,18 @@ const LoadedPlans = ({ userInput }) => {
   return (
     <>
       {watchPlan ? (
-        <div>
+        <>
           <button
             onClick={watchPlanHandler}
-            className="rounded-lg border-[1px] border-solid border-black bg-[#ffcb16] px-2 text-sm"
+            className="absolute rounded-lg border-[1px] border-solid border-black bg-[#ffcb16] px-2 text-sm"
           >
             이전
           </button>
           {/* ------------------- 여행 시간표 -------------------------------- */}
-          <LoadTimeTable plan={planData} />
+          {/* <LoadTimeTable plan={planData} /> */}
+          <PlanTimeTable classify="load" planData={planData} />
           {/* ------------------------------------------------------------- */}
-        </div>
+        </>
       ) : (
         <div className="flex h-full w-full flex-col gap-3">
           {/* 버튼 */}

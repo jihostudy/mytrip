@@ -10,10 +10,10 @@ import PlanTimeTable from "./TimeTable/PlanTimeTable";
 import PlanMap from "./Map/PlanMap";
 const PlanBody = ({ setUserInput, userInput }) => {
   return (
-    <div className="relative flex h-[65%] w-[93%] items-start justify-between">
+    <div className="relative flex h-[77.4%] w-[93%] items-start justify-between">
       <DndProvider backend={HTML5Backend}>
         <PlanPlace setUserInput={setUserInput} userInput={userInput} />
-        <PlanTimeTable />
+        <PlanTimeTable classify="plan" />
       </DndProvider>
 
       <PlanMap userInput={userInput} />

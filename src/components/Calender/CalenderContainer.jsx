@@ -29,7 +29,7 @@ const CalenderContainer = () => {
     } else {
       end = format(schedule.end, "yyyy.MM.dd");
     }
-    period = getDateDiff(start, end);
+    period = getDateDiff(start, end) + 1;
 
     setData((prev) => ({
       ...prev,
@@ -92,7 +92,7 @@ const CalenderContainer = () => {
     startDate = format(schedule.start, "yyyy.MM.dd (iii)", {
       locale: koLocale,
     });
-    period = " (1박)";
+    period = " (당일치기)";
   }
   // 두개 입력
   else if (schedule.start && schedule.end) {

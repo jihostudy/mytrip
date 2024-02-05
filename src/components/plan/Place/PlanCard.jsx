@@ -10,7 +10,7 @@ const PlanCard = ({
   numPeople,
   onClick,
 }) => {
-  const title = "(" + city + ") " + name;
+  const title = "(" + city.slice(0, 2) + ") " + name;
   const descirption = `${period - 1}박${period}일 | ${numPeople}인 여행`;
   const like = "❤️ " + likes;
 
