@@ -20,22 +20,32 @@ const Mypage = () => {
   posts : 내 포스트 
   scrap-posts: 스크랩한 포스트
    */
-
   const userInfo = useRecoilValue(user);
   // #1. 데이터 불러오기
   const [planData, setPlanData] = useState();
   // #1-1. Fetch 함수
   async function fetchPlanData() {
     try {
-      console.log(userInfo.username);
-      // const res = await API.get(`/posts/${userInfo.username}`);
-    } catch (error) {}
+      let res;
+      // my-page/plans API
+      if (classify === "posts") {
+        res = await API.get("/my-page/plans");
+      }
+      // my-page/scraps API
+      else {
+        res = await API.get("/my-page/scraps");
+      }
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
   }
   useEffect(() => {
     fetchPlanData();
   }, []);
   // #2. 필터 기능 (1: 전체, 2: 계획중, 3: 지난 여행)
   const [filter, setFilter] = useState(1);
+  const buttonArr = ["전체", "계획중", "지난 여행"];
   function setFilterStyle(value) {
     let style;
     if (value === filter)
@@ -58,6 +68,15 @@ const Mypage = () => {
     }
     return style;
   }
+  const buttons = buttonArr.map((button, index) => (
+    <button
+      key={button}
+      onClick={() => setFilter(index + 1)}
+      className={setFilterStyle(index + 1)}
+    >
+      {button}
+    </button>
+  ));
   return (
     <div className="relative flex w-[100%] flex-col items-center">
       <p className="flex h-[13dvh] w-[83%] items-end text-2xl font-semibold">
@@ -65,30 +84,7 @@ const Mypage = () => {
       </p>
       {classify === "posts" && (
         <div className="flex h-[13dvh] w-[83%] items-center justify-start text-xs">
-          <button
-            onClick={() => {
-              setFilter(1);
-            }}
-            className={setFilterStyle(1)}
-          >
-            전체
-          </button>
-          <button
-            onClick={() => {
-              setFilter(2);
-            }}
-            className={setFilterStyle(2)}
-          >
-            계획중
-          </button>
-          <button
-            onClick={() => {
-              setFilter(3);
-            }}
-            className={setFilterStyle(3)}
-          >
-            지난 여행
-          </button>
+          {buttons}
         </div>
       )}
       <Posts postData={null} />

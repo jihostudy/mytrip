@@ -19,7 +19,7 @@ const TimeLine = ({ hour }) => {
   return (
     <li className="relative flex min-h-[16.66%] w-full flex-col items-center justify-evenly border-b-1 border-solid border-[#CBC8C8]">
       <div className="absolute left-[2%] w-[16%]">
-        {format(formattedTime[0], "hh:mm")}
+        {format(formattedTime[0], "HH:mm")}
       </div>
       {formattedTime.map((time) => {
         return (

@@ -26,9 +26,6 @@ function getDateDiff(d1, d2) {
 const PlanningPage = () => {
   const [data, setData] = useRecoilState(planState);
   const [date, setDate] = useRecoilState(currDate);
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data.schedule]);
   useEffect(() => {
     console.log(data);
   }, [data]);
