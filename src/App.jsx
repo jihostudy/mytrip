@@ -18,12 +18,13 @@ import NewPasswordPage from "./pages/NewPasswordPage";
 import PasswordResetPage from "./pages/PasswordResetPage";
 import StartPage from "./pages/StartPage";
 import PlanResultPage from "./pages/PlanResultPage";
+import Mypage from "./pages/Mypage";
+import PostPage from "./pages/PostPage";
 // social-login
 import KakaoRedirect from "./components/Redirect/KakaoRedirect";
 import GoogleRedirect from "./components/Redirect/GoogleRedirect";
 import NaverRedirect from "./components/Redirect/NaverRedirect";
 import NewUserNamePage from "./pages/NewUserNamePage";
-import Mypage from "./pages/Mypage";
 
 // Router
 const router = createBrowserRouter([
@@ -63,7 +64,12 @@ const router = createBrowserRouter([
         element: <PlanningLayout />,
         children: [
           { index: true, element: <PlanningPage /> },
-          { path: "/planning/result", element: <PlanResultPage /> },
+          {
+            path: "/planning/result",
+            element: <PlanResultPage />,
+            path: "/planning/post",
+            element: <PostPage />,
+          },
         ],
       },
       {

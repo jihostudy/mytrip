@@ -49,7 +49,12 @@ const PlanHeader = (props) => {
       <div className="flex h-3/5 w-1/4 items-end justify-start">
         <p className="mr-4 flex h-full w-[30%] items-end text-4xl">{region}</p>
         <div className="relative z-30 flex h-full w-[70%] items-end">
-          <button onClick={resetDate}>{planPeriod}</button>
+          <button
+            onClick={resetDate}
+            className={!date.start && "relative z-20 text-white"}
+          >
+            {planPeriod}
+          </button>
           {!date.start && (
             <>
               <div className="fixed inset-0 h-full w-screen bg-black/70" />

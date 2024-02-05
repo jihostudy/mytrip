@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 // router
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 // axios
 import { API } from "../api/API";
 // recoil
@@ -45,8 +45,9 @@ const Mypage = () => {
     }
   }
   useEffect(() => {
+    console.log("executed");
     fetchPlanData();
-  }, []);
+  }, [classify]);
   // test
 
   // #2. 필터 기능 (1: 전체, 2: 계획중, 3: 지난 여행)
@@ -124,7 +125,8 @@ const Mypage = () => {
           {buttons}
         </div>
       )}
-      <Posts postData={filteredData} />
+      {classify === "posts" && <Posts postData={filteredData} />}
+      {classify === "scrap-posts" && <Posts postData={fetchedData} />}
     </div>
   );
 };
@@ -137,6 +139,8 @@ const Posts = ({ postData }) => {
     postCards = postData.map((post, index) => (
       <PostCard key={post.planId} post={post} />
     ));
+  } else {
+    postCards = "데이터가 없습니다";
   }
   return (
     <div className="relative grid w-[83%] grid-cols-2 gap-x-5 gap-y-6">
@@ -146,6 +150,7 @@ const Posts = ({ postData }) => {
 };
 
 const PostCard = ({ post }) => {
+  const navigate = useNavigate();
   const date =
     format(post.date.start, "yy.mm.dd (iii) ", {
       locale: koLocale,
@@ -154,8 +159,21 @@ const PostCard = ({ post }) => {
     format(post.date.end, " yy.mm.dd (iii) ", {
       locale: koLocale,
     });
+
+  // #1. Post 열기
+  async function openPostHandler() {
+    try {
+      const res = await API.get(`/community/${post.planId}`);
+      navigate("/planning/page", { state: res.data });
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
-    <div className="relative flex h-[20dvh] justify-center rounded-md shadow-box">
+    <div
+      onClick={openPostHandler}
+      className="relative flex h-[20dvh] justify-center rounded-md shadow-box"
+    >
       <div className="flex h-full w-[46%] items-center justify-center">
         <img
           src={post.image}
