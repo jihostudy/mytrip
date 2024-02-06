@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 // custom hook
 import { useConfirmModal } from "../hook/useConfirmModal";
+import { useNavigate } from "react-router-dom";
 
 // API
 import { API } from "../api/API";
@@ -9,11 +10,6 @@ import { API } from "../api/API";
 // recoil
 import { user } from "../lib/constants/userInfo";
 import { useRecoilState } from "recoil";
-
-// icon
-import NameChangeIcon from "../assets/icons/NameChange.svg?react";
-import { useNavigate } from "react-router-dom";
-import { is } from "date-fns/locale";
 
 // message
 const VALID_USERNAME_MESSAGE = "사용가능한 닉네임입니다";
@@ -26,7 +22,7 @@ const UserInfoPage = () => {
   const [userInfo, setUserInfo] = useRecoilState(user);
   const [isNameChange, setIsNameChange] = useState(false);
   const [isUserNameValid, setIsUserNameValid] = useState(0); // 0 : 초기, 1 : 중복, 2 : 사용가능
-  const [isSNS, setIsSNS] = useState(false);
+  const [isSNS, setIsSNS] = useState(true);
 
   // modal hook
   const { openModal } = useConfirmModal();
@@ -113,8 +109,14 @@ const UserInfoPage = () => {
   }
 
   // ----------------- password handler -----------------
-  // 수정하기 클릭
-  //
+  function passwordHandler() {
+    if (isSNS) {
+      alert("SNS 계정 이용자입니다.");
+      return;
+    }
+
+    navigate("/home/auth/changePassword");
+  }
 
   // ----------------- delete account handler -----------------
   function deleteClick() {
@@ -156,12 +158,18 @@ const UserInfoPage = () => {
     navigate("/start");
   }
 
-  // 이메일 저장
+  // 이메일, sns 저장
   useEffect(() => {
     async function getEmail() {
       try {
         const res = await API.get("/my-page/profile");
+        console.log(res.data);
         setUserEmail(res.data.email);
+        if (res.data.snsLogin) {
+          setIsSNS(true);
+        } else {
+          setIsSNS(false);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -219,7 +227,12 @@ const UserInfoPage = () => {
       </div>
       {/* 비밀번호 변경, 회원 탈퇴  */}
       <div className="mt-10 flex w-[50%] gap-4">
-        <div className="text-sm text-[#00000066] underline">비밀번호</div>
+        <div
+          onClick={passwordHandler}
+          className="text-sm text-[#00000066] underline hover:cursor-pointer"
+        >
+          비밀번호
+        </div>
         <div
           onClick={deleteClick}
           className="text-sm text-[#00000066] underline hover:cursor-pointer"
