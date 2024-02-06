@@ -57,10 +57,10 @@ const Mypage = () => {
     let style;
     if (value === filter)
       style =
-        "mr-3 h-[32%] rounded-md border-1 border-solid border-black bg-[#38C3FF] ";
+        "mr-3 h-[32%] rounded-md border-1 border-solid border-black bg-[#38C3FF] hover:scale-110 ";
     else {
       style =
-        "mr-3 h-[32%] rounded-md border-1 border-solid border-black hover:bg-[#38C3FF] ";
+        "mr-3 h-[32%] rounded-md border-1 border-solid border-black hover:bg-[#38C3FF] hover:scale-110 ";
     }
     switch (value) {
       case 1:
@@ -164,7 +164,8 @@ const PostCard = ({ post }) => {
   async function openPostHandler() {
     try {
       const res = await API.get(`/community/${post.planId}`);
-      navigate("/planning/page", { state: res.data });
+
+      navigate("/planning/post", { state: res.data });
     } catch (error) {
       console.log(error);
     }
@@ -172,7 +173,7 @@ const PostCard = ({ post }) => {
   return (
     <div
       onClick={openPostHandler}
-      className="relative flex h-[20dvh] justify-center rounded-md shadow-box"
+      className="hover: hover: relative flex h-[20dvh] origin-bottom justify-center rounded-md border-solid border-black shadow-box hover:scale-105 hover:cursor-pointer hover:border-1"
     >
       <div className="flex h-full w-[46%] items-center justify-center">
         <img
