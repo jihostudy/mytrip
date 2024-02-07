@@ -16,7 +16,7 @@ function addMonth(currDate) {
   );
 }
 const initSchedule = { start: null, end: null };
-const CalenderContainer = () => {
+const CalenderContainer = ({ action, setQuery, setIsCalender }) => {
   const [data, setData] = useRecoilState(planState);
   // End: 제출
   function submitDate() {
@@ -30,6 +30,19 @@ const CalenderContainer = () => {
       end = format(schedule.end, "yyyy.MM.dd");
     }
     period = getDateDiff(start, end) + 1;
+
+    if (action === "community") {
+      setQuery((prev) => ({
+        ...prev,
+        date: {
+          start: start,
+          end: end,
+        },
+        period: period,
+      }));
+      setIsCalender((prev) => !prev);
+      return;
+    }
 
     setData((prev) => ({
       ...prev,

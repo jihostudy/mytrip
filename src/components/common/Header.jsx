@@ -50,7 +50,7 @@ const Header = () => {
   };
   // NavBar
   const navBar = !userInfo.isLogin ? (
-    <Link to="?" className="m-3">
+    <Link to="/community" className="m-3">
       커뮤니티
     </Link>
   ) : (
@@ -58,7 +58,7 @@ const Header = () => {
       <Link to="/home/posts" className="m-3" state={{ value: "posts" }}>
         여행 계획
       </Link>
-      <Link to="?" className="m-3">
+      <Link to="/community" className="m-3">
         커뮤니티
       </Link>
     </>
