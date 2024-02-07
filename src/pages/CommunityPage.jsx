@@ -12,6 +12,9 @@ import PeopleIcon from "../assets/icons/people.svg?react";
 import MoneyIcon from "../assets/icons/money.svg?react";
 import CalenderIcon from "../assets/icons/calender.svg?react";
 
+// day
+const DAY = ["일", "월", "화", "수", "목", "금", "토"];
+
 const CommunityPage = () => {
   // ------------------------------- style -------------------------------
   const btnClickStyle =
@@ -41,18 +44,39 @@ const CommunityPage = () => {
     planPeriod = "날짜를 입력해주세요";
   } else {
     // 당일치기
+    const startDay = new Date(date.start).getDay();
+    const endDay = new Date(date.end).getDay();
     if (date.start === date.end) planPeriod = date.start.slice(5);
-    else planPeriod = date.start.slice(5) + " ~ " + date.end.slice(5);
+    else
+      planPeriod =
+        date.start.slice(5) +
+        " " +
+        DAY[startDay] +
+        " ~ " +
+        date.end.slice(5) +
+        " " +
+        DAY[endDay] +
+        "(" +
+        (query.period - 1) +
+        "박)";
   }
-  console.log(planPeriod);
+  // console.log(planPeriod);
 
   // handler
   function submitHandler(e) {
-    e.preventDefault();
+    if (e) e.preventDefault();
 
     // query 만들기
+    const params = new URLSearchParams();
+    const keys = Object.keys(query);
+    keys.map((key) => {
+      if (key !== "date") params.set(key, query[key]);
+    });
+
+    console.log("params --> ", params.toString());
+
     // 인기순, 최신순 클릭 시에도 fetch 필요...
-    getData();
+    getData(params.toString());
   }
   function changeHandler(e, action) {
     // 여행지, 인원, 경비
@@ -76,22 +100,38 @@ const CommunityPage = () => {
 
     setIsClick((prev) => !prev);
 
-    // getData();
+    submitHandler();
   }
   function calenderHandler() {
     // 달력 열기
     setIsCalender((prev) => !prev);
   }
-  console.log(query);
+
   // fetch data
-  function getData() {
+  async function getData(param) {
     // set post
+    try {
+      console.log(`/community?${param}`);
+      const res = await API.get(`/community?${param}`);
+      // console.log(res);
+      const status = res.status;
+      if (status === 200) {
+        setPosts(res.data);
+      }
+    } catch (error) {
+      const status = error.response.error;
+      console.log(status, "server error");
+      alert("다시 시도해주세요");
+    }
   }
 
   // ------------------------------- post --------------------------------
   const [posts, setPosts] = useState([]);
+  console.log(posts);
   // first data
-  useEffect(() => {}, []);
+  useEffect(() => {
+    submitHandler();
+  }, []);
 
   return (
     <div className="flex w-[100%] flex-col items-center gap-2">
@@ -117,8 +157,11 @@ const CommunityPage = () => {
         <div className=" flex h-[60%] w-[27%] items-center justify-center rounded-md bg-[#F5F5F5]">
           <div className="relative flex h-[80%] w-[70%] items-center justify-center hover:cursor-pointer">
             <CalenderIcon onClick={calenderHandler} />
-            <p onClick={calenderHandler} className="ml-2">
-              01.22 월 - 01.23 화 1박
+            <p
+              onClick={calenderHandler}
+              className="ml-2 flex w-[100%] justify-center"
+            >
+              {planPeriod}
             </p>
             {isCalender && (
               <CalenderContainer
