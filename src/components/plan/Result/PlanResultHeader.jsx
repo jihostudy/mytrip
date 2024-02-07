@@ -23,14 +23,25 @@ const PlanResultHeader = ({ openModal }) => {
     if (date.start === date.end) planPeriod = date.start;
     else planPeriod = date.start + " ~ " + date.end;
   }
-  const [numPeople, setNumPeople] = useState(1);
-  const [totalCost, setTotalCost] = useState(0);
   //   const [] = useState(false);
   //Functions
+  function totalCostHandler(value) {
+    setData((prev) => ({
+      ...prev,
+      totalCost: value,
+    }));
+  }
   function handlePeople(value) {
-    if (value === "plus") setNumPeople((prev) => prev + 1);
-    else if (value === "minus" && numPeople != 1)
-      setNumPeople((prev) => prev - 1);
+    if (value === "plus")
+      setData((prev) => ({
+        ...prev,
+        numPeople: prev.numPeople + 1,
+      }));
+    else if (value === "minus" && data.numPeople != 1)
+      setData((prev) => ({
+        ...prev,
+        numPeople: prev.numPeople - 1,
+      }));
   }
   // #2. isPublic
   function publicHandler() {
@@ -85,7 +96,7 @@ const PlanResultHeader = ({ openModal }) => {
               />
             </button>
             <p className="flex h-full w-1/5 items-center justify-center text-center">
-              {numPeople}
+              {data.numPeople}
             </p>
             <button
               className="flex h-full w-1/5 items-center justify-center"
@@ -106,7 +117,7 @@ const PlanResultHeader = ({ openModal }) => {
               placeholder="입력"
               className="h-full w-2/5 text-center"
               pattern="\d*"
-              onBlur={(e) => setTotalCost(e.target.value)}
+              onBlur={(e) => totalCostHandler(e.target.value)}
             />
             <p className="w-1/5">만원</p>
           </div>

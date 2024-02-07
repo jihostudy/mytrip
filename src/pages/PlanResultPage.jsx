@@ -6,7 +6,11 @@ import { API } from "../api/API";
 // router
 import { useNavigate } from "react-router-dom";
 // recoil
-import { planState } from "../lib/constants/plandata";
+import {
+  currDate,
+  defaultPlanState,
+  planState,
+} from "../lib/constants/plandata";
 import { useRecoilState, useRecoilValue } from "recoil";
 import PlanResultTimeTable from "../components/plan/Result/PlanResultTimeTable";
 // icons
@@ -27,7 +31,6 @@ const PlanResultPage = () => {
     groupedByNday[nDayValue - 1].push(schedule);
   });
   const resultData = groupedByNday.map((daySchedule, index) => {
-    console.log(index);
     return (
       <PlanResultTimeTable
         key={index}
@@ -53,6 +56,7 @@ export default PlanResultPage;
 //-------------------------------------------------modal-------------------------------------------------
 const PlanDescription = ({ closeModal }) => {
   const [data, setData] = useRecoilState(planState);
+  const [date, setDate] = useRecoilState(currDate);
   const navigate = useNavigate();
 
   //test
@@ -77,11 +81,9 @@ const PlanDescription = ({ closeModal }) => {
 
   function ImageUploadHandler(e) {
     const uploadedFile = e.target.files[0];
-    console.log(uploadedFile);
     const reader = new FileReader();
     reader.readAsDataURL(uploadedFile);
     reader.onloadend = () => {
-      console.log(reader.result);
       setData((prev) => ({
         ...prev,
         image: reader.result,
@@ -100,13 +102,24 @@ const PlanDescription = ({ closeModal }) => {
   }
 
   // #3. 완료 및 제출
+  async function getPostData(planID) {
+    try {
+      const res = await API.get(`/community/${planID}`);
+      setData(defaultPlanState);
+      setDate(1);
+      navigate("/planning/post", { state: res.data });
+    } catch (error) {
+      console.log("error occured in getPostData on PlanResultPage");
+    }
+  }
+
   async function setDone() {
     setData((prev) => ({
       ...prev,
       isDone: !prev.isDone,
     }));
     // season 계산
-    const month = data.date.start.split(".")[1];
+    const month = parseInt(data.date.start.split(".")[1]);
     let season;
 
     switch (month) {
@@ -133,7 +146,7 @@ const PlanDescription = ({ closeModal }) => {
       default:
         break;
     }
-
+    console.log(month, season);
     const planData = {
       _id: data.id,
       name: data.title,
@@ -147,7 +160,7 @@ const PlanDescription = ({ closeModal }) => {
       scraps: data.scraps,
       image: data.image,
       shareUri: data.shareURI,
-      descripton: data.description,
+      description: data.description,
       isPublic: data.isPublic,
       isDone: true,
       schedule: data.schedule,
@@ -159,11 +172,12 @@ const PlanDescription = ({ closeModal }) => {
       const res = await API.post("/planning/add-plan", planData);
       console.log(res);
       // 상공시 게시글 페이지로 이동
-      // navigate
+      getPostData(res.data.planId);
     } catch (error) {
-      console.log(error);
+      console.log("error occured on plaaning/add-plan");
     }
   }
+
   const publicBtn = data.isPublic ? (
     <>
       <p className="flex w-full items-center justify-evenly">
