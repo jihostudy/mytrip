@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // component
 import CalenderContainer from "../components/Calender/CalenderContainer";
@@ -6,11 +7,16 @@ import CalenderContainer from "../components/Calender/CalenderContainer";
 // API
 import { API } from "../api/API";
 
+// date-fns
+import { format, parse, isAfter } from "date-fns";
+import koLocale from "date-fns/locale/ko";
+
 // icon
 import SearchIcon from "../assets/icons/searchIcon.svg?react";
 import PeopleIcon from "../assets/icons/people.svg?react";
 import MoneyIcon from "../assets/icons/money.svg?react";
 import CalenderIcon from "../assets/icons/calender.svg?react";
+import { IoIosHeartEmpty } from "react-icons/io";
 
 // day
 const DAY = ["일", "월", "화", "수", "목", "금", "토"];
@@ -25,7 +31,6 @@ const CommunityPage = () => {
   // ----------------------------- filtering -----------------------------
   const [isClick, setIsClick] = useState(true); // true : likes, false : date
   const [isCalender, setIsCalender] = useState(false);
-
   const [query, setQuery] = useState({
     city: "",
     sort: "likes", // likes, date
@@ -116,7 +121,7 @@ const CommunityPage = () => {
       // console.log(res);
       const status = res.status;
       if (status === 200) {
-        setPosts(res.data);
+        setPosts(res.data.posts);
       }
     } catch (error) {
       const status = error.response.error;
@@ -215,11 +220,63 @@ const CommunityPage = () => {
         </button>
       </div>
       {/* 게시글 */}
-      <div className="flex w-[83%] justify-center border border-solid">
-        POST
+      <div className="flex w-[83%] flex-wrap justify-center gap-5">
+        {posts.map((post) => (
+          <PostCard key={post["_id"]} post={post} />
+        ))}
       </div>
     </div>
   );
 };
 
 export default CommunityPage;
+
+// PostCard
+const PostCard = ({ post }) => {
+  const navigate = useNavigate();
+  // const date =
+  //   format(post.date.start, "yy.mm.dd (iii) ", {
+  //     locale: koLocale,
+  //   }) +
+  //   "~" +
+  //   format(post.date.end, " yy.mm.dd (iii) ", {
+  //     locale: koLocale,
+  //   });
+
+  // #1. Post 열기
+  async function openPostHandler() {
+    try {
+      const res = await API.get(`/community/${post.planId}`);
+
+      navigate("/planning/post", { state: res.data });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  return (
+    <div
+      // onClick={openPostHandler}
+      className="hover: hover: relative flex h-[20dvh] w-[480px] origin-bottom justify-center rounded-md border-solid border-black shadow-box hover:scale-105 hover:cursor-pointer hover:border-1"
+    >
+      <div className="flex h-full w-[46%] items-center justify-center">
+        <img
+          src={post.image}
+          alt="썸네일 이미지"
+          className="aspect-[1.96:1] h-[79.5%] rounded-md"
+        />
+      </div>
+      <div className="h-full w-[54%]">
+        <p className="flex h-[21%] w-full items-end text-xs">{post.city}</p>
+        <p className="h-[45.5%] w-full text-base font-semibold">{post.name}</p>
+        <div className="relative flex h-[15.4%] w-full items-center justify-start text-xs">
+          <IoIosHeartEmpty />
+          <p className="ml-[2%]">{post.likes}</p>
+        </div>
+        <p className="h-[11.5%] w-full text-xs">
+          {/* 24.03.23 (토) ~ 24.03.23 (일) | 공개 */}
+          {1} | {post.isPublic ? "공개" : "비공개"}
+        </p>
+      </div>
+    </div>
+  );
+};
