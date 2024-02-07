@@ -108,9 +108,10 @@ const Header = () => {
           </div>,
         );
   }, [userInfo.isLogin]);
+  //
   return (
-    <header className="sticky z-10 flex h-[12.8dvh] w-[100%] items-center justify-center bg-gradient-to-b from-[#38C3FF] from-0% via-[#38c3ff80] via-30% to-[#c6c6c600] to-100%">
-      <div className="flex h-full w-[93%] items-center justify-between">
+    <header className="sticky z-10 flex  h-[12.8dvh] w-[100vw] items-center justify-center bg-gradient-to-b from-[#38C3FF] from-0% via-[#38c3ff80] via-30% to-[#c6c6c600] to-100% ">
+      <div className="relative flex h-full w-[93%] items-center justify-between">
         <Link to="/home">
           {/* <img src="" alt="Home" className="m-3" /> */}
           이방인

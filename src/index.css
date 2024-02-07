@@ -101,12 +101,16 @@ body,
   position: relative;
   height: 100dvh;
   min-height: 100dvh;
-  width: 100dvw;
+  width: 100vw;
   /* overflow: hidden; */
   font-family: "chosun";
   overflow-x: hidden;
+  /* scrollbar-gutter: stable; */
 }
 
+html {
+  margin-right: calc(-1 * (100vw - 100%));
+}
 /* width */
 ::-webkit-scrollbar {
   width: 5px;
