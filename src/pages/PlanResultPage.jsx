@@ -19,10 +19,16 @@ import { IoIosLock } from "react-icons/io";
 import { IoIosUnlock } from "react-icons/io";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { LuSwitchCamera } from "react-icons/lu";
-
-// image
-import DefaultImage from "../assets/images/기본 여행 사진.svg?react";
-import DeafultImageSrc from "../assets/images/기본 여행 사진.svg";
+// images
+import ThumbNailImage0 from "../assets/images/thumbnailImage/Image1.svg";
+import ThumbNailImage1 from "../assets/images/thumbnailImage/Image2.svg";
+import ThumbNailImage2 from "../assets/images/thumbnailImage/Image3.svg";
+import ThumbNailImage3 from "../assets/images/thumbnailImage/Image4.svg";
+import ThumbNailImage4 from "../assets/images/thumbnailImage/Image5.svg";
+import ThumbNailImage5 from "../assets/images/thumbnailImage/Image6.svg";
+import ThumbNailImage6 from "../assets/images/thumbnailImage/Image7.svg";
+import ThumbNailImage7 from "../assets/images/thumbnailImage/Image8.svg";
+import ThumbNailImage8 from "../assets/images/thumbnailImage/Image9.svg";
 const PlanResultPage = () => {
   const data = useRecoilValue(planState);
   let groupedByNday = Array.from({ length: data.period }, () => []);
@@ -59,10 +65,6 @@ const PlanDescription = ({ closeModal }) => {
   const [date, setDate] = useRecoilState(currDate);
   const navigate = useNavigate();
 
-  //test
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
   // #0. 제목, 내용 관련
   function setTitle(value) {
     setData((prev) => ({
@@ -78,7 +80,6 @@ const PlanDescription = ({ closeModal }) => {
   }
 
   // #1. 썸네일 이미지 관련
-
   function ImageUploadHandler(e) {
     const uploadedFile = e.target.files[0];
     const reader = new FileReader();
@@ -90,8 +91,34 @@ const PlanDescription = ({ closeModal }) => {
       }));
     };
   }
+
   // #1-1. 썸네일 재제출 관련
   const fileInputRef = useRef(null);
+
+  // #1-2. 기본썸네일 선택 관련
+  const [timerCnt, setTimerCnt] = useState(0);
+  useEffect(() => {
+    const thumbnailTimer = setInterval(() => {
+      setTimerCnt((prev) => (prev + 1) % 3);
+    }, 3000);
+    return () => clearInterval(thumbnailTimer);
+  }, []);
+  let thumbnailImages = [
+    ThumbNailImage0,
+    ThumbNailImage1,
+    ThumbNailImage2,
+    ThumbNailImage3,
+    ThumbNailImage4,
+    ThumbNailImage5,
+    ThumbNailImage6,
+    ThumbNailImage7,
+    ThumbNailImage8,
+  ];
+  let defaultThumbnailImages = [];
+  for (let i = 0; i < 3; i++) {
+    defaultThumbnailImages.push(thumbnailImages[i + timerCnt * 3]);
+  }
+
   // #2. Public 여부
 
   function setPublic() {
@@ -201,7 +228,7 @@ const PlanDescription = ({ closeModal }) => {
                 <img
                   src={data.image}
                   alt="썸네일"
-                  className="absolute aspect-[1.9/1] h-full rounded-md bg-white"
+                  className="absolute aspect-[1.9/1] h-full rounded-md bg-white object-cover"
                 />
                 <LuSwitchCamera
                   style={{ height: "10%" }}
@@ -258,16 +285,21 @@ const PlanDescription = ({ closeModal }) => {
           </div>
         </div>
         <div className="flex h-[23%] w-[93.4%] items-center justify-between">
-          <DefaultImage
-            alt="기본 선택 이미지"
-            className="h-3/5 w-1/10 "
-            onClick={() =>
-              setData((prev) => ({
-                ...prev,
-                image: DeafultImageSrc,
-              }))
-            }
-          />
+          <div className="flex h-full w-[48%] items-center justify-between">
+            {defaultThumbnailImages.map((thumbnailImg) => (
+              <img
+                src={thumbnailImg}
+                alt="기본 선택 이미지"
+                className="aspect-[1.93/1] w-[31%] hover:cursor-pointer"
+                onClick={() =>
+                  setData((prev) => ({
+                    ...prev,
+                    image: thumbnailImg,
+                  }))
+                }
+              />
+            ))}
+          </div>
           <div className="flex h-[45%] w-[30%] justify-between">
             <button
               onClick={setPublic}

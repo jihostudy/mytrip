@@ -6,11 +6,14 @@ import { planState } from "../../../lib/constants/plandata";
 import { useRecoilState } from "recoil";
 // hooks
 import { useConfirmModal } from "../../../hook/useConfirmModal";
+//router
+import { Link } from "react-router-dom";
 // icons
 import MinusIcon from "../../../assets/icons/Minus.svg?react";
 import PlusIcon from "../../../assets/icons/Plus.svg?react";
 import { IoIosLock } from "react-icons/io";
 import { IoIosUnlock } from "react-icons/io";
+
 const PlanResultHeader = ({ openModal }) => {
   const [data, setData] = useRecoilState(planState);
   const { date } = data;
@@ -130,6 +133,13 @@ const PlanResultHeader = ({ openModal }) => {
           >
             {publicBtn}
           </button>
+          <Link
+            className="mr-[5%] flex h-[55%] w-[13%] items-center justify-center rounded-lg border-[1px] border-solid border-black"
+            to="/planning"
+            state={{ region: data.region }}
+          >
+            이전
+          </Link>
           <button
             className="h-[55%] w-[13%] rounded-lg border-[1px] border-solid border-black bg-[#ffcb16]"
             onClick={openModal}

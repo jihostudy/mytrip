@@ -51,7 +51,9 @@ const PlanHeader = (props) => {
         <div className="relative z-30 flex h-full w-[70%] items-end">
           <button
             onClick={resetDate}
-            className={!date.start ? "relative z-20 text-white" : undefined}
+            className={
+              !date.start ? "relative z-20 text-white" : "tracking-widest"
+            }
           >
             {planPeriod}
           </button>
@@ -66,13 +68,13 @@ const PlanHeader = (props) => {
 
       <div className="relative flex h-3/5 w-[14%] items-end justify-around">
         <button
-          className="h-[55%] w-[44%] rounded-lg border-[1px] border-solid border-black"
+          className="h-[55%] w-[44%] rounded-lg border-1 border-solid border-black text-lg"
           onClick={saveHandler}
         >
           저장
         </button>
         <button
-          className="h-[55%] w-[44%] rounded-lg border-[1px] border-solid border-black bg-[#ffcb16]"
+          className="h-[55%] w-[44%] rounded-lg border-1 border-solid border-black bg-[#ffcb16] text-lg"
           onClick={submitHandler}
         >
           다음

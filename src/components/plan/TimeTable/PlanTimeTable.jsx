@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 // icons & images
-import { FaAngleLeft } from "react-icons/fa6";
-import { FaAngleRight } from "react-icons/fa6";
+import { BiSolidLeftArrow } from "react-icons/bi";
+import { BiSolidRightArrow } from "react-icons/bi";
 // date-fns
 import { format, addDays } from "date-fns";
 import { ko } from "date-fns/locale";
@@ -17,7 +17,7 @@ import {
   loadedCurrDate,
 } from "../../../lib/constants/plandata";
 
-const PlanTimeTable = ({ classify, planData }) => {
+const PlanTimeTable = ({ classify, planData, watchPlanHandler }) => {
   const isMain = classify === "plan" ? true : false;
 
   const [data, setData] = isMain
@@ -97,28 +97,39 @@ const PlanTimeTable = ({ classify, planData }) => {
     ? "relative h-full w-[30%] shadow-[0_0_4px_rgba(0,0,0,0.25)]"
     : "relative h-full w-full";
   const currDateStyle = isMain
-    ? "flex h-[10%] w-full items-center justify-evenly"
-    : "flex h-[12%] w-full items-center justify-evenly";
+    ? "relative flex h-[10%] w-full items-center justify-evenly"
+    : "relative flex h-[12%] w-full items-center justify-evenly";
+  const dateStyle = isMain
+    ? "flex h-3/5 w-[24%] items-center justify-center rounded-lg border-1 border-solid border-black bg-[#38C3FF] text-sm"
+    : "flex h-[58%] w-[12%] items-center justify-center rounded-lg border-1 border-solid border-black bg-[#38C3FF] text-xs";
   return (
     <div className={containerStyle}>
       {isMain && (
-        <p className="flex h-[10%] w-full items-center justify-center text-xl">
+        <p className="flex h-[10%] w-full items-center justify-center text-base">
           여행 시간표
         </p>
       )}
 
       <div className={currDateStyle}>
+        {!isMain && (
+          <button
+            onClick={watchPlanHandler}
+            className="absolute left-0 h-[58%] w-[12%] rounded-lg border-1 border-solid border-black bg-[#ffcb16] text-xs hover:cursor-pointer"
+          >
+            이전
+          </button>
+        )}
         {date.currDate != 1 && (
-          <FaAngleLeft
+          <BiSolidLeftArrow
             className="absolute left-[30%] hover:cursor-pointer"
             onClick={() => dateHandler("down", date.currDate)}
           />
         )}
-        <p className="flex h-3/4 w-1/5 items-center justify-center rounded-lg bg-[#38C3FF]">
+        <p className={dateStyle}>
           {isMain ? todayDate : date.currDate + "일차"}
         </p>
         {date.currDate != data.period && (
-          <FaAngleRight
+          <BiSolidRightArrow
             className="absolute right-[30%] hover:cursor-pointer"
             onClick={() => {
               console.log("clicked up");

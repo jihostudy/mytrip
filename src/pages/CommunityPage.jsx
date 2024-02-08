@@ -148,7 +148,7 @@ const CommunityPage = () => {
   return (
     <div className="flex w-[100%] flex-col items-center gap-2">
       {/* 제목 */}
-      <div className="flex h-[13dvh] w-[83%] items-end text-2xl font-semibold">
+      <div className="flex h-[11.5dvh] w-[83%] items-end text-2xl font-semibold">
         커뮤니티
       </div>
       {/* 필터링 */}

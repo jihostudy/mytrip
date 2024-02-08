@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 // Icons + Images
 import { IoSearch } from "react-icons/io5";
-import DummyImage1 from "../assets/images/1.png";
-import DummyImage2 from "../assets/images/2.png";
-import DummyImage3 from "../assets/images/3.png";
-import DummyImage4 from "../assets/images/4.png";
+import DummyImage1 from "../assets/images/1.svg";
+import DummyImage2 from "../assets/images/2.svg";
+import DummyImage3 from "../assets/images/3.svg";
+import DummyImage4 from "../assets/images/4.svg";
 // data
 import data from "../lib/data.json";
 // hooks

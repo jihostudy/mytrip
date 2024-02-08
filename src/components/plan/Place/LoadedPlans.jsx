@@ -30,8 +30,8 @@ const LoadedPlans = ({ userInput }) => {
   const [planData, setPlanData] = useState({});
 
   // style
-  const categoryBtnStyle = "px-1";
-  const categoryBtnStyle_clicked = "px-1 + bg-[#ffcb16]";
+  const categoryBtnStyle = "px-1 text-xs";
+  const categoryBtnStyle_clicked = "px-1 + bg-[#ffcb16] text-xs";
 
   // evnetHandler
   function categoryHandler(index) {
@@ -139,15 +139,12 @@ const LoadedPlans = ({ userInput }) => {
     <>
       {watchPlan ? (
         <>
-          <button
-            onClick={watchPlanHandler}
-            className="absolute rounded-lg border-[1px] border-solid border-black bg-[#ffcb16] px-2 text-sm"
-          >
-            이전
-          </button>
           {/* ------------------- 여행 시간표 -------------------------------- */}
-          {/* <LoadTimeTable plan={planData} /> */}
-          <PlanTimeTable classify="load" planData={planData} />
+          <PlanTimeTable
+            classify="load"
+            planData={planData}
+            watchPlanHandler={watchPlanHandler}
+          />
           {/* ------------------------------------------------------------- */}
         </>
       ) : (

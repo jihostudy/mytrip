@@ -4,7 +4,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 // image
-import character from "../assets/images/character.png";
+import character from "../assets/images/character.svg";
 
 const StartPage = () => {
   const navigate = useNavigate();

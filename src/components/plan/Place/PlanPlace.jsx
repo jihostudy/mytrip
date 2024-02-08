@@ -10,7 +10,7 @@ import { useRecoilState } from "recoil";
 import { planState } from "../../../lib/constants/plandata";
 
 // icon
-import searchIcon from "../../../assets/icons/searchIcon.png";
+import { IoSearch } from "react-icons/io5";
 
 // API
 import { API } from "../../../api/API";
@@ -26,8 +26,8 @@ const PlanPlace = ({ setUserInput, userInput }) => {
   // 카테고리
 
   // css
-  const menuBtnStyle = "text-lg text-gray-400 ";
-  const menuBtnStyle_clicked = "text-lg ";
+  const menuBtnStyle = "text-gray-400 ";
+  const menuBtnStyle_clicked = " ";
 
   // eventHandler
   function menuClickHandler(num) {
@@ -231,11 +231,11 @@ const PlanPlace = ({ setUserInput, userInput }) => {
   // console.log(plans);
 
   return (
-    <div className="h-full w-[33%] p-3 shadow-[0_0_4px_rgba(0,0,0,0.25)]">
+    <div className="flex h-full w-[33%] flex-col items-center shadow-[0_0_4px_rgba(0,0,0,0.25)]">
       {/* 선택 바 + 검색 (고정) */}
-      <div className="flex h-[12%] flex-col">
+      <div className="relative flex h-[18.4%] w-[93%] flex-col">
         {/* 선택 바 */}
-        <div className="flex gap-3">
+        <div className="relative top-[5%] flex h-[43.6%] gap-3">
           <button
             className={menu === 0 ? menuBtnStyle_clicked : menuBtnStyle}
             onClick={() => menuClickHandler(0)}
@@ -257,21 +257,28 @@ const PlanPlace = ({ setUserInput, userInput }) => {
         </div>
         {/* 검색 */}
         <form
-          className="flex h-1/2 w-full grow border-b border-solid"
+          className="flex h-[56.4%] w-full grow items-end justify-start border-b border-solid"
           onSubmit={(e) => onSubmitHandler(e)}
         >
-          <button type="submit">
-            <img src={searchIcon} alt="searchIcon" className="h-full" />
-          </button>
+          <IoSearch
+            color="#8A8A8E"
+            style={{
+              height: "50%",
+              width: "8%",
+              position: "relative",
+              bottom: "15%",
+            }}
+          />
+
           <input
-            className="w-full focus:outline-none"
+            className="flex h-4/5 w-full items-end text-base focus:outline-none"
             name="userInput"
             onInput={(e) => onInputHandler(e)}
           />
         </form>
       </div>
       {/* contents */}
-      <div className="h-[88%] pt-4">{content}</div>
+      <div className="h-[81.6%] w-[93%] pt-4">{content}</div>
     </div>
   );
 };

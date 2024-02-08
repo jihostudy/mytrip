@@ -8,8 +8,6 @@ import Button from "../../UI/Button";
 import { fi } from "date-fns/locale";
 
 // Cataegory
-const categoryList = ["추천 장소", "맛집", "카페", "숙소"];
-
 const SCROLL_NUMS = 20;
 
 const SelectPlace = ({ saveClickHandler, filteredList }) => {
@@ -89,27 +87,8 @@ const SelectPlace = ({ saveClickHandler, filteredList }) => {
 
   return (
     <>
-      {/* 카테고리 */}
-      <div className="flex h-[8%] gap-3 pb-2">
-        {categoryList.map((item, index) => {
-          return (
-            <Button
-              key={item}
-              txt={item}
-              clickHandler={() => clickHandler(index)}
-              custom={
-                index === isClick ? categoryBtnStyle_clicked : categoryBtnStyle
-              }
-            />
-          );
-        })}
-        {/* <Button txt="추천 장소" clickHandler={clickHandler} custom={"px-1"} />
-        <Button txt="맛집" clickHandler={clickHandler} custom={"px-1"} />
-        <Button txt="카페" clickHandler={clickHandler} custom={"px-1"} />
-        <Button txt="숙소" clickHandler={clickHandler} custom={"px-1"} /> */}
-      </div>
       {/* 장소 리스트 */}
-      <ul className="flex h-[90%] flex-col gap-2 overflow-hidden overflow-y-auto">
+      <ul className="flex h-full flex-col gap-2 overflow-hidden overflow-y-auto">
         {scrollList.map((placeData, index) => (
           <PlaceCard
             key={index}

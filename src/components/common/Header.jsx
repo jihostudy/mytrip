@@ -9,8 +9,8 @@ import { useDetectClose } from "../../hook/useDetectClose";
 import { useConfirmModal } from "../../hook/useConfirmModal";
 // images & icons
 import myPageBtn from "../../assets/icons/myPage.svg";
-import { HiOutlineUserCircle } from "react-icons/hi2";
-import { HiUserCircle } from "react-icons/hi2";
+import HiUserCircle from "../../assets/icons/user.svg";
+import HiUserOutlineCircle from "../../assets/icons/userHover.svg";
 const Header = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useRecoilState(user);
@@ -124,15 +124,17 @@ const Header = () => {
             ref={dropDownRef}
           >
             {isHover ? (
-              <HiUserCircle
+              <img
+                src={HiUserOutlineCircle}
+                alt="마이페이지"
                 onClick={toggleDropdown}
-                style={{ height: "80%", width: "70%", color: "#000000" }}
                 onMouseLeave={() => setIsHover(false)}
               />
             ) : (
-              <HiOutlineUserCircle
+              <img
+                src={HiUserCircle}
+                alt="마이페이지"
                 onClick={toggleDropdown}
-                style={{ height: "80%", width: "70%", color: "#000000" }}
                 onMouseEnter={() => setIsHover(true)}
               />
             )}
