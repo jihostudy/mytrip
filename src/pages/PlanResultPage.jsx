@@ -101,18 +101,6 @@ const PlanDescription = ({ closeModal }) => {
     }));
   }
 
-  // #3. 완료 및 제출
-  async function getPostData(planID) {
-    try {
-      const res = await API.get(`/community/${planID}`);
-      setData(defaultPlanState);
-      setDate(1);
-      navigate("/planning/post", { state: res.data });
-    } catch (error) {
-      console.log("error occured in getPostData on PlanResultPage");
-    }
-  }
-
   async function setDone() {
     setData((prev) => ({
       ...prev,
@@ -172,7 +160,9 @@ const PlanDescription = ({ closeModal }) => {
       const res = await API.post("/planning/add-plan", planData);
       console.log(res);
       // 상공시 게시글 페이지로 이동
-      getPostData(res.data.planId);
+      setData(defaultPlanState);
+      setDate(1);
+      navigate("/planning/post", { state: { planId: res.data.planId } });
     } catch (error) {
       console.log("error occured on plaaning/add-plan");
     }

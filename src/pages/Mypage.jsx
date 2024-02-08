@@ -162,13 +162,7 @@ const PostCard = ({ post }) => {
 
   // #1. Post 열기
   async function openPostHandler() {
-    try {
-      const res = await API.get(`/community/${post.planId}`);
-
-      navigate("/planning/post", { state: res.data });
-    } catch (error) {
-      console.log(error);
-    }
+    navigate("/planning/post", { state: { planId: post.planId } });
   }
   return (
     <div
