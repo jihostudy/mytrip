@@ -17,6 +17,9 @@ import PeopleIcon from "../assets/icons/people.svg?react";
 import MoneyIcon from "../assets/icons/money.svg?react";
 import CalenderIcon from "../assets/icons/calender.svg?react";
 import { IoIosHeartEmpty } from "react-icons/io";
+import { IoIosHeart } from "react-icons/io";
+import { FaRegBookmark } from "react-icons/fa6";
+import { FaBookmark } from "react-icons/fa";
 
 // day
 const DAY = ["일", "월", "화", "수", "목", "금", "토"];
@@ -31,6 +34,7 @@ const CommunityPage = () => {
   // ----------------------------- filtering -----------------------------
   const [isClick, setIsClick] = useState(true); // true : likes, false : date
   const [isCalender, setIsCalender] = useState(false);
+  const [isPeople, setIsPeople] = useState(false);
   const [query, setQuery] = useState({
     city: "",
     sort: "likes", // likes, date
@@ -160,7 +164,7 @@ const CommunityPage = () => {
           />
         </div>
         <div className=" flex h-[60%] w-[27%] items-center justify-center rounded-md bg-[#F5F5F5]">
-          <div className="relative flex h-[80%] w-[70%] items-center justify-center hover:cursor-pointer">
+          <div className="relative z-10 flex h-[80%] w-[70%] items-center justify-center hover:cursor-pointer">
             <CalenderIcon onClick={calenderHandler} />
             <p
               onClick={calenderHandler}
@@ -220,7 +224,7 @@ const CommunityPage = () => {
         </button>
       </div>
       {/* 게시글 */}
-      <div className="flex w-[83%] flex-wrap justify-center gap-5">
+      <div className="flex w-[83%] flex-wrap justify-between gap-y-7">
         {posts.map((post) => (
           <PostCard key={post["_id"]} post={post} />
         ))}
@@ -234,14 +238,29 @@ export default CommunityPage;
 // PostCard
 const PostCard = ({ post }) => {
   const navigate = useNavigate();
-  // const date =
-  //   format(post.date.start, "yy.mm.dd (iii) ", {
-  //     locale: koLocale,
-  //   }) +
-  //   "~" +
-  //   format(post.date.end, " yy.mm.dd (iii) ", {
-  //     locale: koLocale,
-  //   });
+  const start = post.date.start;
+  let end = post.date.end;
+  if (end) end = start;
+  // console.log(
+  //   `${start.slice(0, 4)}-${start.slice(5, 7)}-${start.slice(8)}`,
+  //   `${end.slice(0, 4)}-${end.slice(5, 7)}-${end.slice(8)}`,
+  // );
+  const date =
+    format(
+      `${start.slice(0, 4)}-${start.slice(5, 7)}-${start.slice(8)}`,
+      "yy.mm.dd (iii) ",
+      {
+        locale: koLocale,
+      },
+    ) +
+    "~" +
+    format(
+      `${end.slice(0, 4)}-${end.slice(5, 7)}-${end.slice(8)}`,
+      " yy.mm.dd (iii) ",
+      {
+        locale: koLocale,
+      },
+    );
 
   // #1. Post 열기
   async function openPostHandler() {
@@ -256,7 +275,7 @@ const PostCard = ({ post }) => {
   return (
     <div
       // onClick={openPostHandler}
-      className="hover: hover: relative flex h-[20dvh] w-[480px] origin-bottom justify-center rounded-md border-solid border-black shadow-box hover:scale-105 hover:cursor-pointer hover:border-1"
+      className="hover: hover: relative flex h-[20dvh] w-[49%] origin-bottom justify-center rounded-md border-solid border-black shadow-box hover:scale-105 hover:cursor-pointer hover:border-1"
     >
       <div className="flex h-full w-[46%] items-center justify-center">
         <img
@@ -266,15 +285,17 @@ const PostCard = ({ post }) => {
         />
       </div>
       <div className="h-full w-[54%]">
-        <p className="flex h-[21%] w-full items-end text-xs">{post.city}</p>
+        <p className="flex h-[21%] w-full items-end justify-between pr-3 text-xs">
+          {post.city}
+          {post.isScraped ? <FaBookmark /> : <FaRegBookmark />}
+        </p>
         <p className="h-[45.5%] w-full text-base font-semibold">{post.name}</p>
         <div className="relative flex h-[15.4%] w-full items-center justify-start text-xs">
-          <IoIosHeartEmpty />
+          {post.isLiked ? <IoIosHeart /> : <IoIosHeartEmpty />}
           <p className="ml-[2%]">{post.likes}</p>
         </div>
         <p className="h-[11.5%] w-full text-xs">
-          {/* 24.03.23 (토) ~ 24.03.23 (일) | 공개 */}
-          {1} | {post.isPublic ? "공개" : "비공개"}
+          {date} | {post.isPublic ? "공개" : "비공개"}
         </p>
       </div>
     </div>
