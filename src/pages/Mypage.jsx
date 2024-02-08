@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 // router
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 // axios
 import { API } from "../api/API";
 // recoil
@@ -25,7 +25,8 @@ const Mypage = () => {
    */
   const userInfo = useRecoilValue(user);
   // #1. 데이터 불러오기
-  const [fetchedData, setFetchedData] = useState();
+  const [fetchedData, setFetchedData] = useState([]);
+  const [numData, setNumData] = useState(0);
   // #1-1. Fetch 함수
   async function fetchPlanData() {
     try {
@@ -40,6 +41,7 @@ const Mypage = () => {
       }
       console.log(res.data.myPlans);
       setFetchedData(res.data.myPlans);
+      setNumData(res.data.myPlans.length);
     } catch (error) {
       console.log(error);
     }
@@ -57,10 +59,10 @@ const Mypage = () => {
     let style;
     if (value === filter)
       style =
-        "mr-3 h-[32%] rounded-md border-1 border-solid border-black bg-[#38C3FF] hover:scale-110 ";
+        "mr-3 h-[57.4%] rounded-md border-1 border-solid border-black bg-[#38C3FF] hover:scale-110 ";
     else {
       style =
-        "mr-3 h-[32%] rounded-md border-1 border-solid border-black hover:bg-[#38C3FF] hover:scale-110 ";
+        "mr-3 h-[57.4%] rounded-md border-1 border-solid border-black hover:bg-[#38C3FF] hover:scale-110 ";
     }
     switch (value) {
       case 1:
@@ -85,7 +87,7 @@ const Mypage = () => {
     </button>
   ));
 
-  let filteredData;
+  let filteredData = [];
   switch (filter) {
     // 계획중
     case 2:
@@ -117,12 +119,28 @@ const Mypage = () => {
   }, [filteredData]);
   return (
     <div className="relative flex w-[100%] flex-col items-center">
-      <p className="flex h-[13dvh] w-[83%] items-end text-2xl font-semibold">
+      <p className="flex h-[19.5dvh] w-[83%] items-center text-2xl font-semibold">
         {classify === "posts" ? "나의 여행지" : "스크랩한 여행지"}
       </p>
-      {classify === "posts" && (
-        <div className="flex h-[13dvh] w-[83%] items-center justify-start text-xs">
+      {classify === "posts" && numData ? (
+        <div className="flex h-[7.18dvh] w-[83%] items-start justify-start text-xs">
           {buttons}
+        </div>
+      ) : (
+        <div className="flex h-[21.56dvh] w-[83%] flex-col items-start justify-start rounded-md shadow-box">
+          <div className="relative left-[2%] h-full w-full">
+            <p className="flex h-[31%] w-full items-end  font-semibold">
+              예정된 여행 일정이 없습니다.
+            </p>
+            <p className="flex h-[22.6%] w-full items-center  text-[#00000040]">
+              지금 나의 새로운 여행을 계획해보세요.
+            </p>
+            <div className="flex h-[46.4%] w-full items-center ">
+              <Link className="flex aspect-[3.525/1] h-[48.2%] items-center justify-center rounded-md border-1 border-solid border-black bg-[#FFCB16]">
+                여행 계획하기
+              </Link>
+            </div>
+          </div>
         </div>
       )}
       {classify === "posts" && <Posts postData={filteredData} />}
@@ -140,7 +158,7 @@ const Posts = ({ postData }) => {
       <PostCard key={post.planId} post={post} />
     ));
   } else {
-    postCards = "데이터가 없습니다";
+    postCards = null;
   }
   return (
     <div className="relative grid w-[83%] grid-cols-2 gap-x-5 gap-y-6">
