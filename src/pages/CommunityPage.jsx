@@ -20,6 +20,8 @@ import { IoIosHeartEmpty } from "react-icons/io";
 import { IoIosHeart } from "react-icons/io";
 import { FaRegBookmark } from "react-icons/fa6";
 import { FaBookmark } from "react-icons/fa";
+import { CiCirclePlus } from "react-icons/ci";
+import { CiCircleMinus } from "react-icons/ci";
 
 // day
 const DAY = ["일", "월", "화", "수", "목", "금", "토"];
@@ -35,6 +37,7 @@ const CommunityPage = () => {
   const [isClick, setIsClick] = useState(true); // true : likes, false : date
   const [isCalender, setIsCalender] = useState(false);
   const [isPeople, setIsPeople] = useState(false);
+  const [isCost, setIsCost] = useState(false);
   const [query, setQuery] = useState({
     city: "",
     sort: "likes", // likes, date
@@ -153,6 +156,7 @@ const CommunityPage = () => {
         onSubmit={(e) => submitHandler(e)}
         className="flex h-[8dvh] w-[83%] items-center justify-between rounded-md border-2 border-solid border-[#F5F5F5] px-4 text-sm shadow-sm"
       >
+        {/* 1. 검색 */}
         <div className="flex h-[60%] w-[27%] items-center justify-center rounded-md bg-[#F5F5F5]">
           <SearchIcon />
           <input
@@ -163,6 +167,7 @@ const CommunityPage = () => {
             placeholder="여행지를 검색해보세요"
           />
         </div>
+        {/* 2. 날짜 */}
         <div className=" flex h-[60%] w-[27%] items-center justify-center rounded-md bg-[#F5F5F5]">
           <div className="relative z-10 flex h-[80%] w-[70%] items-center justify-center hover:cursor-pointer">
             <CalenderIcon onClick={calenderHandler} />
@@ -181,25 +186,72 @@ const CommunityPage = () => {
             )}
           </div>
         </div>
-        <div className="flex h-[60%] w-[13%] items-center justify-center rounded-md bg-[#F5F5F5]">
-          <PeopleIcon />
-          <input
-            type="number"
-            ref={peopleRef}
-            onBlur={(e) => changeHandler(e, "people")}
-            className="h-[80%] w-[20%] bg-[#F5F5F5] text-right"
+        {/* 3. 인원 */}
+        <div className="relative flex h-[60%] w-[13%] items-center justify-center gap-2 rounded-md bg-[#F5F5F5]">
+          <PeopleIcon
+            className="hover:cursor-pointer"
+            onClick={() => setIsPeople((prev) => !prev)}
           />
-          <p>명</p>
+          <p
+            className="hover:cursor-pointer"
+            onClick={() => setIsPeople((prev) => !prev)}
+          >
+            {query.num}명
+          </p>
+          {isPeople && (
+            <div className="absolute top-[100%] z-10 flex h-[200%] w-[230%] items-center justify-between rounded-md border border-solid border-black bg-white px-4 text-base shadow-box">
+              <p>인원</p>
+              <div className="flex h-[100%] w-[40%] items-center gap-3">
+                <CiCircleMinus
+                  size="30"
+                  className="hover:scale-110 hover:cursor-pointer"
+                  onClick={() =>
+                    setQuery((prev) => ({
+                      ...prev,
+                      num: prev.num - 1,
+                    }))
+                  }
+                />
+                {query.num ? <p>{query.num}</p> : <p>&nbsp;</p>}
+                <CiCirclePlus
+                  size="30"
+                  className="hover:scale-110 hover:cursor-pointer"
+                  onClick={() =>
+                    setQuery((prev) => ({
+                      ...prev,
+                      num: prev.num + 1,
+                    }))
+                  }
+                />
+              </div>
+            </div>
+          )}
         </div>
-        <div className="flex h-[60%] w-[13%] items-center justify-center rounded-md bg-[#F5F5F5]">
-          <MoneyIcon />
-          <input
-            type="number"
-            ref={costRef}
-            onBlur={(e) => changeHandler(e, "cost")}
-            className="h-[80%] w-[20%] bg-[#F5F5F5] text-right"
+        {/* 4. 경비 */}
+        <div className="relative flex h-[60%] w-[13%] items-center justify-center gap-2 rounded-md bg-[#F5F5F5]">
+          <MoneyIcon
+            className="hover:cursor-pointer"
+            onClick={() => setIsCost((prev) => !prev)}
           />
-          <p>만원</p>
+          <p
+            className="hover:cursor-pointer"
+            onClick={() => setIsCost((prev) => !prev)}
+          >
+            {query.cost}만원
+          </p>
+          {isCost && (
+            <div className="absolute top-[100%] z-10 flex h-[200%] w-[230%] items-center justify-between gap-2 rounded-md border border-solid border-black bg-white px-4 text-base shadow-box">
+              <p>경비</p>
+              <input
+                type="number"
+                ref={costRef}
+                onChange={(e) => changeHandler(e, "cost")}
+                className="h-[50%] w-[40%] grow text-right text-sm"
+                placeholder="액수를 입력해주세요"
+              />
+              <p>만원</p>
+            </div>
+          )}
         </div>
         <button
           type="submit"
