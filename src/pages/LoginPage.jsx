@@ -53,7 +53,14 @@ const LoginPage = () => {
       }
     }
   };
-
+  // 로그인중
+  const [loading, setLoading] = useState({ isLoading: false, target: null });
+  function handleLoading(target) {
+    setLoading((prev) => ({
+      isLoading: !prev.isLoading,
+      target: target,
+    }));
+  }
   return (
     <div className="relative top-[20%] flex h-[88%] w-full flex-col items-center">
       <form
@@ -100,9 +107,9 @@ const LoginPage = () => {
       <div className="mt-6 flex w-1/3 min-w-[485px] items-center justify-between">
         소셜 계정으로 로그인
         <div className="flex w-2/5 justify-between">
-          <NaverLoginBtn />
-          <KakaoLoginBtn />
-          <GoogleLoginBtn />
+          <NaverLoginBtn loading={loading} handleLoading={handleLoading} />
+          <KakaoLoginBtn loading={loading} handleLoading={handleLoading} />
+          <GoogleLoginBtn loading={loading} handleLoading={handleLoading} />
         </div>
       </div>
     </div>

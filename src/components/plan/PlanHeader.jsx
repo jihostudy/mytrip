@@ -45,8 +45,8 @@ const PlanHeader = (props) => {
     navigate("/planning/result");
   }
   return (
-    <div className="flex h-[18%] w-[93%] items-center justify-between">
-      <div className="flex h-3/5 w-1/4 items-end justify-start">
+    <div className="flex h-[18%] w-[93%] items-start justify-between">
+      <div className="flex h-[70%] w-1/4 items-end justify-start">
         <p className="mr-4 flex h-full w-[30%] items-end text-4xl">{region}</p>
         <div className="relative z-30 flex h-full w-[70%] items-end">
           <button
@@ -66,15 +66,15 @@ const PlanHeader = (props) => {
         </div>
       </div>
 
-      <div className="relative flex h-3/5 w-[14%] items-end justify-around">
+      <div className="relative flex h-4/5 w-[40%] items-end justify-end">
         <button
-          className="h-[55%] w-[44%] rounded-lg border-1 border-solid border-black text-lg"
+          className="mr-[5%] h-[40%] w-[16.4%] rounded-lg border-1 border-solid border-black text-sm"
           onClick={saveHandler}
         >
           저장
         </button>
         <button
-          className="h-[55%] w-[44%] rounded-lg border-1 border-solid border-black bg-[#ffcb16] text-lg"
+          className="h-[40%] w-[16.4%] rounded-lg border-1 border-solid border-black bg-[#ffcb16] text-sm"
           onClick={submitHandler}
         >
           다음

@@ -70,13 +70,13 @@ const PlanResultHeader = ({ openModal }) => {
   );
   return (
     <>
-      <div className="relative flex h-[18%] w-[93%] items-center justify-between">
+      <div className="relative flex h-[18%] w-[93%] items-start justify-between">
         {/* 정보 */}
-        <div className="flex h-3/5 w-1/4 items-end justify-start">
+        <div className="flex h-[70%] w-1/4 items-end justify-start">
           <p className="mr-4 flex h-full w-[30%] items-end text-4xl">
             {data.region.slice(0, 2)}
           </p>
-          <div className="relative z-30 flex h-full w-[70%] items-end">
+          <div className="relative z-30 flex h-full w-[70%] items-end tracking-widest">
             {planPeriod}
           </div>
         </div>
@@ -126,22 +126,22 @@ const PlanResultHeader = ({ openModal }) => {
           </div>
         </div>
         {/* 오른쪽 */}
-        <div className="relative flex h-3/5 w-[45%] items-end justify-end text-xs">
+        <div className="relative flex h-4/5 w-[40%] items-end justify-end text-xs">
           <button
-            className="mr-[5%] flex h-[55%] w-[16.25%] items-center justify-center rounded-lg border-[1px] border-solid border-black"
+            className="mr-[5%] flex h-[41.9%] w-[21.3%] items-center justify-center rounded-lg border-[1px] border-solid border-black"
             onClick={publicHandler}
           >
             {publicBtn}
           </button>
           <Link
-            className="mr-[5%] flex h-[55%] w-[13%] items-center justify-center rounded-lg border-[1px] border-solid border-black"
+            className="mr-[5%] flex h-[40%] w-[16.4%] items-center justify-center rounded-lg border-[1px] border-solid border-black"
             to="/planning"
             state={{ region: data.region }}
           >
             이전
           </Link>
           <button
-            className="h-[55%] w-[13%] rounded-lg border-[1px] border-solid border-black bg-[#ffcb16]"
+            className="h-[40%] w-[16.4%] rounded-lg border-[1px] border-solid border-black bg-[#ffcb16]"
             onClick={openModal}
           >
             완료

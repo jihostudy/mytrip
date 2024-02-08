@@ -3,26 +3,30 @@ import React, { useState } from "react";
 import googleBtn from "../assets/icons/googleBtn.svg";
 // components
 import Loading from "./UI/Loading";
-const GoogleLoginBtn = () => {
-  const [isLoading, setIsLoading] = useState(false);
+const GoogleLoginBtn = ({ loading, handleLoading }) => {
   const googleClientId = import.meta.env.VITE_GOOGLE_CLIENTID;
   const googleRedirectUrl = import.meta.env.VITE_GOOGLE_REDIRECTURL;
 
   const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${googleClientId}&scope=openid%20profile%20email&redirect_uri=${googleRedirectUrl}`;
 
   function loginHandler() {
-    setIsLoading(true);
+    handleLoading("google");
+
     const timer = setTimeout(() => {
       window.location.href = googleAuthUrl;
-      setIsLoading(false);
+      handleLoading("google");
     }, 800);
     return () => clearTimeout(timer);
   }
 
   return (
-    <button onClick={loginHandler} className="relative m-2">
+    <button
+      onClick={loginHandler}
+      className="relative m-2"
+      disabled={loading.isLoading}
+    >
       <img src={googleBtn} alt="구글로그인" className="w-11" />
-      {isLoading && <Loading />}
+      {loading.isLoading && loading.target === "google" && <Loading />}
     </button>
   );
 };

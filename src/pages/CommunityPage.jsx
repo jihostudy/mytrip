@@ -12,7 +12,8 @@ import { format, parse, isAfter } from "date-fns";
 import koLocale from "date-fns/locale/ko";
 
 // icon
-import SearchIcon from "../assets/icons/searchIcon.svg?react";
+import { IoSearch } from "react-icons/io5";
+
 import PeopleIcon from "../assets/icons/people.svg?react";
 import MoneyIcon from "../assets/icons/money.svg?react";
 import CalenderIcon from "../assets/icons/calender.svg?react";
@@ -158,7 +159,7 @@ const CommunityPage = () => {
       >
         {/* 1. 검색 */}
         <div className="flex h-[60%] w-[27%] items-center justify-center rounded-md bg-[#F5F5F5]">
-          <SearchIcon />
+          <IoSearch style={{ width: "10%" }} />
           <input
             type="text"
             ref={cityRef}
