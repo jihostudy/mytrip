@@ -139,7 +139,7 @@ const CommunityPage = () => {
 
   // ------------------------------- post --------------------------------
   const [posts, setPosts] = useState([]);
-  console.log(posts);
+  // console.log(posts);
   // first data
   useEffect(() => {
     submitHandler();
@@ -208,7 +208,7 @@ const CommunityPage = () => {
                   onClick={() =>
                     setQuery((prev) => ({
                       ...prev,
-                      num: prev.num - 1,
+                      num: +prev.num - 1,
                     }))
                   }
                 />
@@ -219,7 +219,7 @@ const CommunityPage = () => {
                   onClick={() =>
                     setQuery((prev) => ({
                       ...prev,
-                      num: prev.num + 1,
+                      num: +prev.num + 1,
                     }))
                   }
                 />
@@ -369,7 +369,10 @@ const PostCard = ({ post }) => {
         <p className="h-[25.5%] w-full text-base font-semibold">{post.name}</p>
         <div className="flex h-[20%] items-end gap-1">
           {keywords.map((keyword) => (
-            <div className="h-[50%]items-center flex justify-center rounded-md bg-[#D9D9D9] p-1 text-xs">
+            <div
+              key={post["_id"] + keyword}
+              className="h-[50%]items-center flex justify-center rounded-md bg-[#D9D9D9] p-1 text-xs"
+            >
               {keyword}
             </div>
           ))}
