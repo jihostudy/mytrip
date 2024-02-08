@@ -21,6 +21,8 @@ import PlanResultPage from "./pages/PlanResultPage";
 import UserInfoPage from "./pages/UserInfoPage";
 import Mypage from "./pages/Mypage";
 import PostPage from "./pages/PostPage";
+import CommunityPage from "./pages/CommunityPage";
+import CommunityLayout from "./pages/Layout/CommunityLayout";
 // social-login
 import KakaoRedirect from "./components/Redirect/KakaoRedirect";
 import GoogleRedirect from "./components/Redirect/GoogleRedirect";
@@ -85,6 +87,11 @@ const router = createBrowserRouter([
           { path: "/auth/google", element: <GoogleRedirect /> },
           { path: "/auth/naver", element: <NaverRedirect /> },
         ],
+      },
+      {
+        path: "/community",
+        element: <CommunityLayout />,
+        children: [{ index: true, element: <CommunityPage /> }],
       },
     ],
   },
