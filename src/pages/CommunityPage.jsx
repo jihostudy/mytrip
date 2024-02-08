@@ -102,17 +102,17 @@ const CommunityPage = () => {
       setQuery((prev) => ({ ...prev, cost: value }));
     }
   }
-  function clickHandler() {
+  function clickHandler(current) {
     // 인기순, 최신순 클릭
-    if (isClick) {
+    if (isClick && current === "date") {
       setQuery((prev) => ({ ...prev, sort: "date" }));
-    } else {
+    } else if (!isClick && current === "likes") {
       setQuery((prev) => ({ ...prev, sort: "likes" }));
-    }
+    } else return;
 
     setIsClick((prev) => !prev);
 
-    submitHandler();
+    // submitHandler();
   }
   function calenderHandler() {
     // 달력 열기
@@ -143,7 +143,7 @@ const CommunityPage = () => {
   // first data
   useEffect(() => {
     submitHandler();
-  }, []);
+  }, [isClick]);
 
   return (
     <div className="flex w-[100%] flex-col items-center gap-2">
@@ -263,13 +263,13 @@ const CommunityPage = () => {
       {/* 인기순, 최신순 */}
       <div className="flex h-[5dvh] w-[83%] items-center justify-start gap-4 text-sm">
         <button
-          onClick={clickHandler}
+          onClick={() => clickHandler("likes")}
           className={isClick ? btnClickStyle : btnStyle}
         >
           인기순
         </button>
         <button
-          onClick={clickHandler}
+          onClick={() => clickHandler("date")}
           className={!isClick ? btnClickStyle : btnStyle}
         >
           최신순
@@ -289,30 +289,55 @@ export default CommunityPage;
 
 // PostCard
 const PostCard = ({ post }) => {
+  // console.log(post.period);
   const navigate = useNavigate();
-  const start = post.date.start;
-  let end = post.date.end;
-  if (end) end = start;
-  // console.log(
-  //   `${start.slice(0, 4)}-${start.slice(5, 7)}-${start.slice(8)}`,
-  //   `${end.slice(0, 4)}-${end.slice(5, 7)}-${end.slice(8)}`,
-  // );
+
+  // season
+  const month = parseInt(post.date.start.split(".")[1]);
+  let season;
+  switch (month) {
+    case 11:
+    case 12:
+    case 1:
+    case 2:
+      season = "겨울";
+      break;
+    case 3:
+    case 4:
+    case 5:
+      season = "봄";
+      break;
+    case 6:
+    case 7:
+    case 8:
+      season = "여름";
+      break;
+    case 9:
+    case 10:
+      season = "가을";
+      break;
+    default:
+      break;
+  }
+
+  // date formatting
   const date =
-    format(
-      `${start.slice(0, 4)}-${start.slice(5, 7)}-${start.slice(8)}`,
-      "yy.mm.dd (iii) ",
-      {
-        locale: koLocale,
-      },
-    ) +
+    format(post.date.start, "yy.MM.dd (iii) ", {
+      locale: koLocale,
+    }) +
     "~" +
-    format(
-      `${end.slice(0, 4)}-${end.slice(5, 7)}-${end.slice(8)}`,
-      " yy.mm.dd (iii) ",
-      {
-        locale: koLocale,
-      },
-    );
+    format(post.date.end, " yy.MM.dd (iii) ", {
+      locale: koLocale,
+    });
+
+  // keyword
+  const keywords = [
+    season + " 여행",
+    `${post.period - 1}박 ${post.period}일`,
+    `${post.numPeople}명`,
+    `${Math.floor(+post.totalCost / 10000)}만원`,
+  ];
+  // console.log(keywords);
 
   // #1. Post 열기
   async function openPostHandler() {
@@ -341,7 +366,14 @@ const PostCard = ({ post }) => {
           {post.city}
           {post.isScraped ? <FaBookmark /> : <FaRegBookmark />}
         </p>
-        <p className="h-[45.5%] w-full text-base font-semibold">{post.name}</p>
+        <p className="h-[25.5%] w-full text-base font-semibold">{post.name}</p>
+        <div className="flex h-[20%] items-end gap-1">
+          {keywords.map((keyword) => (
+            <div className="h-[50%]items-center flex justify-center rounded-md bg-[#D9D9D9] p-1 text-xs">
+              {keyword}
+            </div>
+          ))}
+        </div>
         <div className="relative flex h-[15.4%] w-full items-center justify-start text-xs">
           {post.isLiked ? <IoIosHeart /> : <IoIosHeartEmpty />}
           <p className="ml-[2%]">{post.likes}</p>
