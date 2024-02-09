@@ -95,7 +95,7 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <CommunityPage /> },
           {
-            path: "/community/userPlans",
+            path: "/community/userPlans/:username",
             element: <UserPlansPage />,
           },
         ],
