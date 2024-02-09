@@ -24,6 +24,7 @@ const GoogleLoginBtn = ({ loading, handleLoading }) => {
       onClick={loginHandler}
       className="relative m-2"
       disabled={loading.isLoading}
+      ek
     >
       <img src={googleBtn} alt="구글로그인" className="w-11" />
       {loading.isLoading && loading.target === "google" && <Loading />}

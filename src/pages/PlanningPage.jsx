@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
 // recoil
 import { useRecoilState } from "recoil";
 import {
@@ -7,8 +6,6 @@ import {
   currDate,
   defaultPlanState,
 } from "../lib/constants/plandata";
-// date-fns
-import { differenceInDays, format, parse } from "date-fns";
 // router
 import { useLocation } from "react-router-dom";
 
@@ -18,25 +15,12 @@ import PlanBody from "../components/plan/PlanBody";
 
 import { API } from "../api/API";
 
-function getDateDiff(d1, d2) {
-  const date1 = new Date(d1);
-  const date2 = new Date(d2);
-
-  const diffDate = date1.getTime() - date2.getTime();
-
-  return Math.abs(diffDate / (1000 * 60 * 60 * 24)) + 1; // 밀리세컨 * 초 * 분 * 시 = 일
-}
-
 const PlanningPage = () => {
   const [data, setData] = useRecoilState(planState);
-  const [date, setDate] = useRecoilState(currDate);
   useEffect(() => {
     console.log(data);
   }, [data]);
-  // useEffect(() => {
-  //   console.log(date);
-  // }, [date]);
-  // 처음 설정한 지역으로 초기화
+  // #0. region 저장
   const { state } = useLocation();
   const [userInput, setUserInput] = useState();
 

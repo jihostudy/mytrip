@@ -7,6 +7,7 @@ import { useRecoilState } from "recoil";
 // components
 import Button from "../UI/Button";
 import CalenderContainer from "../Calender/CalenderContainer";
+import { API } from "../../api/API";
 // Icons
 // import { BsCalendarDate } from "react-icons/bs";
 const PlanHeader = (props) => {
@@ -28,6 +29,7 @@ const PlanHeader = (props) => {
   }
   //-----------------------------------------------------Functions-----------------------------------------------------
   // 초기화
+
   function resetDate() {
     setData((prev) => ({
       ...prev,
@@ -39,7 +41,62 @@ const PlanHeader = (props) => {
     }));
   }
   // 저장
-  function saveHandler() {}
+
+  async function saveHandler() {
+    // season 계산
+    const month = parseInt(data.date.start.split(".")[1]);
+    let season;
+
+    switch (month) {
+      case 11:
+      case 12:
+      case 1:
+      case 2:
+        season = "겨울";
+        break;
+      case 3:
+      case 4:
+      case 5:
+        season = "봄";
+        break;
+      case 6:
+      case 7:
+      case 8:
+        season = "여름";
+        break;
+      case 9:
+      case 10:
+        season = "가을";
+        break;
+      default:
+        break;
+    }
+    const planData = {
+      _id: data.id,
+      name: data.title,
+      city: data.region,
+      date: data.date,
+      period: data.period,
+      season: season,
+      totalCost: data.totalCost,
+      numPeople: data.numPeople,
+      likes: data.likes,
+      scraps: data.scraps,
+      image: data.image,
+      shareUri: data.shareURI,
+      description: data.description,
+      isPublic: data.isPublic,
+      isDone: false, // 저장 버튼은 isDone false
+      schedule: data.schedule,
+      destinationCart: data.destinationCart,
+    };
+    try {
+      const res = await API.post("/planning/add-plan", planData);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   // 제출
   function submitHandler() {
     navigate("/planning/result");

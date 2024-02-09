@@ -279,7 +279,7 @@ const PlanDescription = ({ closeModal }) => {
                 className="h-[90%] w-[87%] resize-none overflow-y-auto bg-[#F5F5F5] focus:outline-none"
                 placeholder="입력해주세요"
                 value={data.description && data.description}
-                onChange={(e) => setDescription(e.target.value)}
+                onInput={(e) => setDescription(e.target.value)}
               />
             </div>
           </div>

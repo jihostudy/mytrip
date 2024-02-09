@@ -14,7 +14,12 @@ import { useDetectClose } from "../hook/useDetectClose";
 import { useNavigate } from "react-router";
 // recoil
 import { user } from "../lib/constants/userInfo";
-import { useRecoilValue } from "recoil";
+import {
+  planState,
+  currDate,
+  defaultPlanState,
+} from "../lib/constants/plandata";
+import { useRecoilValue, useRecoilState } from "recoil";
 // Dummy images
 const dummy_images = [DummyImage1, DummyImage2, DummyImage3, DummyImage4];
 // Input list
@@ -25,6 +30,8 @@ import HomeImage from "../components/HomeImage";
 import { useInterval } from "../hook/useInterval";
 // 컴포넌트
 const HomePage = () => {
+  const [data, setData] = useRecoilState(planState);
+  const [date, setDate] = useRecoilState(currDate);
   const userInfo = useRecoilValue(user);
 
   const filteredListRef = useRef(null);
@@ -50,6 +57,8 @@ const HomePage = () => {
     openModal({
       content: `${region}로 떠나시나요?`,
       callback: () => {
+        setData(defaultPlanState);
+        setDate({ currDate: 1 });
         navigate("/planning", { state: { region: region } });
       },
     });

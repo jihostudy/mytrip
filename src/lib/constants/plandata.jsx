@@ -11,7 +11,7 @@ export const defaultPlanState = {
   image: null,
   date: { start: null, end: null }, // 시작-끝 날짜
   period: null, //몇일?
-  totalCost: null,
+  totalCost: 50,
   numPeople: 1,
   likes: null,
   scraps: null,

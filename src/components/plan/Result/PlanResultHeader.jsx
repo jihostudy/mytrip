@@ -117,8 +117,8 @@ const PlanResultHeader = ({ openModal }) => {
             <label className="flex w-2/5 justify-center">경비</label>
             <input
               type="number"
-              placeholder="입력"
-              className="h-full w-2/5 text-center"
+              placeholder="50"
+              className="h-full w-2/5 text-center focus:outline-none"
               pattern="\d*"
               onBlur={(e) => totalCostHandler(e.target.value)}
             />
@@ -126,7 +126,7 @@ const PlanResultHeader = ({ openModal }) => {
           </div>
         </div>
         {/* 오른쪽 */}
-        <div className="relative flex h-4/5 w-[40%] items-end justify-end text-xs">
+        <div className="relative flex h-4/5 w-[40%] items-end justify-end text-sm">
           <button
             className="mr-[5%] flex h-[41.9%] w-[21.3%] items-center justify-center rounded-lg border-[1px] border-solid border-black"
             onClick={publicHandler}

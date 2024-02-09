@@ -161,7 +161,7 @@ const CalenderContainer = ({ action, setQuery, setIsCalender }) => {
         />
       </div>
       <div className="relative flex h-[25%] w-[90%] items-center justify-center border-t-[0.5px] border-solid border-[#BDBDBD]">
-        <p className="flex h-[50%] w-[82%] items-center justify-center text-lg font-semibold">
+        <p className="flex h-[50%] w-[82%] items-center justify-center text-lg font-semibold tracking-wider">
           {startDate}
           {endDate}
           {period}

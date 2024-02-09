@@ -7,7 +7,7 @@ import { API } from "../api/API";
 import { useRecoilValue } from "recoil";
 import { user } from "../lib/constants/userInfo";
 // date-fns
-import { format, parse, isAfter } from "date-fns";
+import { format, parse, isAfter, isSameDay } from "date-fns";
 import koLocale from "date-fns/locale/ko";
 // images
 import DefaultImage from "../assets/images/default-image-mypage.svg";
@@ -18,7 +18,6 @@ const Mypage = () => {
   // #0. 내 여행지 OR 스크랩한 여행지?
   const location = useLocation();
   const classify = location.state.value;
-  console.log(classify);
   /*
   posts : 내 포스트 
   scrap-posts: 스크랩한 포스트
@@ -103,7 +102,10 @@ const Mypage = () => {
           new Date(),
         );
         console.log(parsedStartDate, today);
-        if (isAfter(parsedStartDate, today)) {
+        if (
+          isAfter(parsedStartDate, today) ||
+          isSameDay(parsedStartDate, today)
+        ) {
           return false;
         }
         return true;

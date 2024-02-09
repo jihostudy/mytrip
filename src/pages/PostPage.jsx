@@ -19,6 +19,7 @@ import { FaBars } from "react-icons/fa6";
 // custom hooks
 
 import { useConfirmModal } from "../hook/useConfirmModal";
+import { all } from "axios";
 
 // default
 const InitPost = {
@@ -57,7 +58,7 @@ const InitPost = {
     ],
     destinationCart: null,
   },
-  comments: null,
+  comments: [],
   isLiked: null,
   isScraped: null,
 };
@@ -71,7 +72,7 @@ const PostPage = () => {
     async function getPostData() {
       try {
         const res = await API.get(`/community/${location.state.planId}`);
-        console.log(res.data);
+        console.log("postdata", res.data);
         setPostData(res.data);
       } catch (error) {
         console.log("error occured in getPostData on PlanResultPage");
@@ -79,7 +80,9 @@ const PostPage = () => {
     }
     getPostData();
   }, []);
-
+  useEffect(() => {
+    console.log("PostData Changed", postData);
+  }, [postData]);
   // 함수들
   async function likeHandler() {
     try {
@@ -207,6 +210,7 @@ export default PostPage;
 
 const PostCard = ({ postData }) => {
   const data = postData.post;
+  console.log("description", data.description);
   return (
     <div className="relative flex h-[56.2%] w-full justify-center rounded-md shadow-box">
       <div className="flex h-full w-[44.7%] items-center justify-center">
@@ -245,7 +249,7 @@ const PostCard = ({ postData }) => {
           </p>
         </div>
         <div className="flex h-[29%] w-full items-center justify-start">
-          <p className="h-[90%] w-[90%] rounded-md bg-[#F5F5F5]  p-3 text-sm">
+          <p className="h-[90%] w-[90%] resize-none overflow-y-auto whitespace-pre-wrap rounded-md bg-[#F5F5F5] p-3 text-sm">
             {data.description}
           </p>
         </div>
@@ -255,7 +259,7 @@ const PostCard = ({ postData }) => {
 };
 
 const CommentList = ({ postData }) => {
-  const [allComments, setAllComments] = useState(postData.comments);
+  const allComments = postData.comments;
   const [userComment, setUserComment] = useState(null);
   const commentRef = useRef();
   const userInfo = useRecoilValue(user);
@@ -278,11 +282,10 @@ const CommentList = ({ postData }) => {
       );
       console.log(res);
       // 임시로 저장 (필요 : content, username)
-      const addedComments = allComments.push({
+      allComments.unshift({
         content: userComment,
         username: userInfo.username,
       });
-
       scrollToBottom();
       setUserComment(null);
       commentRef.current.value = null;
@@ -291,12 +294,13 @@ const CommentList = ({ postData }) => {
     }
   }
 
-  const comments =
-    allComments &&
-    allComments.map((comment) => (
-      <Comment key={comment.content} comment={comment} />
-    ));
-  console.log(allComments);
+  useEffect(() => {
+    console.log("postData", postData);
+    console.log("AllComments", allComments);
+  }, [allComments]);
+  const comments = allComments.map((comment) => (
+    <Comment key={comment.content} comment={comment} />
+  ));
   return (
     <div className="relative min-h-[5.76%] w-full">
       <p className="flex min-h-[4.18vh] items-center">
@@ -304,7 +308,9 @@ const CommentList = ({ postData }) => {
       </p>
       {/* Add Comments */}
       <div className="flex h-[10.5vh] min-h-[10.5vh] w-full flex-col rounded-md  bg-[#F5F5F5]">
-        <p className="ml-3 flex h-1/2 w-full items-center">나의 닉네임</p>
+        <p className="ml-3 flex h-1/2 w-full items-center font-semibold">
+          {userInfo.username}
+        </p>
         <form
           onSubmit={(e) => addCommentHandler(e)}
           className="relative bottom-[20%] flex h-1/2 w-full items-end justify-start"
@@ -334,8 +340,7 @@ const Comment = ({ comment }) => {
   return (
     <>
       <div className="items-cneter flex h-[10.9vh] flex-col">
-        {/* {content.username} 추가 필요 */}
-        <p className="ml-3 flex h-1/2 items-center ">닉네임</p>
+        <p className="ml-3 flex h-1/2 items-center ">{comment.username}</p>
         <p className="ml-3 flex  min-h-[30%] w-[91%] items-center break-all border-b-[1.5px] border-solid border-black">
           {comment.content}
         </p>
