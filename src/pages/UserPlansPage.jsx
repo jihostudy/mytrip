@@ -108,7 +108,9 @@ const PostCard = ({ post }) => {
 
   // #1. Post 열기
   async function openPostHandler() {
-    navigate("/planning/post", { state: { planId: post["_id"] } });
+    navigate("/planning/post", {
+      state: { planId: post["_id"], community: true },
+    });
   }
   return (
     <div
