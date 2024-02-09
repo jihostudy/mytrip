@@ -373,10 +373,18 @@ const CommentList = ({ postData }) => {
 };
 
 const Comment = ({ comment }) => {
+  const navigate = useNavigate();
   return (
     <>
       <div className="items-cneter flex h-[10.9vh] flex-col">
-        <p className="ml-3 flex h-1/2 items-center ">{comment.username}</p>
+        <p
+          onClick={(e) =>
+            navigate(`/community/userPlans/${e.target.innerHTML}`)
+          }
+          className="ml-3 flex h-1/2 w-auto items-center hover:cursor-pointer "
+        >
+          {comment.username}
+        </p>
         <p className="ml-3 flex  min-h-[30%] w-[91%] items-center break-all border-b-[1.5px] border-solid border-black">
           {comment.content}
         </p>

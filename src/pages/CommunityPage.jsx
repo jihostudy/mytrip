@@ -139,7 +139,7 @@ const CommunityPage = () => {
 
   // ------------------------------- post --------------------------------
   const [posts, setPosts] = useState([]);
-  // console.log(posts);
+  console.log(posts);
   // first data
   useEffect(() => {
     submitHandler();

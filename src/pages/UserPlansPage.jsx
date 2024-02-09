@@ -109,7 +109,7 @@ const PostCard = ({ post }) => {
   // #1. Post 열기
   async function openPostHandler() {
     navigate("/planning/post", {
-      state: { planId: post["_id"], community: true },
+      state: { planId: post["planId"], community: true },
     });
   }
   return (
@@ -133,7 +133,7 @@ const PostCard = ({ post }) => {
         <div className="flex h-[20%] items-end gap-1">
           {keywords.map((keyword) => (
             <div
-              key={post["_id"] + keyword}
+              key={post["planId"] + keyword}
               className="h-[50%]items-center flex justify-center rounded-md bg-[#D9D9D9] p-1 text-xs"
             >
               {keyword}
