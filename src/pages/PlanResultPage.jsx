@@ -188,14 +188,14 @@ const PlanDescription = ({ closeModal }) => {
       console.log(res);
       // 상공시 게시글 페이지로 이동
       setData(defaultPlanState);
-      setDate(1);
+      setDate({ currDate: 1 });
       navigate("/planning/post", { state: { planId: res.data.planId } });
     } catch (error) {
       console.log("error occured on plaaning/add-plan");
     }
   }
 
-  const publicBtn = data.isPublic ? (
+  const publicBtn = !data.isPublic ? (
     <>
       <p className="flex w-full items-center justify-evenly">
         <IoIosLock style={{ color: "#00000040" }} />

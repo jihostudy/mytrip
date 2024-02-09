@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 // router
 import { useNavigate, useLocation } from "react-router-dom";
 // recoil
-import { planState } from "../../lib/constants/plandata";
+import { planState, currDate } from "../../lib/constants/plandata";
 import { useRecoilState } from "recoil";
 // components
 import Button from "../UI/Button";
@@ -12,6 +12,7 @@ import { API } from "../../api/API";
 // import { BsCalendarDate } from "react-icons/bs";
 const PlanHeader = (props) => {
   const [data, setData] = useRecoilState(planState);
+  const [curDate, setCurDate] = useRecoilState(currDate);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -92,6 +93,9 @@ const PlanHeader = (props) => {
     };
     try {
       const res = await API.post("/planning/add-plan", planData);
+      setData(defaultPlanState);
+      setCurDate({ currDate: 1 });
+      navigate("/planning/post", { state: { planId: res.data.planId } });
       console.log(res);
     } catch (error) {
       console.log(error);

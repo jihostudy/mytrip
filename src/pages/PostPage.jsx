@@ -4,8 +4,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 // axios
 import { API } from "../api/API";
 // recoil
+import { planState, currDate } from "../lib/constants/plandata";
 import { user } from "../lib/constants/userInfo";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 // icons
 import { ImLink } from "react-icons/im";
 import FixBtn from "../assets/icons/fix.svg?react";
@@ -80,9 +81,6 @@ const PostPage = () => {
     }
     getPostData();
   }, []);
-  useEffect(() => {
-    console.log("PostData Changed", postData);
-  }, [postData]);
   // 함수들
   async function likeHandler() {
     try {
@@ -137,6 +135,30 @@ const PostPage = () => {
   function movePosts() {
     navigate("/home/posts", { state: { value: "posts" } });
   }
+  const [data, setData] = useRecoilState(planState);
+  // #4. 수정하기
+  function modifyHandler() {
+    const planState = {
+      id: postData.post._id,
+      region: postData.post.city,
+      title: postData.post.name,
+      description: postData.post.description,
+      image: postData.post.image,
+      date: postData.post.date,
+      period: postData.post.period, //몇일?
+      totalCost: postData.post.totalCost,
+      numPeople: postData.post.numPeople,
+      likes: postData.post.likes,
+      scraps: postData.post.scraps,
+      shareURI: postData.post.shareUri,
+      isPublic: postData.post.isPublic,
+      isDone: postData.post.isDone,
+      schedule: postData.post.schedule, // 방문 장소들
+      destinationCart: postData.post.destinationCart, //보관함
+    };
+    setData(planState);
+    navigate("/planning", { state: { region: postData.post.city } });
+  }
   return (
     <div className="relative flex h-[87.2dvh] w-full flex-col items-center justify-start">
       {/* Header */}
@@ -153,7 +175,10 @@ const PostPage = () => {
             <ImLink color="#00000060" style={{ width: "30%", height: "40%" }} />
             <p className="w-1/3">공유</p>
           </button>
-          <button className="relative bottom-[21.3%] flex aspect-[2.8/1] h-[32.8%] w-[29.16%] items-center justify-center rounded-md border-1 border-solid border-black">
+          <button
+            onClick={modifyHandler}
+            className="relative bottom-[21.3%] flex aspect-[2.8/1] h-[32.8%] w-[29.16%] items-center justify-center rounded-md border-1 border-solid border-black"
+          >
             <FixBtn style={{ width: "30%" }} />
             <p className="w-1/3">수정</p>
           </button>

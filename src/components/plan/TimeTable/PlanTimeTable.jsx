@@ -76,6 +76,8 @@ const PlanTimeTable = ({ classify, planData, watchPlanHandler }) => {
   let todayDate;
   if (data.date.start != null) {
     const startDate = new Date(data.date.start);
+    console.log(startDate);
+    console.log(date.currDate - 1);
     todayDate = format(addDays(startDate, date.currDate - 1), "L.dd");
     todayDate += format(addDays(startDate, date.currDate - 1), " (E)", {
       locale: ko,

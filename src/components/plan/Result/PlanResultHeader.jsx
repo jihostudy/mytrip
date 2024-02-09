@@ -53,7 +53,7 @@ const PlanResultHeader = ({ openModal }) => {
       isPublic: !prev.isPublic,
     }));
   }
-  const publicBtn = data.isPublic ? (
+  const publicBtn = !data.isPublic ? (
     <>
       <p className="flex w-full items-center justify-evenly">
         <IoIosLock style={{ color: "#00000040" }} />
@@ -120,7 +120,8 @@ const PlanResultHeader = ({ openModal }) => {
               placeholder="50"
               className="h-full w-2/5 text-center focus:outline-none"
               pattern="\d*"
-              onBlur={(e) => totalCostHandler(e.target.value)}
+              onInput={(e) => totalCostHandler(e.target.value)}
+              value={data.totalCost}
             />
             <p className="w-1/5">만원</p>
           </div>
