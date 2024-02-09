@@ -92,14 +92,21 @@ const PlanHeader = (props) => {
     };
     try {
       const res = await API.post("/planning/add-plan", planData);
+      setData((prev) => ({
+        ...prev,
+        id: res.data.planId,
+      }));
       setModalVisible(true);
       setTimeout(() => {
         setModalVisible(false);
-      }, 2000);
+      }, 1500);
     } catch (error) {
       console.log(error);
     }
   }
+  useEffect(() => {
+    console.log(modalVisible);
+  }, [modalVisible]);
   // 제출
   function submitHandler() {
     navigate("/planning/result");

@@ -14,7 +14,7 @@ import { format, getMinutes, getHours } from "date-fns";
 import { useDrag, useDrop } from "react-dnd";
 // re-resize
 import { Resizable } from "re-resizable";
-const TimeFraction = ({ hour, minute, isMain }) => {
+const TimeFraction = ({ hour, minute, isMain, isShrink }) => {
   const [data, setData] = isMain
     ? useRecoilState(planState)
     : useRecoilState(loadedPlanState);
@@ -45,7 +45,7 @@ const TimeFraction = ({ hour, minute, isMain }) => {
     return isMatching;
   });
   const result = dataExist ? (
-    <Plan resultSchedule={resultSchedule} isMain={isMain} />
+    <Plan resultSchedule={resultSchedule} isMain={isMain} isShrink={isShrink} />
   ) : null;
   // #1. Drop
   const [, dropRef] = useDrop(
@@ -137,7 +137,7 @@ const TimeFraction = ({ hour, minute, isMain }) => {
 };
 export default TimeFraction;
 // ------------------------------------------Component------------------------------------------
-const Plan = ({ resultSchedule, isMain }) => {
+const Plan = ({ resultSchedule, isMain, isShrink }) => {
   console.log(resultSchedule);
   const [data, setData] = isMain
     ? useRecoilState(planState)
@@ -154,6 +154,9 @@ const Plan = ({ resultSchedule, isMain }) => {
     parentWidth = offsetWidth;
     parentHeight = offsetHeight; // 1duration height = parentHeight
   }
+  useEffect(() => {
+    console.log(parentHeight);
+  }, [parentHeight]);
   // endTime 바꿔주기
   function resizeStopHandler(e, direction, ref, d) {
     // d :{width:변한 width, height: 변한 height}
@@ -198,9 +201,26 @@ const Plan = ({ resultSchedule, isMain }) => {
     [],
   );
   //style
-  const resultStyle =
-    "relative h-full w-full rounded-lg bg-[#9BE1FF] flex items-center";
-
+  const resultStyle = !isShrink
+    ? "relative h-full w-full rounded-lg bg-[#9BE1FF] flex items-center justify-center font-semibold"
+    : "relative h-full w-4/5 rounded-lg bg-[#9BE1FF] flex items-center justify-center font-semibold";
+  const resizableStyle = !isShrink
+    ? {
+        position: "absolute",
+        top: resultSchedule.startTime.minute === 0 ? "0%" : "50%",
+        // margin: "2% 0 0 0",
+        right: "5%",
+        zIndex: isDragging ? 0 : 20,
+      }
+    : {
+        position: "absolute",
+        top: resultSchedule.startTime.minute === 0 ? "0%" : "50%",
+        // margin: "2% 0 0 0",
+        right: "5%",
+        zIndex: isDragging ? 0 : 20,
+        display: "flex",
+        justifyContent: "flex-end",
+      };
   return (
     <Resizable
       defaultSize={{
@@ -220,15 +240,9 @@ const Plan = ({ resultSchedule, isMain }) => {
         topLeft: false,
       }}
       boundsByDirection={true}
-      maxWidth={(parentWidth * 8) / 10}
+      // maxWidth={(parentWidth * 8) / 10}
       minHeight={parentHeight * 2}
-      style={{
-        position: "absolute",
-        top: resultSchedule.startTime.minute === 0 ? "0%" : "50%",
-        // margin: "2% 0 0 0",
-        right: "5%",
-        zIndex: isDragging ? 0 : 20,
-      }}
+      style={resizableStyle}
       bounds={restrictElement}
       onResizeStop={resizeStopHandler}
     >

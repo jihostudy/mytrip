@@ -142,7 +142,10 @@ const Mypage = () => {
                 지금 나의 새로운 여행을 계획해보세요.
               </p>
               <div className="flex h-[46.4%] w-full items-center ">
-                <Link className="flex aspect-[3.525/1] h-[48.2%] items-center justify-center rounded-md border-1 border-solid border-black bg-[#FFCB16]">
+                <Link
+                  to="/home"
+                  className="flex aspect-[3.525/1] h-[48.2%] items-center justify-center rounded-md border-1 border-solid border-black bg-[#FFCB16]"
+                >
                   여행 계획하기
                 </Link>
               </div>
@@ -228,15 +231,17 @@ const PostCard = ({ post, classify }) => {
       </div>
       <div className="h-full w-[54%]">
         <p className="flex h-[21%] w-full items-end text-xs">
-          {classify === "scrap-posts"}
-          <FaBookmark
-            style={{
-              position: "absolute",
-              right: 0,
-              height: "12%",
-              width: "10%",
-            }}
-          />
+          {classify === "scrap-posts" && (
+            <FaBookmark
+              style={{
+                position: "absolute",
+                right: 0,
+                height: "12%",
+                width: "10%",
+              }}
+            />
+          )}
+
           {post.city}
         </p>
         <div className="relative h-[45.5%] w-full text-base font-semibold">

@@ -26,7 +26,7 @@ const PlanPlace = ({ setUserInput, userInput }) => {
   // 카테고리
 
   // css
-  const menuBtnStyle = "text-gray-400 ";
+  const menuBtnStyle = "text-gray-400 hover:text-black";
   const menuBtnStyle_clicked = " ";
 
   // eventHandler

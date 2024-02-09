@@ -37,7 +37,15 @@ export default {
         pop: {
           "0%": {
             zIndex: 100,
-            opacity: 0.5,
+            opacity: 0,
+          },
+          "30%": {
+            zIndex: 100,
+            opacity: 0.9,
+          },
+          "99%": {
+            Zindex: 100,
+            opacity: 0,
           },
           "100%": {
             Zindex: -10,
@@ -60,7 +68,7 @@ export default {
     animation: {
       wiggle: "wiggle 0.01s linear 1",
       // header: "header 20s ease-in-out infinite",
-      pop: "pop 1.9s linear 1",
+      pop: "pop 1.5s linear 1 forwards",
     },
   },
 };

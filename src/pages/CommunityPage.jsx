@@ -125,7 +125,7 @@ const CommunityPage = () => {
     try {
       console.log(`/community?${param}`);
       const res = await API.get(`/community?${param}`);
-      // console.log(res);
+      console.log(res);
       const status = res.status;
       if (status === 200) {
         setPosts(res.data.posts);
@@ -293,6 +293,7 @@ const PostCard = ({ post }) => {
   const navigate = useNavigate();
 
   // season
+  console.log(post.date.start);
   const month = parseInt(post.date.start.split(".")[1]);
   let season;
   switch (month) {

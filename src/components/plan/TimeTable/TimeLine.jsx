@@ -3,7 +3,7 @@ import React from "react";
 import { format, getMinutes, getHours } from "date-fns";
 // Components
 import TimeFraction from "./TimeFraction";
-const TimeLine = ({ hour, isMain }) => {
+const TimeLine = ({ hour, isMain, isShrink }) => {
   const minuteArr = [0, 30];
   // ["04:00","04:30"] 형식으로 들어있음
   const formattedTime = minuteArr.map((minute) => {
@@ -13,7 +13,7 @@ const TimeLine = ({ hour, isMain }) => {
   });
   return (
     <li className="relative flex min-h-[8.7dvh] w-full flex-col items-center justify-evenly border-b-1 border-solid border-[#CBC8C8]">
-      <div className="absolute left-[2%] w-[16%]">
+      <div className="absolute left-[2%] w-[16%] text-sm">
         {format(formattedTime[0], "HH:mm")}
       </div>
       {formattedTime.map((time) => {
@@ -23,6 +23,7 @@ const TimeLine = ({ hour, isMain }) => {
             hour={getHours(time)} // 숫자
             minute={getMinutes(time)} // 숫자
             isMain={isMain}
+            isShrink={isShrink}
           />
         );
       })}
