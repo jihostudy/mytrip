@@ -47,9 +47,6 @@ const TimeFraction = ({ hour, minute, isMain }) => {
   const result = dataExist ? (
     <Plan resultSchedule={resultSchedule} isMain={isMain} />
   ) : null;
-  // const result = dataExist ? (
-  //   <Plan destination={resultDestination} hour={hour} minute={minute} />
-  // ) : null;
   // #1. Drop
   const [, dropRef] = useDrop(
     () => ({
@@ -69,6 +66,7 @@ const TimeFraction = ({ hour, minute, isMain }) => {
           // #1-2. "여행 시간표"에서 위치 이동한 경우
           console.log(item);
           const modifiedSchedule = data.schedule.map((schedule) => {
+            console.log("탐지중");
             if (
               schedule.startTime.hour === item.startTime.hour &&
               schedule.startTime.minute === item.startTime.minute

@@ -34,6 +34,16 @@ export default {
           "0%, 100%": { transform: "rotate(-3deg)" },
           "50%": { transform: "rotate(3deg)" },
         },
+        pop: {
+          "0%": {
+            zIndex: 100,
+            opacity: 0.5,
+          },
+          "100%": {
+            Zindex: -10,
+            opacity: 0,
+          },
+        },
         // header: {
         //   "0%": {
         //     backgroundPosition: "0% 50%",
@@ -50,6 +60,7 @@ export default {
     animation: {
       wiggle: "wiggle 0.01s linear 1",
       // header: "header 20s ease-in-out infinite",
+      pop: "pop 1.9s linear 1",
     },
   },
 };

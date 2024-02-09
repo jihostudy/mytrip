@@ -240,7 +240,7 @@ const PostCard = ({ post, classify }) => {
           {post.city}
         </p>
         <div className="relative h-[45.5%] w-full text-base font-semibold">
-          {post.name}
+          {post.name || "여행 제목을 만들어주세요!"}
           <div className="absolute bottom-0 flex h-[27.7%] w-[65.9%] items-center justify-between  text-xs">
             {post.season && (
               <p className="flex h-full w-[25.2%] items-center justify-center rounded-md bg-[#D9D9D9] ">

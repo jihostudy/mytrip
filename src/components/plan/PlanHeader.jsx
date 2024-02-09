@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
 // router
 import { useNavigate, useLocation } from "react-router-dom";
 // recoil
@@ -8,8 +9,6 @@ import { useRecoilState } from "recoil";
 import Button from "../UI/Button";
 import CalenderContainer from "../Calender/CalenderContainer";
 import { API } from "../../api/API";
-// Icons
-// import { BsCalendarDate } from "react-icons/bs";
 const PlanHeader = (props) => {
   const [data, setData] = useRecoilState(planState);
   const [curDate, setCurDate] = useRecoilState(currDate);
@@ -28,6 +27,7 @@ const PlanHeader = (props) => {
     if (date.start === date.end) planPeriod = date.start;
     else planPeriod = date.start + " ~ " + date.end;
   }
+  const [modalVisible, setModalVisible] = useState(false);
   //-----------------------------------------------------Functions-----------------------------------------------------
   // 초기화
 
@@ -42,7 +42,6 @@ const PlanHeader = (props) => {
     }));
   }
   // 저장
-
   async function saveHandler() {
     // season 계산
     const month = parseInt(data.date.start.split(".")[1]);
@@ -93,10 +92,10 @@ const PlanHeader = (props) => {
     };
     try {
       const res = await API.post("/planning/add-plan", planData);
-      setData(defaultPlanState);
-      setCurDate({ currDate: 1 });
-      navigate("/planning/post", { state: { planId: res.data.planId } });
-      console.log(res);
+      setModalVisible(true);
+      setTimeout(() => {
+        setModalVisible(false);
+      }, 2000);
     } catch (error) {
       console.log(error);
     }
@@ -106,45 +105,54 @@ const PlanHeader = (props) => {
     navigate("/planning/result");
   }
   return (
-    <div className="flex h-[18%] w-[93%] items-start justify-between">
-      <div className="flex h-[70%] w-1/4 items-end justify-start">
-        <p className="mr-4 flex h-full w-[30%] items-end text-4xl">{region}</p>
-        <div className="relative z-30 flex h-full w-[70%] items-end">
+    <React.Fragment>
+      {modalVisible &&
+        ReactDOM.createPortal(
+          <div className="animate-pop flex h-[5.26vh] w-[10vw] items-center justify-center rounded-md bg-[#D0C9F8] text-xl font-semibold shadow-lg">
+            저장 완료
+          </div>,
+          document.getElementById("popModal"),
+        )}
+      <div className="flex h-[18%] w-[93%] items-start justify-between">
+        <div className="flex h-[70%] w-1/4 items-end justify-start">
+          <p className="mr-4 flex h-full w-[30%] items-end text-4xl">
+            {region}
+          </p>
+          <div className="relative z-30 flex h-full w-[70%] items-end">
+            <button
+              onClick={resetDate}
+              className={
+                !date.start ? "relative z-20 text-white" : "tracking-widest"
+              }
+            >
+              {planPeriod}
+            </button>
+            {!date.start && (
+              <>
+                <div className="fixed inset-0 h-full w-screen bg-black/70" />
+                <CalenderContainer />
+              </>
+            )}
+          </div>
+        </div>
+
+        <div className="relative flex h-4/5 w-[40%] items-end justify-end">
           <button
-            onClick={resetDate}
-            className={
-              !date.start ? "relative z-20 text-white" : "tracking-widest"
-            }
+            className="mr-[5%] h-[40%] w-[16.4%] rounded-lg border-1 border-solid border-black text-sm"
+            onClick={saveHandler}
           >
-            {planPeriod}
+            저장
           </button>
-          {!date.start && (
-            <>
-              <div className="fixed inset-0 h-full w-screen bg-black/70" />
-              <CalenderContainer />
-            </>
-          )}
+          <button
+            className="h-[40%] w-[16.4%] rounded-lg border-1 border-solid border-black bg-[#ffcb16] text-sm"
+            onClick={submitHandler}
+          >
+            다음
+          </button>
         </div>
       </div>
-
-      <div className="relative flex h-4/5 w-[40%] items-end justify-end">
-        <button
-          className="mr-[5%] h-[40%] w-[16.4%] rounded-lg border-1 border-solid border-black text-sm"
-          onClick={saveHandler}
-        >
-          저장
-        </button>
-        <button
-          className="h-[40%] w-[16.4%] rounded-lg border-1 border-solid border-black bg-[#ffcb16] text-sm"
-          onClick={submitHandler}
-        >
-          다음
-        </button>
-      </div>
-    </div>
+    </React.Fragment>
   );
 };
 
 export default PlanHeader;
-
-// 88 40

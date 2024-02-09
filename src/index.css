@@ -107,7 +107,16 @@ body,
   overflow-x: hidden;
   /* scrollbar-gutter: stable; */
 }
-
+#popModal {
+  position: absolute;
+  height: 100dvh;
+  min-height: 100dvh;
+  width: 100vw;
+  z-index: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 html {
   margin-right: calc(-1 * (100vw - 100%));
 }

@@ -82,7 +82,7 @@ const PlaceCard = ({ placeData, saveClickHandler }) => {
         }
       },
     }),
-    [data, placeData],
+    [data, date, placeData],
   );
 
   return (

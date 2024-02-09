@@ -252,7 +252,6 @@ export default PostPage;
 
 const PostCard = ({ postData }) => {
   const data = postData.post;
-  console.log("description", data.description);
   return (
     <div className="relative flex h-[56.2%] w-full justify-center rounded-md shadow-box">
       <div className="flex h-full w-[44.7%] items-center justify-center">

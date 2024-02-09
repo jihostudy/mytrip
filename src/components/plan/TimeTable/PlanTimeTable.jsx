@@ -55,18 +55,12 @@ const PlanTimeTable = ({ classify, planData, watchPlanHandler }) => {
       console.log(date.currDate);
     }
   }, [date]);
-  useEffect(() => {
-    console.log(date);
-  }, [date]);
   function dateHandler(verify, value) {
     if (verify === "down" && value != 1) {
-      // console.log("down");
       setDate((prev) => ({
         currDate: prev.currDate - 1,
       }));
     } else if (verify === "up" && value < data.period) {
-      // console.log("up");
-
       setDate((prev) => ({
         currDate: prev.currDate + 1,
       }));
@@ -76,8 +70,6 @@ const PlanTimeTable = ({ classify, planData, watchPlanHandler }) => {
   let todayDate;
   if (data.date.start != null) {
     const startDate = new Date(data.date.start);
-    console.log(startDate);
-    console.log(date.currDate - 1);
     todayDate = format(addDays(startDate, date.currDate - 1), "L.dd");
     todayDate += format(addDays(startDate, date.currDate - 1), " (E)", {
       locale: ko,
