@@ -69,6 +69,7 @@ const PostPage = () => {
   const { openModal } = useConfirmModal();
   const location = useLocation();
   const [postData, setPostData] = useState(InitPost);
+  const [community, setCommunity] = useState(location.state.community);
   useEffect(() => {
     async function getPostData() {
       try {
@@ -159,36 +160,52 @@ const PostPage = () => {
     setData(planState);
     navigate("/planning", { state: { region: postData.post.city } });
   }
+
+  // communtiy
+  function moveCommunity() {
+    navigate("/community");
+  }
   return (
     <div className="relative flex h-[87.2dvh] w-full flex-col items-center justify-start">
       {/* Header */}
       <div className="relative flex h-[15.7dvh] w-[83%] justify-between">
         <button
-          onClick={movePosts}
+          onClick={community ? moveCommunity : movePosts}
           className="relative bottom-[21.3%] flex aspect-[3.825/1] h-[32.8%] items-center justify-start self-end rounded-md border-1 border-solid border-black text-xs"
         >
           <FaBars style={{ width: "35%", height: "50%" }} />
-          <p className="w-1/2">나의 여행지</p>
+          <p className="w-1/2">{community ? "목록" : "나의 여행지"}</p>
         </button>
-        <div className="flex w-[32%] items-end justify-between text-xs">
+        <div
+          className="flex w-[32%] items-end justify-between text-xs"
+          style={
+            community
+              ? { justifyContent: "end" }
+              : { justifyContent: "space-between" }
+          }
+        >
           <button className="relative bottom-[21.3%] flex aspect-[2.8/1] h-[32.8%] w-[29.16%] items-center justify-center rounded-md border-1 border-solid border-black">
             <ImLink color="#00000060" style={{ width: "30%", height: "40%" }} />
             <p className="w-1/3">공유</p>
           </button>
-          <button
-            onClick={modifyHandler}
-            className="relative bottom-[21.3%] flex aspect-[2.8/1] h-[32.8%] w-[29.16%] items-center justify-center rounded-md border-1 border-solid border-black"
-          >
-            <FixBtn style={{ width: "30%" }} />
-            <p className="w-1/3">수정</p>
-          </button>
-          <button
-            onClick={deletePostHandler}
-            className="relative bottom-[21.3%] flex aspect-[2.8/1] h-[32.8%] w-[29.16%] items-center justify-center rounded-md border-1 border-solid border-black"
-          >
-            <FaTrashAlt color="#00000060" style={{ width: "30%" }} />
-            <p className="w-1/3">삭제</p>
-          </button>
+          {!community && (
+            <>
+              <button
+                onClick={modifyHandler}
+                className="relative bottom-[21.3%] flex aspect-[2.8/1] h-[32.8%] w-[29.16%] items-center justify-center rounded-md border-1 border-solid border-black"
+              >
+                <FixBtn style={{ width: "30%" }} />
+                <p className="w-1/3">수정</p>
+              </button>
+              <button
+                onClick={deletePostHandler}
+                className="relative bottom-[21.3%] flex aspect-[2.8/1] h-[32.8%] w-[29.16%] items-center justify-center rounded-md border-1 border-solid border-black"
+              >
+                <FaTrashAlt color="#00000060" style={{ width: "30%" }} />
+                <p className="w-1/3">삭제</p>
+              </button>
+            </>
+          )}
         </div>
       </div>
       {/* Post */}

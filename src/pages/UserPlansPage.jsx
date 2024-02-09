@@ -108,17 +108,11 @@ const PostCard = ({ post }) => {
 
   // #1. Post 열기
   async function openPostHandler() {
-    try {
-      const res = await API.get(`/community/${post.planId}`);
-
-      navigate("/planning/post", { state: res.data });
-    } catch (error) {
-      console.log(error);
-    }
+    navigate("/planning/post", { state: { planId: post["_id"] } });
   }
   return (
     <div
-      // onClick={openPostHandler}
+      onClick={openPostHandler}
       className="hover: hover: relative flex h-[20dvh] w-[49%] origin-bottom justify-center rounded-md border-solid border-black shadow-box hover:scale-105 hover:cursor-pointer hover:border-1"
     >
       <div className="flex h-full w-[46%] items-center justify-center">
