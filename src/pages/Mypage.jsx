@@ -13,6 +13,7 @@ import koLocale from "date-fns/locale/ko";
 import DefaultImage from "../assets/images/default-image-mypage.svg";
 // icons
 import { IoIosHeartEmpty } from "react-icons/io";
+import { FaBookmark } from "react-icons/fa";
 
 const Mypage = () => {
   // #0. 내 여행지 OR 스크랩한 여행지?
@@ -33,20 +34,22 @@ const Mypage = () => {
       // my-page/plans API
       if (classify === "posts") {
         res = await API.get("/my-page/plans");
+        setFetchedData(res.data.myPlans);
+        setNumData(res.data.myPlans.length);
       }
       // my-page/scraps API
       else {
         res = await API.get("/my-page/scraps");
+        console.log(res);
+        setFetchedData(res.data.scrapPlans);
+        setNumData(res.data.scrapPlans.length);
       }
-      console.log(res.data.myPlans);
-      setFetchedData(res.data.myPlans);
-      setNumData(res.data.myPlans.length);
     } catch (error) {
       console.log(error);
     }
   }
   useEffect(() => {
-    console.log("executed");
+    console.log(classify);
     fetchPlanData();
   }, [classify]);
   // test
@@ -124,40 +127,66 @@ const Mypage = () => {
       <p className="flex h-[19.5dvh] w-[83%] items-center text-2xl font-semibold">
         {classify === "posts" ? "나의 여행지" : "스크랩한 여행지"}
       </p>
-      {classify === "posts" && numData ? (
-        <div className="flex h-[7.18dvh] w-[83%] items-start justify-start text-xs">
-          {buttons}
-        </div>
-      ) : (
+      {classify === "posts" ? (
+        numData ? (
+          <div className="flex h-[7.18dvh] w-[83%] items-start justify-start text-xs">
+            {buttons}
+          </div>
+        ) : (
+          <div className="flex h-[21.56dvh] w-[83%] flex-col items-start justify-start rounded-md shadow-box">
+            <div className="relative left-[2%] h-full w-full">
+              <p className="flex h-[31%] w-full items-end  font-semibold">
+                예정된 여행 일정이 없습니다.
+              </p>
+              <p className="flex h-[22.6%] w-full items-center  text-[#00000040]">
+                지금 나의 새로운 여행을 계획해보세요.
+              </p>
+              <div className="flex h-[46.4%] w-full items-center ">
+                <Link className="flex aspect-[3.525/1] h-[48.2%] items-center justify-center rounded-md border-1 border-solid border-black bg-[#FFCB16]">
+                  여행 계획하기
+                </Link>
+              </div>
+            </div>
+          </div>
+        )
+      ) : undefined}
+      {classify !== "posts" && !numData && (
         <div className="flex h-[21.56dvh] w-[83%] flex-col items-start justify-start rounded-md shadow-box">
           <div className="relative left-[2%] h-full w-full">
             <p className="flex h-[31%] w-full items-end  font-semibold">
-              예정된 여행 일정이 없습니다.
+              스크랩한 여행지가 없습니다.
             </p>
             <p className="flex h-[22.6%] w-full items-center  text-[#00000040]">
-              지금 나의 새로운 여행을 계획해보세요.
+              다양한 여행지를 둘러보세요!
             </p>
             <div className="flex h-[46.4%] w-full items-center ">
-              <Link className="flex aspect-[3.525/1] h-[48.2%] items-center justify-center rounded-md border-1 border-solid border-black bg-[#FFCB16]">
-                여행 계획하기
+              <Link
+                to="/community"
+                className="flex aspect-[4.55/1] h-[50.1%] items-center justify-center rounded-md border-1 border-solid border-black bg-[#FFCB16]"
+              >
+                다른 여행지 보러가기
               </Link>
             </div>
           </div>
         </div>
       )}
-      {classify === "posts" && <Posts postData={filteredData} />}
-      {classify === "scrap-posts" && <Posts postData={fetchedData} />}
+      {classify === "posts" && (
+        <Posts postData={filteredData} classify={classify} />
+      )}
+      {classify === "scrap-posts" && (
+        <Posts postData={fetchedData} classify={classify} />
+      )}
     </div>
   );
 };
 
 export default Mypage;
-
-const Posts = ({ postData }) => {
+// -------------------------------------------------------------------Post-------------------------------------------------------------------
+const Posts = ({ postData, classify }) => {
   let postCards;
   if (postData) {
     postCards = postData.map((post, index) => (
-      <PostCard key={post.planId} post={post} />
+      <PostCard key={post.planId} post={post} classify={classify} />
     ));
   } else {
     postCards = null;
@@ -169,7 +198,8 @@ const Posts = ({ postData }) => {
   );
 };
 
-const PostCard = ({ post }) => {
+const PostCard = ({ post, classify }) => {
+  console.log("post: ", post);
   const navigate = useNavigate();
   const date =
     format(post.date.start, "yy.mm.dd (iii) ", {
@@ -197,8 +227,43 @@ const PostCard = ({ post }) => {
         />
       </div>
       <div className="h-full w-[54%]">
-        <p className="flex h-[21%] w-full items-end text-xs">{post.city}</p>
-        <p className="h-[45.5%] w-full text-base font-semibold">{post.name}</p>
+        <p className="flex h-[21%] w-full items-end text-xs">
+          {classify === "scrap-posts"}
+          <FaBookmark
+            style={{
+              position: "absolute",
+              right: 0,
+              height: "12%",
+              width: "10%",
+            }}
+          />
+          {post.city}
+        </p>
+        <div className="relative h-[45.5%] w-full text-base font-semibold">
+          {post.name}
+          <div className="absolute bottom-0 flex h-[27.7%] w-[65.9%] items-center justify-between  text-xs">
+            {post.season && (
+              <p className="flex h-full w-[25.2%] items-center justify-center rounded-md bg-[#D9D9D9] ">
+                {post.season}여행
+              </p>
+            )}
+            {post.period && (
+              <p className="flex h-full w-[25.2%] items-center justify-center rounded-md bg-[#D9D9D9] ">
+                {post.period - 1}박 ${post.period}일
+              </p>
+            )}
+            {post.numPeople && (
+              <p className="flex h-full w-[17%] items-center justify-center rounded-md bg-[#D9D9D9] ">
+                {post.numPeople}명
+              </p>
+            )}
+            {post.totalCost && (
+              <p className="flex h-full w-[22.7%] items-center justify-center rounded-md bg-[#D9D9D9] ">
+                {post.totalCost}만원
+              </p>
+            )}
+          </div>
+        </div>
         <div className="relative flex h-[15.4%] w-full items-center justify-start text-xs">
           <IoIosHeartEmpty />
           <p className="ml-[2%]">{post.likes}</p>

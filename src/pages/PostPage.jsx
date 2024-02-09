@@ -106,7 +106,7 @@ const PostPage = () => {
       const res = await API.post(`/community/${postData.post._id}/scrap`);
       setPostData((prev) => ({
         ...prev,
-        isScraped: !prev,
+        isScraped: !prev.isScraped,
       }));
     } catch (error) {
       console.log(error);
@@ -259,7 +259,7 @@ const PostCard = ({ postData }) => {
             {data.isPublic ? "공개" : "비공개"}
           </p>
         </div>
-        <div className="relative flex h-[19.8%] w-[45.5%] items-center justify-around  text-xs">
+        <div className="relative flex h-[19.8%] w-[45.5%] items-center justify-between  text-xs">
           <p className="flex h-[51.6%] w-[25.2%] items-center justify-center rounded-md bg-[#D9D9D9] ">
             {data.season}여행
           </p>
@@ -305,7 +305,6 @@ const CommentList = ({ postData }) => {
           content: userComment,
         },
       );
-      console.log(res);
       // 임시로 저장 (필요 : content, username)
       allComments.unshift({
         content: userComment,
@@ -318,11 +317,6 @@ const CommentList = ({ postData }) => {
       console.log(error);
     }
   }
-
-  useEffect(() => {
-    console.log("postData", postData);
-    console.log("AllComments", allComments);
-  }, [allComments]);
   const comments = allComments.map((comment) => (
     <Comment key={comment.content} comment={comment} />
   ));
