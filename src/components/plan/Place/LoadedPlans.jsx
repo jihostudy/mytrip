@@ -63,7 +63,7 @@ const LoadedPlans = ({ userInput }) => {
     if (period[0] === "0" && period[1] === "0") {
       // query += `period=${period}&`
     }
-    if (cost !== "0") {
+    if (cost !== 0 && cost) {
       query += `cost=${cost * 10000}&`;
     }
     if (people !== 0) {
@@ -75,6 +75,7 @@ const LoadedPlans = ({ userInput }) => {
       try {
         const res = await API.get(`/planning/post/${userInput}${query}`);
         console.log(res.data);
+        setLoadedPlans(res.data.plans);
       } catch (e) {
         console.log(e);
       }
@@ -92,7 +93,7 @@ const LoadedPlans = ({ userInput }) => {
   useEffect(() => {
     async function getPlans() {
       try {
-        const res = await API.get(`/planning/post/${userInput}`);
+        const res = await API.get(`/planning/post/${userInput}?sort=likes`);
         setLoadedPlans((prev) => res.data.plans);
         console.log(res.data.plans);
       } catch (e) {
@@ -106,7 +107,7 @@ const LoadedPlans = ({ userInput }) => {
   useEffect(() => {
     async function getPlans() {
       try {
-        const res = await API.get(`/planning/post/${userInput}`);
+        const res = await API.get(`/planning/post/${userInput}?sort=likes`);
         setLoadedPlans((prev) => res.data.plans);
         // console.log(res.data.plans);
       } catch (e) {
@@ -214,6 +215,7 @@ const LoadedPlans = ({ userInput }) => {
               <div className="flex w-[25%] items-center justify-around rounded-lg border-[1px] border-solid border-black text-sm">
                 <p>경비</p>
                 <input
+                  type="number"
                   className="inline w-[20%]"
                   onChange={(e) => costHandler(e)}
                 />
