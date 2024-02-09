@@ -12,7 +12,6 @@ import { format, parse, isAfter } from "date-fns";
 import koLocale from "date-fns/locale/ko";
 
 // icon
-import SearchIcon from "../assets/icons/searchIcon.svg?react";
 import PeopleIcon from "../assets/icons/people.svg?react";
 import MoneyIcon from "../assets/icons/money.svg?react";
 import CalenderIcon from "../assets/icons/calender.svg?react";
@@ -22,6 +21,7 @@ import { FaRegBookmark } from "react-icons/fa6";
 import { FaBookmark } from "react-icons/fa";
 import { CiCirclePlus } from "react-icons/ci";
 import { CiCircleMinus } from "react-icons/ci";
+import { FaSearch } from "react-icons/fa";
 
 // day
 const DAY = ["일", "월", "화", "수", "목", "금", "토"];
@@ -158,7 +158,7 @@ const CommunityPage = () => {
       >
         {/* 1. 검색 */}
         <div className="flex h-[60%] w-[27%] items-center justify-center rounded-md bg-[#F5F5F5]">
-          <SearchIcon />
+          <FaSearch size="15" />
           <input
             type="text"
             ref={cityRef}
