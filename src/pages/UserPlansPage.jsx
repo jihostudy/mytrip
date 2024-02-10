@@ -102,7 +102,7 @@ const PostCard = ({ post }) => {
     season + " 여행",
     `${post.period - 1}박 ${post.period}일`,
     `${post.numPeople}명`,
-    `${Math.floor(+post.totalCost / 10000)}만원`,
+    `${Math.floor(+post.totalCost)}만원`,
   ];
   // console.log(keywords);
 
